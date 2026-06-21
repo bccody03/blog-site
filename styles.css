@@ -693,7 +693,7 @@ body.plain { background: var(--bg); }
   max-width: 32em;
   margin: 0 auto 22px;
 }
-.subscribe-cta .sub-frame { height: 90px; }
+.subscribe-cta .sub-frame { height: 160px; }
 
 /* Footer */
 .site-footer {
