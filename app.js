@@ -196,6 +196,7 @@ function postLimit() {
 }
 
 function render(posts) {
+  if (!els.list) return; // pages without a post list (Book, Reflect, About)
   if (!posts.length) {
     setState("Nothing here yet — your latest posts will show up automatically.");
     return;
@@ -223,6 +224,7 @@ function render(posts) {
 }
 
 function setState(msg, isError = false) {
+  if (!els.state) return; // no status element on pages without a post list
   els.state.textContent = msg;
   els.state.classList.remove("hidden");
   els.state.classList.toggle("error", isError);
@@ -275,6 +277,9 @@ const SAMPLE_POSTS = [
 ];
 
 async function init() {
+  // Only the Home and Writing pages list posts; the About page wants the
+  // Substack avatar. Other pages (Book, Reflect) need no feed at all.
+  if (!els.list && !els.avatar) return;
   if (!CONFIG.substackUrl) {
     setState("Demo mode — add your Substack URL in app.js to go live.");
     render(SAMPLE_POSTS);

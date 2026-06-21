@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reflect with me — Blake Cody</title>
+  <meta name="description" content="Whatever's on your mind — write it here and I'll read it and reply to you personally. Free for now." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="plain">
+  <header class="site-header scrolled" id="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">Blake Cody</a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="writing.html">Writing</a>
+        <a href="book.html">Book</a>
+        <a href="reflect.html" class="active">Reflect</a>
+        <a href="about.html">About</a>
+        <a id="substack-link" href="#" target="_blank" rel="noopener">Substack ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="plain-main">
+    <div class="wrap">
+      <section id="coaching" class="coaching coaching-page">
+        <p class="eyebrow"><a href="index.html">← Home</a></p>
+        <p class="eyebrow">Work with me · <span class="coaching-free">Free for now</span></p>
+        <h1 class="coaching-title">Reflect with me</h1>
+        <p class="coaching-intro">I'm opening this up while I build my coaching practice. Whatever's on your mind — a question about your life and where it's headed, something you're stuck on, something you just need to say out loud — write it here and I'll read it and respond to you personally. No cost. Pick a topic if it helps, or just start writing.</p>
+
+        <form class="reflect-form" id="reflect-form">
+          <p class="reflect-prompt" id="reflect-prompt">What's on your mind?</p>
+          <div class="reflect-cats" id="reflect-cats" role="group" aria-label="Choose a topic">
+            <button type="button" class="cat" data-cat="Relationships">Relationships</button>
+            <button type="button" class="cat" data-cat="Intention">Intention</button>
+            <button type="button" class="cat" data-cat="Life">Life</button>
+            <button type="button" class="cat" data-cat="Other">Other</button>
+          </div>
+          <input type="hidden" id="reflect-cat" name="category" value="" />
+          <textarea id="reflect-answer" name="answer" rows="6" placeholder="Say whatever's on your mind. The more honest, the more I can help." required></textarea>
+          <div class="reflect-row">
+            <input type="text" id="reflect-name" name="name" placeholder="First name (optional)" autocomplete="given-name" />
+            <input type="email" id="reflect-email" name="email" placeholder="Your email (so I can reply)" autocomplete="email" required />
+          </div>
+          <button type="submit" class="reflect-submit">Send it to Blake →</button>
+          <p class="reflect-note">Private. I read every one. I'll reply by email — usually within a few days.</p>
+        </form>
+
+        <div class="reflect-thanks" id="reflect-thanks" hidden>
+          <h3>Got it. 🙏</h3>
+          <p>Thank you for trusting me with that. I read these myself — keep an eye on your inbox, I'll write back personally.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>© <span id="year"></span> Blake Cody</span>
+        <a id="substack-link-footer" href="#" target="_blank" rel="noopener">Read on Substack ↗</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

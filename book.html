@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Book — Aligned — Blake Cody</title>
+  <meta name="description" content="Aligned: Lead with Love, Live with Intention — read the free opening of Chapter 1." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="plain">
+  <header class="site-header scrolled" id="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">Blake Cody</a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="writing.html">Writing</a>
+        <a href="book.html" class="active">Book</a>
+        <a href="reflect.html">Reflect</a>
+        <a href="about.html">About</a>
+        <a id="substack-link" href="#" target="_blank" rel="noopener">Substack ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="plain-main">
+    <div class="wrap">
+      <section id="book" class="book book-page">
+        <p class="eyebrow"><a href="index.html">← Home</a></p>
+        <p class="eyebrow">The book</p>
+        <h1 class="book-title">Aligned</h1>
+        <p class="book-subtitle">Lead with Love, Live with Intention</p>
+        <p class="book-blurb">A field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of. Three parts — decoding love, building yourself, and living with intention — written straight from inside the work. No guru act. No fluff.</p>
+
+        <!-- ============================================================
+             SNEAK PEEK — the lead magnet.
+             Edit the free paragraphs and the locked paragraphs below.
+             Everything in .excerpt-free shows to everyone.
+             Everything in .excerpt-more unlocks after they subscribe.
+             ============================================================ -->
+        <div class="excerpt">
+          <p class="excerpt-label">Read the opening of Chapter 1 — free</p>
+
+          <div class="excerpt-free">
+            <p class="excerpt-chapter">Grieving a Ghost — The Person You're Mourning Never Existed</p>
+            <p>You hear the dreaded words, your stomach falls through the floor. Your chest starts to tighten, you stop listening, trying to process what is actually happening. Everything in your body becomes hollow and you feel the tears rushing to exit your eyes. While the tears fall, everything loses energy, and it feels like the world just came crashing down right on top of you.</p>
+            <p>The hardest part of a relationship. When we get into them, we never think about the inevitable until it arrives. The person we are imagining a future with, ready to walk through life with…</p>
+          </div>
+
+          <!-- The gate: shown until they unlock -->
+          <div class="excerpt-gate" id="excerpt-gate">
+            <div class="gate-fade"></div>
+            <div class="gate-card">
+              <h3>Keep reading — for free.</h3>
+              <p>Subscribe to the newsletter and the rest of this chapter lands in your inbox. No charge, no spam — unsubscribe anytime.</p>
+              <iframe id="subscribe-frame" class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no"></iframe>
+              <button class="reveal-btn" id="reveal-btn" type="button">I've subscribed — unlock the rest →</button>
+            </div>
+          </div>
+
+          <!-- The reward: hidden until unlocked -->
+          <div class="excerpt-more" id="excerpt-more" hidden>
+            <p>…is gone in the snap of a finger. The person you got to know made you feel special. You saw a spark, and now you're dreaming about a future together. Then they ghost you. That heartbreak is grieving what you thought was going to be — so understand: we are not grieving the loss of the person.</p>
+            <p>You're not missing them, you're missing the version you made in your head. You're not missing them, you're missing the future you built inside your own mind. You're not missing them, you're missing the way you felt thinking it was true love. In reality, it was never them.</p>
+            <p class="excerpt-cta-line">
+              <a class="book-cta" id="book-cta" href="#" target="_blank" rel="noopener">Get the full chapter + new ones in your inbox →</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>© <span id="year"></span> Blake Cody</span>
+        <a id="substack-link-footer" href="#" target="_blank" rel="noopener">Read on Substack ↗</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

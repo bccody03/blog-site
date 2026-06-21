@@ -85,6 +85,7 @@ body {
   transition: color 0.15s ease;
 }
 .nav a:hover { color: #fff; }
+.nav a.active { color: #fff; font-weight: 600; }
 
 /* Header switches to solid once you scroll past the cover */
 .site-header.scrolled {
@@ -95,6 +96,7 @@ body {
 .site-header.scrolled .brand { color: var(--ink); }
 .site-header.scrolled .nav a { color: var(--ink-soft); }
 .site-header.scrolled .nav a:hover { color: var(--accent); }
+.site-header.scrolled .nav a.active { color: var(--accent); }
 
 /* Cover */
 .cover {
@@ -401,6 +403,65 @@ body {
   font-weight: 600;
 }
 
+/* Explore cards — the "branch off" grid on the home page */
+.explore {
+  padding: 40px 0 8px;
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+}
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+.explore-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px 22px 20px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.explore-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-soft);
+}
+.explore-card h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.explore-card p {
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+  margin: 0 0 16px;
+  flex: 1;
+}
+.explore-go {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Standalone pages reuse the section styles but drop the in-page divider */
+.book-page,
+.coaching-page { padding-top: 8px; border-bottom: none; }
+.book-page .eyebrow + .eyebrow,
+.coaching-page .eyebrow + .eyebrow { margin-top: 14px; }
+.about-page .about-stack { margin-top: 16px; }
+.archive .eyebrow a,
+.book-page .eyebrow a,
+.coaching-page .eyebrow a { color: var(--accent); text-decoration: none; }
+.archive .eyebrow a:hover,
+.book-page .eyebrow a:hover,
+.coaching-page .eyebrow a:hover { text-decoration: underline; }
+
 /* Coaching / Reflect with me */
 .coaching {
   padding: 64px 0 56px;
@@ -593,10 +654,23 @@ body.plain { background: var(--bg); }
 
 @media (max-width: 560px) {
   .hero { padding: 48px 0 32px; }
-  .nav { gap: 16px; }
   .site-footer .wrap { flex-direction: column; gap: 10px; }
   .post-list { gap: 24px 18px; }
   .about { flex-direction: column; align-items: center; text-align: center; }
   .about p { margin: 0 auto; }
   .reflect-row { flex-direction: column; }
+
+  /* Keep the brand pinned left and let the tabs scroll sideways so all
+     six fit on a narrow phone without wrapping or shrinking the header. */
+  .site-header .wrap { justify-content: flex-start; gap: 14px; }
+  .brand { flex: 0 0 auto; }
+  .nav {
+    flex: 1 1 auto;
+    gap: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { white-space: nowrap; }
 }
