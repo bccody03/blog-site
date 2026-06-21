@@ -9,7 +9,7 @@ const CONFIG = {
   maxPosts: 12,
   // Front cover image. Leave "" to auto-use your latest post's cover,
   // or drop your own file in this folder, e.g. "cover.jpg".
-  coverImage: "cover.jpg",
+  coverImage: "hero-bg.jpg",
   // Where "Reflect with me" submissions go. Paste a form endpoint that
   // emails you the message — easiest is Formspree: create a free form at
   // formspree.io and paste its URL here, e.g.
