@@ -10,8 +10,11 @@ const CONFIG = {
   // Front cover image. Leave "" to auto-use your latest post's cover,
   // or drop your own file in this folder, e.g. "cover.jpg".
   coverImage: "",
-  // Where "Reflect with me" submissions go. Paste your Make webhook URL
-  // here (Webhook -> Notion + email). Leave "" to test in demo mode.
+  // Where "Reflect with me" submissions go. Paste a form endpoint that
+  // emails you the message — easiest is Formspree: create a free form at
+  // formspree.io and paste its URL here, e.g.
+  //   "https://formspree.io/f/abcdwxyz"
+  // (A Make webhook works too.) Leave "" to test in demo mode.
   coachWebhook: "",
 };
 
@@ -27,7 +30,7 @@ const els = {
   coverImg: document.getElementById("cover-img"),
   coverInner: document.getElementById("cover-inner"),
   header: document.getElementById("site-header"),
-  subscribeFrame: document.getElementById("subscribe-frame"),
+  subscribeFrames: document.querySelectorAll(".sub-frame"),
   revealBtn: document.getElementById("reveal-btn"),
   excerptGate: document.getElementById("excerpt-gate"),
   excerptMore: document.getElementById("excerpt-more"),
@@ -51,8 +54,9 @@ if (CONFIG.coverImage) setCover(CONFIG.coverImage);
 /* Sneak-peek lead magnet: embed the real Substack signup, and let the
    reader unlock the rest of the chapter once they've subscribed. The
    unlock is remembered so they don't have to do it again. */
-if (CONFIG.substackUrl && els.subscribeFrame) {
-  els.subscribeFrame.src = CONFIG.substackUrl.replace(/\/$/, "") + "/embed";
+if (CONFIG.substackUrl && els.subscribeFrames.length) {
+  const embedSrc = CONFIG.substackUrl.replace(/\/$/, "") + "/embed";
+  els.subscribeFrames.forEach((frame) => { frame.src = embedSrc; });
 }
 const PEEK_KEY = "peek-unlocked";
 function unlockPeek() {
@@ -108,11 +112,12 @@ if (reflectForm) {
 
     try {
       if (CONFIG.coachWebhook) {
-        await fetch(CONFIG.coachWebhook, {
+        const res = await fetch(CONFIG.coachWebhook, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error("submit failed");
       } else {
         console.info("[demo mode] Reflection captured (no webhook set):", payload);
       }

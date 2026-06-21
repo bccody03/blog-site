@@ -637,6 +637,27 @@ body.plain { background: var(--bg); }
   margin: 0 0 8px;
 }
 
+/* Subscribe band — newsletter signup in the footer of every page */
+.subscribe-cta {
+  border-top: 1px solid var(--line);
+  background: var(--bg-card);
+  padding: 48px 0 40px;
+  text-align: center;
+}
+.subscribe-cta .wrap { max-width: 560px; }
+.subscribe-title {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.subscribe-sub {
+  color: var(--ink-soft);
+  max-width: 32em;
+  margin: 0 auto 22px;
+}
+.subscribe-cta .sub-frame { height: 90px; }
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--line);
