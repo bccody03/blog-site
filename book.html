@@ -68,36 +68,28 @@
             <p>The hardest part of a relationship. When we get into them, we never think about the inevitable until it arrives. The person we are imagining a future with, ready to walk through life with…</p>
           </div>
 
-          <!-- The gate: shown until they unlock -->
+          <!-- The gate: enter email to get the full chapter PDF -->
           <div class="excerpt-gate" id="excerpt-gate">
             <div class="gate-fade"></div>
             <div class="gate-card">
-              <h3>Keep reading — for free.</h3>
-              <p>Subscribe to the newsletter and the rest of this chapter lands in your inbox. No charge, no spam — unsubscribe anytime.</p>
-              <iframe id="subscribe-frame" class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no"></iframe>
-              <button class="reveal-btn" id="reveal-btn" type="button">I've subscribed — unlock the rest →</button>
+              <h3>Keep reading — get the full chapter.</h3>
+              <p>Enter your email and I'll send you the complete first chapter as a PDF — free. No spam, unsubscribe anytime.</p>
+              <form class="chapter-form" id="chapter-form">
+                <input type="email" id="chapter-email" name="email" placeholder="Your email address" autocomplete="email" required />
+                <button type="submit" class="chapter-submit">Send me the chapter →</button>
+              </form>
+              <p class="chapter-note">You'll also get new chapters and essays as I write them.</p>
             </div>
           </div>
 
-          <!-- The reward: hidden until unlocked -->
-          <div class="excerpt-more" id="excerpt-more" hidden>
-            <p>…is gone in the snap of a finger. The person you got to know made you feel special. You saw a spark, and now you're dreaming about a future together. Then they ghost you. That heartbreak is grieving what you thought was going to be — so understand: we are not grieving the loss of the person.</p>
-            <p>You're not missing them, you're missing the version you made in your head. You're not missing them, you're missing the future you built inside your own mind. You're not missing them, you're missing the way you felt thinking it was true love. In reality, it was never them.</p>
-            <p class="excerpt-cta-line">
-              <a class="book-cta" id="book-cta" href="#" target="_blank" rel="noopener">Get the full chapter + new ones in your inbox →</a>
-            </p>
+          <!-- Shown after they submit: deliver the PDF -->
+          <div class="chapter-done" id="chapter-done" hidden>
+            <h3>It's on the way 📩</h3>
+            <p>Your copy of Chapter 1 is downloading now. If it doesn't start automatically, <a id="chapter-dl" href="chapter-1.pdf" download="Aligned-Chapter-1.pdf">tap here to download the PDF</a>.</p>
           </div>
         </div>
       </section>
     </div>
-
-    <section class="subscribe-cta">
-      <div class="wrap">
-        <h2 class="subscribe-title">Stay up to date in your inbox</h2>
-        <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
-        <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no"></iframe>
-      </div>
-    </section>
 
     <footer class="site-footer">
       <div class="wrap">

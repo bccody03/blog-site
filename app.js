@@ -59,16 +59,47 @@ if (CONFIG.substackUrl && els.subscribeFrames.length) {
   const embedSrc = CONFIG.substackUrl.replace(/\/$/, "") + "/embed";
   els.subscribeFrames.forEach((frame) => { frame.src = embedSrc; });
 }
-const PEEK_KEY = "peek-unlocked";
-function unlockPeek() {
-  if (els.excerptGate) els.excerptGate.hidden = true;
-  if (els.excerptMore) els.excerptMore.hidden = false;
-}
-if (localStorage.getItem(PEEK_KEY) === "1") unlockPeek();
-if (els.revealBtn) {
-  els.revealBtn.addEventListener("click", () => {
-    localStorage.setItem(PEEK_KEY, "1");
-    unlockPeek();
+/* Book page lead magnet: capture the reader's email, then deliver the
+   first-chapter PDF (instant download + the email is recorded). */
+const chapterForm = document.getElementById("chapter-form");
+if (chapterForm) {
+  chapterForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = chapterForm.querySelector(".chapter-submit");
+    const email = document.getElementById("chapter-email").value.trim();
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+    try {
+      if (CONFIG.coachWebhook) {
+        const res = await fetch(CONFIG.coachWebhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString() }),
+        });
+        if (!res.ok) throw new Error("submit failed");
+      } else {
+        console.info("[demo mode] chapter request:", email);
+      }
+      const gate = document.getElementById("excerpt-gate");
+      const done = document.getElementById("chapter-done");
+      if (gate) gate.hidden = true;
+      if (done) {
+        done.hidden = false;
+        done.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      // Hand them the PDF straight away
+      const a = document.createElement("a");
+      a.href = "chapter-1.pdf";
+      a.download = "Aligned-Chapter-1.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (err) {
+      console.error(err);
+      btn.disabled = false;
+      btn.textContent = "Send me the chapter →";
+      alert("Something went wrong sending that. Mind trying again in a moment?");
+    }
   });
 }
 

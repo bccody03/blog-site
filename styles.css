@@ -315,6 +315,51 @@ body {
 }
 .reveal-btn:hover { color: var(--accent); }
 
+/* Book lead magnet: email -> chapter PDF */
+.chapter-form {
+  display: flex;
+  gap: 10px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.chapter-form input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.chapter-form input:focus {
+  outline: none;
+  border-color: var(--accent-soft);
+  box-shadow: 0 0 0 3px rgba(154, 59, 39, 0.12);
+}
+.chapter-submit {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.chapter-submit:hover { background: #832f1f; }
+.chapter-submit:disabled { opacity: 0.6; cursor: default; }
+.chapter-note { font-size: 0.85rem; color: var(--ink-soft); margin: 14px 0 0; }
+.chapter-done { text-align: center; padding: 8px 4px 16px; animation: fadeIn 0.5s ease; }
+.chapter-done h3 { font-family: var(--serif); font-size: 1.5rem; margin: 0 0 8px; }
+.chapter-done p { color: var(--ink-soft); max-width: 30em; margin: 0 auto; }
+.chapter-done a { color: var(--accent); font-weight: 600; }
+@media (max-width: 560px) { .chapter-form { flex-direction: column; } }
+
 /* The reward */
 .excerpt-more {
   border-top: 1px solid var(--line);
