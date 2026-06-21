@@ -113,13 +113,13 @@ body {
   height: 100vh;
   min-height: 540px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: flex-end;
+  justify-content: flex-start;
+  text-align: left;
   color: #fff;
-  padding: 0 24px;
+  padding: 0 clamp(24px, 6vw, 84px) 13vh;
 }
-.cover-inner { max-width: 760px; }
+.cover-inner { max-width: 760px; margin: 0; }
 .cover-title {
   font-family: var(--serif);
   font-size: clamp(3.6rem, 13vw, 7rem);
@@ -162,6 +162,21 @@ body {
   0% { opacity: 0; transform: translateY(0); }
   40% { opacity: 1; }
   100% { opacity: 0; transform: translateY(14px); }
+}
+
+/* Entrance: hero text rises up and fades in, staggered */
+@keyframes coverRise {
+  from { opacity: 0; transform: translateY(42px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cover-title,
+  .cover-lede,
+  .scroll-cue {
+    animation: coverRise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .cover-lede { animation-delay: 0.16s; }
+  .scroll-cue { animation-delay: 0.34s; }
 }
 
 /* The page content that scrolls up over the cover */
