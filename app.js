@@ -35,6 +35,7 @@ const els = {
   excerptGate: document.getElementById("excerpt-gate"),
   excerptMore: document.getElementById("excerpt-more"),
   substackLinks: [
+    ...document.querySelectorAll(".js-substack"),
     document.getElementById("substack-link"),
     document.getElementById("substack-link-footer"),
     document.getElementById("book-cta"),

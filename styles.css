@@ -637,6 +637,21 @@ body.plain { background: var(--bg); }
   margin: 0 0 8px;
 }
 
+/* Quick Substack link button (About page) */
+.about-actions { margin: 18px 0 0; }
+.substack-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 22px;
+  border-radius: 10px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.substack-btn:hover { background: #832f1f; transform: translateY(-1px); }
+
 /* Subscribe band — newsletter signup in the footer of every page */
 .subscribe-cta {
   border-top: 1px solid var(--line);
