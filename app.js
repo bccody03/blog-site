@@ -16,6 +16,10 @@ const CONFIG = {
   //   "https://formspree.io/f/abcdwxyz"
   // (A Make webhook works too.) Leave "" to test in demo mode.
   coachWebhook: "https://formspree.io/f/xaqgwvwe",
+  // Separate Formspree form for "send me the chapter" PDF requests, so
+  // chapter signups stay out of your Reflect inbox. Create a second form
+  // at formspree.io and paste its URL here, e.g. "https://formspree.io/f/abcdwxyz".
+  chapterWebhook: "",
 };
 
 /* ------------------------------------------------------------
@@ -70,8 +74,8 @@ if (chapterForm) {
     btn.disabled = true;
     btn.textContent = "Sending…";
     try {
-      if (CONFIG.coachWebhook) {
-        const res = await fetch(CONFIG.coachWebhook, {
+      if (CONFIG.chapterWebhook) {
+        const res = await fetch(CONFIG.chapterWebhook, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString() }),
