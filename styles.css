@@ -67,6 +67,9 @@ body {
   height: 64px;
 }
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   font-family: var(--serif);
   font-weight: 600;
   font-size: 1.4rem;
@@ -74,6 +77,11 @@ body {
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: color 0.3s ease;
+}
+.brand-mark {
+  height: 24px;
+  width: auto;
+  display: block;
 }
 .nav {
   display: flex;
