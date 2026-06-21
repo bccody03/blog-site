@@ -15,7 +15,7 @@ const CONFIG = {
   // formspree.io and paste its URL here, e.g.
   //   "https://formspree.io/f/abcdwxyz"
   // (A Make webhook works too.) Leave "" to test in demo mode.
-  coachWebhook: "",
+  coachWebhook: "https://formspree.io/f/xaqgwvwe",
 };
 
 /* ------------------------------------------------------------
