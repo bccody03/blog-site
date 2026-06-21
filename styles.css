@@ -38,7 +38,7 @@ body {
   z-index: -2;
   background: linear-gradient(135deg, #3a2c22 0%, #6b4a32 55%, #9a3b27 100%);
   background-size: cover;
-  background-position: center;
+  background-position: 35% center;
 }
 .cover-img::after {
   content: "";
