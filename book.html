@@ -67,15 +67,25 @@
             <p>The hardest part of a relationship. When we get into them, we never think about the inevitable until it arrives. The person we are imagining a future with, ready to walk through life with…</p>
           </div>
 
-          <!-- The gate: subscribe via Substack. The chapter PDF is delivered
-               through Substack's automatic welcome email (set up in Substack). -->
+          <!-- The gate: its own form — delivers the chapter PDF and records
+               the email in a dedicated Formspree, separate from the newsletter. -->
           <div class="excerpt-gate" id="excerpt-gate">
             <div class="gate-fade"></div>
             <div class="gate-card">
               <h3>Keep reading — get the full chapter.</h3>
-              <p>Subscribe with your email and I'll send you the complete first chapter as a PDF — plus new chapters and essays as I write them. Free, no account needed, unsubscribe anytime.</p>
-              <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no"></iframe>
+              <p>Pop in your email and your copy of the full first chapter downloads right away as a PDF. Free — and this won't subscribe you to anything.</p>
+              <form class="chapter-form" id="chapter-form">
+                <input type="email" id="chapter-email" name="email" placeholder="Your email address" autocomplete="email" required />
+                <button type="submit" class="chapter-submit">Send me the chapter →</button>
+              </form>
+              <p class="chapter-note">Want my new writing too? Subscribe to the newsletter from any page.</p>
             </div>
+          </div>
+
+          <!-- Shown after they submit: deliver the PDF -->
+          <div class="chapter-done" id="chapter-done" hidden>
+            <h3>It's on the way 📩</h3>
+            <p>Your copy of Chapter 1 is downloading now. If it doesn't start automatically, <a id="chapter-dl" href="chapter-1.pdf" download="Aligned-Chapter-1.pdf">tap here to download the PDF</a>.</p>
           </div>
         </div>
       </section>
