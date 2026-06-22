@@ -16,10 +16,6 @@ const CONFIG = {
   //   "https://formspree.io/f/abcdwxyz"
   // (A Make webhook works too.) Leave "" to test in demo mode.
   coachWebhook: "https://formspree.io/f/xaqgwvwe",
-  // Separate Formspree form for "send me the chapter" PDF requests, so
-  // chapter signups stay out of your Reflect inbox. Create a second form
-  // at formspree.io and paste its URL here, e.g. "https://formspree.io/f/abcdwxyz".
-  chapterWebhook: "",
 };
 
 /* ------------------------------------------------------------
@@ -63,49 +59,9 @@ if (CONFIG.substackUrl && els.subscribeFrames.length) {
   const embedSrc = CONFIG.substackUrl.replace(/\/$/, "") + "/embed";
   els.subscribeFrames.forEach((frame) => { frame.src = embedSrc; });
 }
-/* Book page lead magnet: capture the reader's email, then deliver the
-   first-chapter PDF (instant download + the email is recorded). */
-const chapterForm = document.getElementById("chapter-form");
-if (chapterForm) {
-  chapterForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const btn = chapterForm.querySelector(".chapter-submit");
-    const email = document.getElementById("chapter-email").value.trim();
-    btn.disabled = true;
-    btn.textContent = "Sending…";
-    try {
-      if (CONFIG.chapterWebhook) {
-        const res = await fetch(CONFIG.chapterWebhook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString() }),
-        });
-        if (!res.ok) throw new Error("submit failed");
-      } else {
-        console.info("[demo mode] chapter request:", email);
-      }
-      const gate = document.getElementById("excerpt-gate");
-      const done = document.getElementById("chapter-done");
-      if (gate) gate.hidden = true;
-      if (done) {
-        done.hidden = false;
-        done.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-      // Hand them the PDF straight away
-      const a = document.createElement("a");
-      a.href = "chapter-1.pdf";
-      a.download = "Aligned-Chapter-1.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (err) {
-      console.error(err);
-      btn.disabled = false;
-      btn.textContent = "Send me the chapter →";
-      alert("Something went wrong sending that. Mind trying again in a moment?");
-    }
-  });
-}
+/* The Book page newsletter signup uses the Substack embed (the .sub-frame
+   in the gate). The chapter PDF is delivered by Substack's welcome email,
+   so no extra JS is needed for it here. */
 
 /* "Reflect with me" — send the reader's answer to Blake. In production
    this POSTs to a Make webhook (which can drop it in Notion + email you).
