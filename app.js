@@ -271,12 +271,61 @@ function setState(msg, isError = false) {
   els.state.classList.toggle("error", isError);
 }
 
+async function fetchText(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("http " + res.status);
+  return res.text();
+}
+
+// Parse a Substack RSS XML string into our post shape.
+function parseFeedXml(xmlText) {
+  const doc = new DOMParser().parseFromString(xmlText, "text/xml");
+  if (doc.querySelector("parsererror")) throw new Error("xml parse error");
+  const chImg = doc.querySelector("channel > image > url");
+  const items = Array.from(doc.querySelectorAll("item")).map((item) => {
+    const text = (sel) => {
+      const el = item.querySelector(sel);
+      return el ? el.textContent.trim() : "";
+    };
+    const encEl = item.getElementsByTagName("content:encoded")[0];
+    const content = encEl ? encEl.textContent : "";
+    let image = firstImage(content);
+    const encl = item.querySelector("enclosure");
+    if (!image && encl && encl.getAttribute("url")) image = sizeImage(encl.getAttribute("url"));
+    return {
+      title: text("title"),
+      link: text("link"),
+      pubDate: text("pubDate"),
+      description: text("description"),
+      content,
+      image,
+    };
+  });
+  return { image: chImg ? chImg.textContent.trim() : "", posts: items };
+}
+
 async function loadFromSubstack(url) {
-  // Substack's RSS feed has no CORS headers, so we route it through a
-  // free RSS->JSON service for the browser. (Later you can swap this for
-  // a Make scenario that writes posts to a local posts.json instead.)
+  // Substack's RSS feed has no CORS headers, so we route it through a public
+  // CORS proxy and parse the XML ourselves. We try a couple of live proxies
+  // first (fresh, no heavy caching) and fall back to rss2json if needed.
   const feed = url.replace(/\/$/, "") + "/feed";
-  const api = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed);
+  const enc = encodeURIComponent(feed);
+  const bust = "&_=" + Date.now();
+  const proxies = [
+    "https://corsproxy.io/?url=" + enc + bust,
+    "https://api.allorigins.win/raw?url=" + enc + bust,
+  ];
+  for (const proxy of proxies) {
+    try {
+      const xml = await fetchText(proxy);
+      const parsed = parseFeedXml(xml);
+      if (parsed.posts.length) return parsed;
+    } catch (e) {
+      /* try the next source */
+    }
+  }
+  // Last resort: rss2json (can be cached/rate-limited, but better than nothing).
+  const api = "https://api.rss2json.com/v1/api.json?rss_url=" + enc;
   const res = await fetch(api);
   if (!res.ok) throw new Error("feed request failed");
   const data = await res.json();
@@ -289,6 +338,7 @@ async function loadFromSubstack(url) {
       pubDate: it.pubDate,
       content: it.content,
       description: it.description,
+      image: it.enclosure && it.enclosure.link ? sizeImage(it.enclosure.link) : "",
     })),
   };
 }
