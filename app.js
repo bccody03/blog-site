@@ -19,7 +19,7 @@ const CONFIG = {
   // Dedicated Formspree form for Book-page chapter requests, kept separate
   // from the Reflect inbox and from the Substack newsletter. Create a second
   // form at formspree.io and paste its URL here, e.g. "https://formspree.io/f/abcdwxyz".
-  chapterWebhook: "",
+  chapterWebhook: "https://formspree.io/f/mqevkrpa",
 };
 
 /* ------------------------------------------------------------
