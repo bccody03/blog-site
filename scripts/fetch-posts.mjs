@@ -4,6 +4,12 @@ import { writeFileSync, readFileSync } from "node:fs";
 
 const SUBSTACK = (process.env.SUBSTACK_URL || "https://bccody.substack.com").replace(/\/$/, "");
 const LIMIT = 50;
+const HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 " +
+    "(KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+  Accept: "application/json, text/plain, */*",
+};
 
 async function getArchive() {
   const seen = new Set();
@@ -11,7 +17,7 @@ async function getArchive() {
   let offset = 0;
   for (let i = 0; i < 100; i++) {
     const url = `${SUBSTACK}/api/v1/archive?sort=new&offset=${offset}&limit=${LIMIT}`;
-    const res = await fetch(url, { headers: { "User-Agent": "blakecody-site-sync" } });
+    const res = await fetch(url, { headers: HEADERS });
     if (!res.ok) throw new Error(`archive HTTP ${res.status}`);
     const arr = await res.json();
     if (!Array.isArray(arr) || arr.length === 0) break;
