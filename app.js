@@ -236,21 +236,13 @@ function postLimit() {
   return n > 0 ? n : Infinity;
 }
 
-function render(posts) {
-  if (!els.list) return; // pages without a post list (Book, Reflect, About)
-  if (!posts.length) {
-    setState("Nothing here yet — your latest posts will show up automatically.");
-    return;
-  }
-  els.state.classList.add("hidden");
-  els.list.innerHTML = posts
-    .slice(0, postLimit())
-    .map((p) => {
-      const img = p.image || firstImage(p.content);
-      const thumb = img
-        ? `<div class="post-thumb"><img src="${img}" alt="" loading="lazy" /></div>`
-        : "";
-      return `
+// Build the HTML for a single post card.
+function postCard(p) {
+  const img = p.image || firstImage(p.content);
+  const thumb = img
+    ? `<div class="post-thumb"><img src="${img}" alt="" loading="lazy" /></div>`
+    : "";
+  return `
       <a class="post${img ? " has-thumb" : ""}" href="${p.link}" target="_blank" rel="noopener">
         ${thumb}
         <div class="post-body">
@@ -260,8 +252,66 @@ function render(posts) {
           <span class="post-more">Read on Substack →</span>
         </div>
       </a>`;
-    })
-    .join("");
+}
+
+let allPosts = [];
+
+// Posts per page when the list opts into pagination (data-page-size="7").
+// Returns 0 when pagination is off (e.g. the home page's "latest 3").
+function pageSize() {
+  const ps = els.list && els.list.getAttribute("data-page-size");
+  const n = ps ? parseInt(ps, 10) : 0;
+  return n > 0 ? n : 0;
+}
+
+function renderPage(page) {
+  const size = pageSize();
+  const total = Math.max(1, Math.ceil(allPosts.length / size));
+  const cur = Math.min(Math.max(1, page), total);
+  const start = (cur - 1) * size;
+  els.list.innerHTML = allPosts.slice(start, start + size).map(postCard).join("");
+  renderPagination(total, cur);
+  if (page !== 1) {
+    const top = els.list.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+}
+
+function renderPagination(total, cur) {
+  const nav = document.getElementById("pagination");
+  if (!nav) return;
+  if (total <= 1) { nav.innerHTML = ""; return; }
+  let html = `<button class="page-btn page-prev" ${cur === 1 ? "disabled" : ""} data-page="${cur - 1}" aria-label="Previous page">←</button>`;
+  for (let i = 1; i <= total; i++) {
+    html += `<button class="page-btn page-num${i === cur ? " active" : ""}" data-page="${i}" aria-label="Page ${i}"${i === cur ? ' aria-current="page"' : ""}>${i}</button>`;
+  }
+  html += `<button class="page-btn page-next" ${cur === total ? "disabled" : ""} data-page="${cur + 1}" aria-label="Next page">→</button>`;
+  nav.innerHTML = html;
+}
+
+const paginationEl = document.getElementById("pagination");
+if (paginationEl) {
+  paginationEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".page-btn");
+    if (!btn || btn.disabled) return;
+    const p = parseInt(btn.getAttribute("data-page"), 10);
+    if (!Number.isNaN(p)) renderPage(p);
+  });
+}
+
+function render(posts) {
+  if (!els.list) return; // pages without a post list (Book, Reflect, About)
+  if (!posts.length) {
+    setState("Nothing here yet — your latest posts will show up automatically.");
+    return;
+  }
+  els.state.classList.add("hidden");
+  allPosts = posts;
+  if (pageSize() > 0) {
+    renderPage(1);
+  } else {
+    els.list.innerHTML = posts.slice(0, postLimit()).map(postCard).join("");
+  }
 }
 
 function setState(msg, isError = false) {
