@@ -413,6 +413,18 @@ async function loadArchive(url) {
 }
 
 async function loadFromSubstack(url) {
+  // 0) Prefer posts.json — a complete archive snapshot built server-side by a
+  //    scheduled GitHub Action. Same-origin, so it's reliable and has EVERY post
+  //    (browser-side proxies are flaky and the RSS feed only carries ~20).
+  try {
+    const res = await fetch("posts.json?_=" + Date.now());
+    if (res.ok) {
+      const arr = await res.json();
+      if (Array.isArray(arr) && arr.length) return { image: "", posts: arr };
+    }
+  } catch (e) {
+    /* fall through to live sources */
+  }
   // 1) Prefer the archive API — it's the only source with every post.
   try {
     const posts = await loadArchive(url);
