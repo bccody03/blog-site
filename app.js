@@ -354,28 +354,74 @@ function parseFeedXml(xmlText) {
   return { image: chImg ? chImg.textContent.trim() : "", posts: items };
 }
 
-async function loadFromSubstack(url) {
-  // Substack's RSS feed has no CORS headers, so we route it through a public
-  // CORS proxy and parse the XML ourselves. We try a couple of live proxies
-  // first (fresh, no heavy caching) and fall back to rss2json if needed.
-  const feed = url.replace(/\/$/, "") + "/feed";
-  const enc = encodeURIComponent(feed);
+// Substack endpoints have no CORS headers, so we route requests through a
+// public CORS proxy. Try a couple of live proxies (fresh, no heavy caching).
+async function fetchViaProxy(targetUrl) {
+  const enc = encodeURIComponent(targetUrl);
   const bust = "&_=" + Date.now();
   const proxies = [
     "https://corsproxy.io/?url=" + enc + bust,
     "https://api.allorigins.win/raw?url=" + enc + bust,
   ];
+  let lastErr;
   for (const proxy of proxies) {
     try {
-      const xml = await fetchText(proxy);
-      const parsed = parseFeedXml(xml);
-      if (parsed.posts.length) return parsed;
+      return await fetchText(proxy);
     } catch (e) {
-      /* try the next source */
+      lastErr = e;
     }
   }
-  // Last resort: rss2json (can be cached/rate-limited, but better than nothing).
-  const api = "https://api.rss2json.com/v1/api.json?rss_url=" + enc;
+  throw lastErr || new Error("all proxies failed");
+}
+
+// Substack's archive API returns the COMPLETE back-catalog (the RSS feed only
+// carries the most recent ~20 posts). We page through it until it runs dry.
+async function loadArchive(url) {
+  const base = url.replace(/\/$/, "");
+  const limit = 50;
+  const out = [];
+  let offset = 0;
+  while (offset < 1000) {
+    const text = await fetchViaProxy(
+      base + "/api/v1/archive?sort=new&offset=" + offset + "&limit=" + limit
+    );
+    const arr = JSON.parse(text);
+    if (!Array.isArray(arr) || arr.length === 0) break;
+    for (const p of arr) {
+      out.push({
+        title: p.title || "(untitled)",
+        link: p.canonical_url || base + "/p/" + p.slug,
+        pubDate: p.post_date,
+        description: p.description || p.subtitle || "",
+        content: "",
+        image: p.cover_image ? sizeImage(p.cover_image) : "",
+      });
+    }
+    offset += arr.length;
+    if (arr.length < limit) break;
+  }
+  return out;
+}
+
+async function loadFromSubstack(url) {
+  // 1) Prefer the archive API — it's the only source with every post.
+  try {
+    const posts = await loadArchive(url);
+    if (posts.length) return { image: "", posts };
+  } catch (e) {
+    /* fall back to the RSS feed */
+  }
+  // 2) RSS via proxy (recent ~20, but richer excerpts/images as a backup).
+  const feed = url.replace(/\/$/, "") + "/feed";
+  try {
+    const xml = await fetchViaProxy(feed);
+    const parsed = parseFeedXml(xml);
+    if (parsed.posts.length) return parsed;
+  } catch (e) {
+    /* fall back to rss2json */
+  }
+  // 3) Last resort: rss2json (can be cached/rate-limited, but better than nothing).
+  const api = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed);
   const res = await fetch(api);
   if (!res.ok) throw new Error("feed request failed");
   const data = await res.json();
