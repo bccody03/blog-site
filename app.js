@@ -378,27 +378,36 @@ async function fetchViaProxy(targetUrl) {
 // carries the most recent ~20 posts). We page through it until it runs dry.
 async function loadArchive(url) {
   const base = url.replace(/\/$/, "");
-  const limit = 50;
+  const limit = 30;
   const out = [];
+  const seen = new Set();
   let offset = 0;
-  while (offset < 1000) {
+  // Page until a request returns nothing new. Substack may serve fewer items
+  // than requested, so we advance by the count actually returned (and dedupe
+  // by link) rather than assuming a short page means the end.
+  for (let i = 0; i < 60; i++) {
     const text = await fetchViaProxy(
       base + "/api/v1/archive?sort=new&offset=" + offset + "&limit=" + limit
     );
     const arr = JSON.parse(text);
     if (!Array.isArray(arr) || arr.length === 0) break;
+    let added = 0;
     for (const p of arr) {
+      const link = p.canonical_url || base + "/p/" + p.slug;
+      if (seen.has(link)) continue;
+      seen.add(link);
       out.push({
         title: p.title || "(untitled)",
-        link: p.canonical_url || base + "/p/" + p.slug,
+        link,
         pubDate: p.post_date,
         description: p.description || p.subtitle || "",
         content: "",
         image: p.cover_image ? sizeImage(p.cover_image) : "",
       });
+      added++;
     }
+    if (added === 0) break;
     offset += arr.length;
-    if (arr.length < limit) break;
   }
   return out;
 }
