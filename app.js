@@ -87,9 +87,11 @@ function buildIntro(intro) {
       tile.style.setProperty("--dx", (10 + Math.random() * 80).toFixed(0) + "px");
       tile.style.setProperty("--dy", (-(25 + Math.random() * 150)).toFixed(0) + "px");
       tile.style.setProperty("--dr", (Math.random() * 50 - 25).toFixed(0) + "deg");
-      const delay = 1.1 + (c / cols) * 0.5 + Math.random() * 0.18;
+      // Disintegration starts once the cracks are in (~1.65s), then sweeps
+      // left-to-right; each tile animates over 1s (see .tile in styles.css).
+      const delay = 1.65 + (c / cols) * 0.5 + Math.random() * 0.18;
       tile.style.animationDelay = delay.toFixed(2) + "s";
-      maxEnd = Math.max(maxEnd, delay + 0.9);
+      maxEnd = Math.max(maxEnd, delay + 1.0);
       const name = document.createElement("span");
       name.className = "intro-name";
       name.textContent = "Blake Cody";
