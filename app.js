@@ -231,6 +231,17 @@ function sizeImage(url, width = 480) {
   return url.replace(/,w_\d+,/, `,w_${width},`);
 }
 
+// A stable key for a Substack image (its underlying S3 filename). Lets us tell
+// when a post's "cover" is really just the publication's profile picture, which
+// Substack uses as a filler enclosure for posts that have no image of their own.
+function imgKey(u) {
+  if (!u) return "";
+  let s = u;
+  try { s = decodeURIComponent(u); } catch (e) {}
+  const m = s.match(/images\/([^/?#]+)$/);
+  return m ? m[1] : s;
+}
+
 // How many posts to show: from the list's data-limit ("0" = all),
 // falling back to CONFIG.maxPosts. Lets one app.js serve home + archive.
 function postLimit() {
@@ -336,6 +347,7 @@ function parseFeedXml(xmlText) {
   const doc = new DOMParser().parseFromString(xmlText, "text/xml");
   if (doc.querySelector("parsererror")) throw new Error("xml parse error");
   const chImg = doc.querySelector("channel > image > url");
+  const profileKey = imgKey(chImg ? chImg.textContent.trim() : "");
   const items = Array.from(doc.querySelectorAll("item")).map((item) => {
     const text = (sel) => {
       const el = item.querySelector(sel);
@@ -345,7 +357,9 @@ function parseFeedXml(xmlText) {
     const content = encEl ? encEl.textContent : "";
     let image = firstImage(content);
     const encl = item.querySelector("enclosure");
-    if (!image && encl && encl.getAttribute("url")) image = sizeImage(encl.getAttribute("url"));
+    const enclUrl = encl && encl.getAttribute("url");
+    // Use the enclosure only if it isn't just the publication's profile picture.
+    if (!image && enclUrl && imgKey(enclUrl) !== profileKey) image = sizeImage(enclUrl);
     return {
       title: text("title"),
       link: text("link"),
@@ -379,16 +393,22 @@ async function fetchViaProxy(targetUrl) {
 }
 
 function mapRss2json(data) {
+  const profileKey = imgKey((data.feed && data.feed.image) || "");
   return {
     image: (data.feed && data.feed.image) || "",
-    posts: data.items.map((it) => ({
-      title: it.title,
-      link: it.link,
-      pubDate: it.pubDate,
-      content: it.content,
-      description: it.description,
-      image: it.enclosure && it.enclosure.link ? sizeImage(it.enclosure.link) : "",
-    })),
+    posts: data.items.map((it) => {
+      let image = (it.enclosure && it.enclosure.link) || "";
+      // Skip the filler profile picture; leave real covers.
+      image = image && imgKey(image) !== profileKey ? sizeImage(image) : "";
+      return {
+        title: it.title,
+        link: it.link,
+        pubDate: it.pubDate,
+        content: it.content,
+        description: it.description,
+        image,
+      };
+    }),
   };
 }
 
