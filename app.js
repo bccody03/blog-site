@@ -10,7 +10,7 @@ const CONFIG = {
   // Free rss2json.com API key. Substack blocks bots/proxies, so rss2json is the
   // one relay that reliably reaches your feed. Without a key it's capped at ~10
   // posts; paste a free key here to load your whole feed.
-  rssApiKey: "",
+  rssApiKey: "twjzn4hogufejzoxy2wgo6iajtvyqtycosvavtqv",
   // Front cover image. Leave "" to auto-use your latest post's cover,
   // or drop your own file in this folder, e.g. "cover.jpg".
   coverImage: "hero-bg.jpg",
