@@ -59,15 +59,14 @@
 }
 .cracks polyline {
   fill: none;
-  stroke: rgba(247, 241, 230, 0.92);
-  stroke-width: 2;
+  stroke: rgba(247, 241, 230, 0.95);
+  stroke-width: 3;
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  /* No delay — the SVG is added to the page ~1s in (see app.js), so the draw
-     starts the moment the cracks appear and they're invisible before that. */
+  /* dash-array / dash-offset are set per-line in app.js to each line's exact
+     on-screen length, so each crack is ONE solid dash that draws in cleanly.
+     The SVG is added ~1s in, so the draw starts the moment the cracks appear. */
   animation: crackDraw 0.55s ease-out both, crackFade 0.9s ease 0.8s forwards;
 }
 

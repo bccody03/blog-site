@@ -134,6 +134,10 @@ function buildIntro(intro) {
     if (edge === "left") return [0, t];
     return [100, t]; // right
   };
+  // The SVG is stretched to the viewport (preserveAspectRatio=none), so convert
+  // the 0–100 coords to real pixels when measuring each line's length.
+  const W = window.innerWidth || 1000;
+  const H = window.innerHeight || 700;
   const crackCount = 2 + Math.floor(Math.random() * 2); // 2–3 cracks
   for (let i = 0; i < crackCount; i++) {
     const startEdge = edges[Math.floor(Math.random() * 4)];
@@ -147,7 +151,7 @@ function buildIntro(intro) {
     const nx = -dy / len; // unit perpendicular, for a small jag
     const ny = dx / len;
     const segs = 5;
-    const pts = [];
+    const poly = [];
     for (let s = 0; s <= segs; s++) {
       const f = s / segs;
       let x = sx + dx * f;
@@ -157,11 +161,17 @@ function buildIntro(intro) {
         x += nx * j;
         y += ny * j;
       }
-      pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+      poly.push([x, y]);
+    }
+    // On-screen length of the whole line, so the dash is a single solid stroke.
+    let sl = 0;
+    for (let s = 1; s < poly.length; s++) {
+      sl += Math.hypot((poly[s][0] - poly[s - 1][0]) * (W / 100), (poly[s][1] - poly[s - 1][1]) * (H / 100));
     }
     const pl = document.createElementNS(NS, "polyline");
-    pl.setAttribute("points", pts.join(" "));
-    pl.setAttribute("pathLength", "1");
+    pl.setAttribute("points", poly.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
+    pl.style.strokeDasharray = sl.toFixed(1);
+    pl.style.strokeDashoffset = sl.toFixed(1);
     svg.appendChild(pl);
   }
   intro.appendChild(frag);
