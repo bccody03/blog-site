@@ -16,13 +16,14 @@
 /* Intro splash — name pops in, random cracks race across, then it disintegrates
    into many little pieces (tiles built + randomized in app.js). */
 .intro {
+  display: none; /* stays hidden unless the script actually plays it (no flash on skip) */
   position: fixed;
   inset: 0;
   z-index: 1000;
   overflow: hidden;
   background: linear-gradient(135deg, #2a201a 0%, #6b4a32 55%, #9a3b27 100%);
 }
-.intro.done { display: none; }
+.intro.play { display: block; }
 
 .tile {
   position: absolute;

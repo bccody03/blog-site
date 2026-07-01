@@ -59,10 +59,16 @@ const intro = document.getElementById("intro");
 if (intro) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce || sessionStorage.getItem("intro-seen")) {
-    intro.classList.add("done");
+    intro.remove(); // already seen this session (or reduced motion): don't show it
   } else {
     sessionStorage.setItem("intro-seen", "1");
-    buildIntro(intro);
+    intro.classList.add("play");
+    try {
+      buildIntro(intro);
+    } catch (e) {
+      console.error("intro failed:", e);
+      intro.remove(); // never let a hiccup leave the overlay stuck
+    }
   }
 }
 
@@ -129,7 +135,10 @@ function buildIntro(intro) {
   frag.appendChild(svg);
 
   intro.appendChild(frag);
-  setTimeout(() => intro.classList.add("done"), (maxEnd + 0.25) * 1000);
+  // Clear the container's backdrop just before the break so the pieces reveal
+  // the real site behind them (not an identical-coloured background).
+  setTimeout(() => { intro.style.background = "transparent"; }, 1500);
+  setTimeout(() => intro.remove(), (maxEnd + 0.25) * 1000);
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.
