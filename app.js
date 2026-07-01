@@ -123,22 +123,41 @@ function buildIntro(intro) {
   svg.setAttribute("class", "cracks");
   svg.setAttribute("viewBox", "0 0 100 100");
   svg.setAttribute("preserveAspectRatio", "none");
-  const crackCount = 4 + Math.floor(Math.random() * 3); // 4–6 cracks
+  // A few clean cracks, each traveling straight from one edge of the screen to
+  // another (e.g. left -> right, or top -> right) with only a subtle jag, so they
+  // read as lines shooting across the page rather than squiggles.
+  const edges = ["top", "right", "bottom", "left"];
+  const pointOn = (edge) => {
+    const t = 10 + Math.random() * 80; // 10–90% along the edge
+    if (edge === "top") return [t, 0];
+    if (edge === "bottom") return [t, 100];
+    if (edge === "left") return [0, t];
+    return [100, t]; // right
+  };
+  const crackCount = 2 + Math.floor(Math.random() * 2); // 2–3 cracks
   for (let i = 0; i < crackCount; i++) {
-    // Start at a side edge and jag inward across the screen.
-    const fromLeft = Math.random() < 0.5;
-    let x = fromLeft ? -3 : 103;
-    let y = 12 + Math.random() * 76;
-    let ang = (fromLeft ? 0 : Math.PI) + (Math.random() - 0.5) * 1.1;
-    const pts = [`${x.toFixed(1)},${y.toFixed(1)}`];
-    let step = 0;
-    while (x > -6 && x < 106 && y > -6 && y < 106 && step < 11) {
-      ang += (Math.random() - 0.5) * 0.85; // jagged wobble
-      const len = 10 + Math.random() * 16;
-      x += Math.cos(ang) * len;
-      y += Math.sin(ang) * len;
+    const startEdge = edges[Math.floor(Math.random() * 4)];
+    let endEdge = startEdge;
+    while (endEdge === startEdge) endEdge = edges[Math.floor(Math.random() * 4)];
+    const [sx, sy] = pointOn(startEdge);
+    const [ex, ey] = pointOn(endEdge);
+    const dx = ex - sx;
+    const dy = ey - sy;
+    const len = Math.hypot(dx, dy) || 1;
+    const nx = -dy / len; // unit perpendicular, for a small jag
+    const ny = dx / len;
+    const segs = 5;
+    const pts = [];
+    for (let s = 0; s <= segs; s++) {
+      const f = s / segs;
+      let x = sx + dx * f;
+      let y = sy + dy * f;
+      if (s !== 0 && s !== segs) {
+        const j = (Math.random() - 0.5) * 5; // subtle perpendicular offset
+        x += nx * j;
+        y += ny * j;
+      }
       pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
-      step++;
     }
     const pl = document.createElementNS(NS, "polyline");
     pl.setAttribute("points", pts.join(" "));
