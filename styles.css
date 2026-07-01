@@ -32,7 +32,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #2a201a 0%, #6b4a32 55%, #9a3b27 100%);
-  animation: disintegrate 1s ease-in both;
+  animation: disintegrate 1.3s cubic-bezier(0.35, 0, 0.2, 1) both;
   will-change: transform, opacity, filter;
   backface-visibility: hidden;
 }
@@ -45,7 +45,7 @@
   letter-spacing: -0.02em;
   white-space: nowrap;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
-  animation: introName 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: introName 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 .cracks {
@@ -66,7 +66,7 @@
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: crackDraw 0.55s ease-out 0.95s both, crackFade 0.9s ease 1.8s forwards;
+  animation: crackDraw 0.55s ease-out 1.05s both, crackFade 0.9s ease 1.75s forwards;
 }
 
 @keyframes introName {

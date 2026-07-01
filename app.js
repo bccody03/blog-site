@@ -90,14 +90,26 @@ function buildIntro(intro) {
       const bottom = ((rows - r - 1) / rows) * 100;
       // tiny negative inset to avoid hairline gaps between tiles
       tile.style.clipPath = `inset(${top}% ${right}% ${bottom}% ${left}% )`;
-      tile.style.setProperty("--dx", (10 + Math.random() * 80).toFixed(0) + "px");
-      tile.style.setProperty("--dy", (-(25 + Math.random() * 150)).toFixed(0) + "px");
-      tile.style.setProperty("--dr", (Math.random() * 50 - 25).toFixed(0) + "deg");
-      // Disintegration starts once the cracks are in (~1.65s), then sweeps
-      // left-to-right; each tile animates over 1s (see .tile in styles.css).
-      const delay = 1.65 + (c / cols) * 0.5 + Math.random() * 0.18;
+      // Fly each piece outward from the center (impact point) — a glass shatter.
+      const px = ((c + 0.5) / cols) * 100;
+      const py = ((r + 0.5) / rows) * 100;
+      let dirx = px - 50;
+      let diry = py - 50;
+      let dist = Math.hypot(dirx, diry);
+      if (dist < 1) {
+        const a = Math.random() * Math.PI * 2;
+        dirx = Math.cos(a);
+        diry = Math.sin(a);
+        dist = 1;
+      }
+      const fly = 45 + Math.random() * 40;
+      tile.style.setProperty("--dx", ((dirx / dist) * fly).toFixed(1) + "vw");
+      tile.style.setProperty("--dy", ((diry / dist) * fly).toFixed(1) + "vh");
+      tile.style.setProperty("--dr", (Math.random() * 90 - 45).toFixed(0) + "deg");
+      // The break happens ~1.6s in (after the name + cracks), pieces near-together.
+      const delay = 1.6 + Math.random() * 0.22;
       tile.style.animationDelay = delay.toFixed(2) + "s";
-      maxEnd = Math.max(maxEnd, delay + 1.0);
+      maxEnd = Math.max(maxEnd, delay + 1.3);
       const name = document.createElement("span");
       name.className = "intro-name";
       name.textContent = "Blake Cody";
@@ -112,16 +124,18 @@ function buildIntro(intro) {
   svg.setAttribute("class", "cracks");
   svg.setAttribute("viewBox", "0 0 100 100");
   svg.setAttribute("preserveAspectRatio", "none");
-  const crackCount = 5 + Math.floor(Math.random() * 3);
+  const crackCount = 4 + Math.floor(Math.random() * 3); // 4–6 cracks
   for (let i = 0; i < crackCount; i++) {
-    let x = 45 + Math.random() * 10;
-    let y = 45 + Math.random() * 10;
-    let ang = Math.random() * Math.PI * 2;
+    // Start at a side edge and jag inward across the screen.
+    const fromLeft = Math.random() < 0.5;
+    let x = fromLeft ? -3 : 103;
+    let y = 12 + Math.random() * 76;
+    let ang = (fromLeft ? 0 : Math.PI) + (Math.random() - 0.5) * 1.1;
     const pts = [`${x.toFixed(1)},${y.toFixed(1)}`];
     let step = 0;
-    while (x > -6 && x < 106 && y > -6 && y < 106 && step < 9) {
-      ang += (Math.random() - 0.5) * 1.0; // wobble for a jagged look
-      const len = 9 + Math.random() * 15;
+    while (x > -6 && x < 106 && y > -6 && y < 106 && step < 11) {
+      ang += (Math.random() - 0.5) * 0.85; // jagged wobble
+      const len = 10 + Math.random() * 16;
       x += Math.cos(ang) * len;
       y += Math.sin(ang) * len;
       pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
