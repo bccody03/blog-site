@@ -72,114 +72,120 @@ if (intro) {
 }
 
 function buildIntro(intro) {
-  const cols = 7;
-  const rows = 5;
-  const frag = document.createDocumentFragment();
-  let maxEnd = 0;
-
-  // Disintegration pieces: each tile shows a slice of the name, then drifts off
-  // up-and-right with a randomized direction and a left-to-right stagger.
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      const top = (r / rows) * 100;
-      const left = (c / cols) * 100;
-      const right = ((cols - c - 1) / cols) * 100;
-      const bottom = ((rows - r - 1) / rows) * 100;
-      // tiny negative inset to avoid hairline gaps between tiles
-      tile.style.clipPath = `inset(${top}% ${right}% ${bottom}% ${left}% )`;
-      // Fly each piece outward from the center (impact point) — a glass shatter.
-      const px = ((c + 0.5) / cols) * 100;
-      const py = ((r + 0.5) / rows) * 100;
-      let dirx = px - 50;
-      let diry = py - 50;
-      let dist = Math.hypot(dirx, diry);
-      if (dist < 1) {
-        const a = Math.random() * Math.PI * 2;
-        dirx = Math.cos(a);
-        diry = Math.sin(a);
-        dist = 1;
-      }
-      const fly = 45 + Math.random() * 40;
-      tile.style.setProperty("--dx", ((dirx / dist) * fly).toFixed(1) + "vw");
-      tile.style.setProperty("--dy", ((diry / dist) * fly).toFixed(1) + "vh");
-      tile.style.setProperty("--dr", (Math.random() * 90 - 45).toFixed(0) + "deg");
-      // The break happens ~1.6s in (after the name + cracks), pieces near-together.
-      const delay = 1.6 + Math.random() * 0.22;
-      tile.style.animationDelay = delay.toFixed(2) + "s";
-      maxEnd = Math.max(maxEnd, delay + 1.3);
-      const name = document.createElement("span");
-      name.className = "intro-name";
-      name.textContent = "Blake Cody";
-      tile.appendChild(name);
-      frag.appendChild(tile);
-    }
-  }
-
-  // Random jagged cracks radiating from near the center.
   const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("class", "cracks");
-  svg.setAttribute("viewBox", "0 0 100 100");
-  svg.setAttribute("preserveAspectRatio", "none");
-  // A few clean cracks, each traveling straight from one edge of the screen to
-  // another (e.g. left -> right, or top -> right) with only a subtle jag, so they
-  // read as lines shooting across the page rather than squiggles.
+  const W = window.innerWidth || 1000;
+  const H = window.innerHeight || 700;
+
+  // 1) A few straight crack lines, each spanning edge-to-edge.
   const edges = ["top", "right", "bottom", "left"];
   const pointOn = (edge) => {
-    const t = 10 + Math.random() * 80; // 10–90% along the edge
+    const t = 14 + Math.random() * 72; // 14–86% along the edge (avoids slivers)
     if (edge === "top") return [t, 0];
     if (edge === "bottom") return [t, 100];
     if (edge === "left") return [0, t];
     return [100, t]; // right
   };
-  // The SVG is stretched to the viewport (preserveAspectRatio=none), so convert
-  // the 0–100 coords to real pixels when measuring each line's length.
-  const W = window.innerWidth || 1000;
-  const H = window.innerHeight || 700;
+  const lines = [];
   const crackCount = 2 + Math.floor(Math.random() * 2); // 2–3 cracks
   for (let i = 0; i < crackCount; i++) {
     const startEdge = edges[Math.floor(Math.random() * 4)];
     let endEdge = startEdge;
     while (endEdge === startEdge) endEdge = edges[Math.floor(Math.random() * 4)];
-    const [sx, sy] = pointOn(startEdge);
-    const [ex, ey] = pointOn(endEdge);
-    const dx = ex - sx;
-    const dy = ey - sy;
-    const len = Math.hypot(dx, dy) || 1;
-    const nx = -dy / len; // unit perpendicular, for a small jag
-    const ny = dx / len;
-    const segs = 5;
-    const poly = [];
-    for (let s = 0; s <= segs; s++) {
-      const f = s / segs;
-      let x = sx + dx * f;
-      let y = sy + dy * f;
-      if (s !== 0 && s !== segs) {
-        const j = (Math.random() - 0.5) * 5; // subtle perpendicular offset
-        x += nx * j;
-        y += ny * j;
+    lines.push([pointOn(startEdge), pointOn(endEdge)]);
+  }
+
+  // 2) Carve the full-screen rectangle into the regions those lines create, by
+  //    splitting every polygon along each line (a line arrangement).
+  const splitConvex = (poly, L) => {
+    const a = L[1][1] - L[0][1];
+    const b = -(L[1][0] - L[0][0]);
+    const c = -(a * L[0][0] + b * L[0][1]);
+    const pos = [];
+    const neg = [];
+    for (let i = 0; i < poly.length; i++) {
+      const cur = poly[i];
+      const nxt = poly[(i + 1) % poly.length];
+      const dc = a * cur[0] + b * cur[1] + c;
+      const dn = a * nxt[0] + b * nxt[1] + c;
+      if (dc >= 0) pos.push(cur);
+      if (dc <= 0) neg.push(cur);
+      if ((dc > 0 && dn < 0) || (dc < 0 && dn > 0)) {
+        const t = dc / (dc - dn);
+        const ip = [cur[0] + t * (nxt[0] - cur[0]), cur[1] + t * (nxt[1] - cur[1])];
+        pos.push(ip);
+        neg.push(ip);
       }
-      poly.push([x, y]);
     }
-    // On-screen length of the whole line, so the dash is a single solid stroke.
-    let sl = 0;
-    for (let s = 1; s < poly.length; s++) {
-      sl += Math.hypot((poly[s][0] - poly[s - 1][0]) * (W / 100), (poly[s][1] - poly[s - 1][1]) * (H / 100));
+    return [pos.length >= 3 ? pos : null, neg.length >= 3 ? neg : null];
+  };
+  let regions = [[[0, 0], [100, 0], [100, 100], [0, 100]]];
+  for (const L of lines) {
+    const next = [];
+    for (const poly of regions) {
+      const [p, n] = splitConvex(poly, L);
+      if (p) next.push(p);
+      if (n) next.push(n);
     }
+    regions = next;
+  }
+
+  // 3) One shard per region — together they form the whole screen; each flies
+  //    outward from the center so it splits apart exactly along the cracks.
+  const frag = document.createDocumentFragment();
+  let maxEnd = 0;
+  for (const region of regions) {
+    const shard = document.createElement("div");
+    shard.className = "tile";
+    shard.style.clipPath =
+      "polygon(" + region.map((p) => p[0].toFixed(2) + "% " + p[1].toFixed(2) + "%").join(", ") + ")";
+    let cx = 0;
+    let cy = 0;
+    for (const p of region) {
+      cx += p[0];
+      cy += p[1];
+    }
+    cx /= region.length;
+    cy /= region.length;
+    let dirx = cx - 50;
+    let diry = cy - 50;
+    let dist = Math.hypot(dirx, diry);
+    if (dist < 1) {
+      const ang = Math.random() * Math.PI * 2;
+      dirx = Math.cos(ang);
+      diry = Math.sin(ang);
+      dist = 1;
+    }
+    const fly = 42 + Math.random() * 38;
+    shard.style.setProperty("--dx", ((dirx / dist) * fly).toFixed(1) + "vw");
+    shard.style.setProperty("--dy", ((diry / dist) * fly).toFixed(1) + "vh");
+    shard.style.setProperty("--dr", (Math.random() * 70 - 35).toFixed(0) + "deg");
+    const delay = 1.6 + Math.random() * 0.16;
+    shard.style.animationDelay = delay.toFixed(2) + "s";
+    maxEnd = Math.max(maxEnd, delay + 1.3);
+    const name = document.createElement("span");
+    name.className = "intro-name";
+    name.textContent = "Blake Cody";
+    shard.appendChild(name);
+    frag.appendChild(shard);
+  }
+  intro.appendChild(frag);
+
+  // 4) Draw the solid crack lines along those same boundaries. Added ~1s in so
+  //    the name is clean at first; each line is a single solid stroke.
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "cracks");
+  svg.setAttribute("viewBox", "0 0 100 100");
+  svg.setAttribute("preserveAspectRatio", "none");
+  for (const [p, q] of lines) {
     const pl = document.createElementNS(NS, "polyline");
-    pl.setAttribute("points", poly.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
+    pl.setAttribute("points", p[0].toFixed(1) + "," + p[1].toFixed(1) + " " + q[0].toFixed(1) + "," + q[1].toFixed(1));
+    const sl = Math.hypot((q[0] - p[0]) * (W / 100), (q[1] - p[1]) * (H / 100));
     pl.style.strokeDasharray = sl.toFixed(1);
     pl.style.strokeDashoffset = sl.toFixed(1);
     svg.appendChild(pl);
   }
-  intro.appendChild(frag);
-  // Keep the name completely clean at first: the cracks don't exist in the page
-  // until ~1s in, at which point they draw themselves from scratch.
   setTimeout(() => intro.appendChild(svg), 1000);
-  // Clear the container's backdrop just before the break so the pieces reveal
-  // the real site behind them (not an identical-coloured background).
+  // Clear the container's backdrop just before the break so the pieces reveal the site.
   setTimeout(() => { intro.style.background = "transparent"; }, 1550);
   setTimeout(() => intro.remove(), (maxEnd + 0.25) * 1000);
 }
