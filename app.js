@@ -52,16 +52,15 @@ const els = {
 
 els.year.textContent = new Date().getFullYear();
 
-/* Intro splash: play once per browsing session; skip if already seen or if the
-   visitor prefers reduced motion. The name pops in, random cracks race across,
-   then the whole thing disintegrates into many little pieces and clears. */
+/* Intro splash: the name pops in, cracks draw in from the sides after ~1s, then
+   it shatters like glass to reveal the site. Plays on every load (skipped only
+   for visitors who prefer reduced motion). */
 const intro = document.getElementById("intro");
 if (intro) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || sessionStorage.getItem("intro-seen")) {
-    intro.remove(); // already seen this session (or reduced motion): don't show it
+  if (reduce) {
+    intro.remove();
   } else {
-    sessionStorage.setItem("intro-seen", "1");
     intro.classList.add("play");
     try {
       buildIntro(intro);
