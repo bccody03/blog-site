@@ -76,23 +76,16 @@ function buildIntro(intro) {
   const W = window.innerWidth || 1000;
   const H = window.innerHeight || 700;
 
-  // 1) A few straight crack lines, each spanning edge-to-edge.
-  const edges = ["top", "right", "bottom", "left"];
-  const pointOn = (edge) => {
-    const t = 14 + Math.random() * 72; // 14–86% along the edge (avoids slivers)
-    if (edge === "top") return [t, 0];
-    if (edge === "bottom") return [t, 100];
-    if (edge === "left") return [0, t];
-    return [100, t]; // right
-  };
-  const lines = [];
-  const crackCount = 2 + Math.floor(Math.random() * 2); // 2–3 cracks
-  for (let i = 0; i < crackCount; i++) {
-    const startEdge = edges[Math.floor(Math.random() * 4)];
-    let endEdge = startEdge;
-    while (endEdge === startEdge) endEdge = edges[Math.floor(Math.random() * 4)];
-    lines.push([pointOn(startEdge), pointOn(endEdge)]);
-  }
+  // 1) Two clean cracks: one roughly horizontal (side to side) and one roughly
+  //    vertical (top to bottom), crossing near the middle so the screen breaks
+  //    into four pieces. A little jitter keeps them from being perfectly rigid.
+  const jitter = () => (Math.random() - 0.5) * 10;
+  const hy = 40 + Math.random() * 20; // horizontal crack's height band (40–60%)
+  const vx = 40 + Math.random() * 20; // vertical crack's x band
+  const lines = [
+    [[0, hy + jitter()], [100, hy + jitter()]], // left edge -> right edge
+    [[vx + jitter(), 0], [vx + jitter(), 100]], // top edge -> bottom edge
+  ];
 
   // 2) Carve the full-screen rectangle into the regions those lines create, by
   //    splitting every polygon along each line (a line arrangement).
