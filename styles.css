@@ -66,7 +66,9 @@
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: crackDraw 0.55s ease-out 1.05s both, crackFade 0.9s ease 1.75s forwards;
+  /* No delay — the SVG is added to the page ~1s in (see app.js), so the draw
+     starts the moment the cracks appear and they're invisible before that. */
+  animation: crackDraw 0.55s ease-out both, crackFade 0.9s ease 0.8s forwards;
 }
 
 @keyframes introName {

@@ -146,12 +146,13 @@ function buildIntro(intro) {
     pl.setAttribute("pathLength", "1");
     svg.appendChild(pl);
   }
-  frag.appendChild(svg);
-
   intro.appendChild(frag);
+  // Keep the name completely clean at first: the cracks don't exist in the page
+  // until ~1s in, at which point they draw themselves from scratch.
+  setTimeout(() => intro.appendChild(svg), 1000);
   // Clear the container's backdrop just before the break so the pieces reveal
   // the real site behind them (not an identical-coloured background).
-  setTimeout(() => { intro.style.background = "transparent"; }, 1500);
+  setTimeout(() => { intro.style.background = "transparent"; }, 1550);
   setTimeout(() => intro.remove(), (maxEnd + 0.25) * 1000);
 }
 
