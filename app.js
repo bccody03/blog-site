@@ -53,7 +53,8 @@ const els = {
 els.year.textContent = new Date().getFullYear();
 
 /* Intro splash: play once per browsing session; skip if already seen or if the
-   visitor prefers reduced motion. Remove it after it lifts so it never blocks. */
+   visitor prefers reduced motion. The name pops in, random cracks race across,
+   then the whole thing disintegrates into many little pieces and clears. */
 const intro = document.getElementById("intro");
 if (intro) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -61,11 +62,72 @@ if (intro) {
     intro.classList.add("done");
   } else {
     sessionStorage.setItem("intro-seen", "1");
-    intro.addEventListener("animationend", (e) => {
-      if (e.animationName === "shatter") intro.classList.add("done");
-    });
-    setTimeout(() => intro.classList.add("done"), 2600); // safety net
+    buildIntro(intro);
   }
+}
+
+function buildIntro(intro) {
+  const cols = 7;
+  const rows = 5;
+  const frag = document.createDocumentFragment();
+  let maxEnd = 0;
+
+  // Disintegration pieces: each tile shows a slice of the name, then drifts off
+  // up-and-right with a randomized direction and a left-to-right stagger.
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      const top = (r / rows) * 100;
+      const left = (c / cols) * 100;
+      const right = ((cols - c - 1) / cols) * 100;
+      const bottom = ((rows - r - 1) / rows) * 100;
+      // tiny negative inset to avoid hairline gaps between tiles
+      tile.style.clipPath = `inset(${top}% ${right}% ${bottom}% ${left}% )`;
+      tile.style.setProperty("--dx", (10 + Math.random() * 80).toFixed(0) + "px");
+      tile.style.setProperty("--dy", (-(25 + Math.random() * 150)).toFixed(0) + "px");
+      tile.style.setProperty("--dr", (Math.random() * 50 - 25).toFixed(0) + "deg");
+      const delay = 1.1 + (c / cols) * 0.5 + Math.random() * 0.18;
+      tile.style.animationDelay = delay.toFixed(2) + "s";
+      maxEnd = Math.max(maxEnd, delay + 0.9);
+      const name = document.createElement("span");
+      name.className = "intro-name";
+      name.textContent = "Blake Cody";
+      tile.appendChild(name);
+      frag.appendChild(tile);
+    }
+  }
+
+  // Random jagged cracks radiating from near the center.
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "cracks");
+  svg.setAttribute("viewBox", "0 0 100 100");
+  svg.setAttribute("preserveAspectRatio", "none");
+  const crackCount = 5 + Math.floor(Math.random() * 3);
+  for (let i = 0; i < crackCount; i++) {
+    let x = 45 + Math.random() * 10;
+    let y = 45 + Math.random() * 10;
+    let ang = Math.random() * Math.PI * 2;
+    const pts = [`${x.toFixed(1)},${y.toFixed(1)}`];
+    let step = 0;
+    while (x > -6 && x < 106 && y > -6 && y < 106 && step < 9) {
+      ang += (Math.random() - 0.5) * 1.0; // wobble for a jagged look
+      const len = 9 + Math.random() * 15;
+      x += Math.cos(ang) * len;
+      y += Math.sin(ang) * len;
+      pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+      step++;
+    }
+    const pl = document.createElementNS(NS, "polyline");
+    pl.setAttribute("points", pts.join(" "));
+    pl.setAttribute("pathLength", "1");
+    svg.appendChild(pl);
+  }
+  frag.appendChild(svg);
+
+  intro.appendChild(frag);
+  setTimeout(() => intro.classList.add("done"), (maxEnd + 0.25) * 1000);
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.

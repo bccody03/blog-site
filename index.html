@@ -28,27 +28,9 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Intro splash: name pops in, cracks race across, then it shatters away -->
-  <div class="intro" id="intro" aria-hidden="true">
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <div class="shard"><span class="intro-name">Blake Cody</span></div>
-    <svg class="cracks" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <polyline pathLength="1" points="50,50 40,36 26,24 0,0" />
-      <polyline pathLength="1" points="50,50 52,32 49,16 50,0" />
-      <polyline pathLength="1" points="50,50 62,38 78,26 100,0" />
-      <polyline pathLength="1" points="50,50 68,48 84,51 100,50" />
-      <polyline pathLength="1" points="50,50 63,64 77,78 100,100" />
-      <polyline pathLength="1" points="50,50 50,68 51,84 50,100" />
-      <polyline pathLength="1" points="50,50 36,63 22,76 0,100" />
-      <polyline pathLength="1" points="50,50 32,49 16,52 0,50" />
-    </svg>
-  </div>
+  <!-- Intro splash: name pops in, random cracks race across, then it disintegrates.
+       The shards + crack lines are generated in app.js. -->
+  <div class="intro" id="intro" aria-hidden="true"></div>
 
   <!-- Fixed cover image that sits behind everything and shows through on scroll -->
   <div class="cover-img" id="cover-img"></div>
