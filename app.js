@@ -62,7 +62,7 @@ if (intro) {
   } else {
     sessionStorage.setItem("intro-seen", "1");
     intro.addEventListener("animationend", (e) => {
-      if (e.animationName === "introExit") intro.classList.add("done");
+      if (e.animationName === "shatter") intro.classList.add("done");
     });
     setTimeout(() => intro.classList.add("done"), 2600); // safety net
   }
