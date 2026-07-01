@@ -52,6 +52,22 @@ const els = {
 
 els.year.textContent = new Date().getFullYear();
 
+/* Intro splash: play once per browsing session; skip if already seen or if the
+   visitor prefers reduced motion. Remove it after it lifts so it never blocks. */
+const intro = document.getElementById("intro");
+if (intro) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || sessionStorage.getItem("intro-seen")) {
+    intro.classList.add("done");
+  } else {
+    sessionStorage.setItem("intro-seen", "1");
+    intro.addEventListener("animationend", (e) => {
+      if (e.animationName === "introExit") intro.classList.add("done");
+    });
+    setTimeout(() => intro.classList.add("done"), 2600); // safety net
+  }
+}
+
 // Point the Substack links (nav + book CTA) at the configured URL.
 if (CONFIG.substackUrl) {
   els.substackLinks.forEach((a) => a && (a.href = CONFIG.substackUrl));
