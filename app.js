@@ -52,15 +52,18 @@ const els = {
 
 els.year.textContent = new Date().getFullYear();
 
-/* Intro splash: the name pops in, cracks draw in from the sides after ~1s, then
-   it shatters like glass to reveal the site. Plays on every load (skipped only
-   for visitors who prefer reduced motion). */
+/* Intro splash: name pops in, a cross + box draw around it, shine, then the
+   pieces break away. Plays once per browsing session — refreshing or coming
+   back to Home in the same visit skips it. (Also skipped for reduced motion.) */
 const intro = document.getElementById("intro");
 if (intro) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) {
+  let seen = false;
+  try { seen = sessionStorage.getItem("intro-seen") === "1"; } catch (e) {}
+  if (reduce || seen) {
     intro.remove();
   } else {
+    try { sessionStorage.setItem("intro-seen", "1"); } catch (e) {}
     intro.classList.add("play");
     try {
       buildIntro(intro);
