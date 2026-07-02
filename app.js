@@ -76,7 +76,7 @@ function buildIntro(intro) {
   const W = window.innerWidth || 1000;
   const H = window.innerHeight || 700;
 
-  // 1) Four backdrop panels (quadrants). Later each fades off into its own corner.
+  // 1) Four backdrop quadrants. At the end each peels off into its own corner.
   const corners = [
     { clip: "inset(0 50% 50% 0)", dx: -45, dy: -45 }, // top-left
     { clip: "inset(0 0 50% 50%)", dx: 45, dy: -45 }, // top-right
@@ -101,44 +101,60 @@ function buildIntro(intro) {
   center.appendChild(name);
   intro.appendChild(center);
 
-  // 3) Rays that draw in from the edges/corners and come together around the
-  //    name (like spokes converging on a centre box), with a slight bend for
-  //    character. Once complete they glow, then fade (see .cracks in CSS).
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("class", "cracks");
-  svg.setAttribute("viewBox", "0 0 100 100");
-  svg.setAttribute("preserveAspectRatio", "none");
-  const targets = [
-    [0, 0], [100, 0], [100, 100], [0, 100], // corners
-    [0, 50], [100, 50], [50, 0], [50, 100], // edge midpoints
-  ];
-  targets.forEach(([ex, ey], idx) => {
-    const ang = Math.atan2(ey - 50, ex - 50);
-    // Stop just outside the name's box (wider than tall).
-    const sx = 50 + Math.cos(ang) * 21;
-    const sy = 50 + Math.sin(ang) * 13;
-    const mx = (sx + ex) / 2 + (Math.random() - 0.5) * 7;
-    const my = (sy + ey) / 2 + (Math.random() - 0.5) * 7;
-    const pts = [[ex, ey], [mx, my], [sx, sy]]; // edge -> centre (draws inward)
-    const pl = document.createElementNS(NS, "polyline");
-    pl.setAttribute("points", pts.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
-    let sl = 0;
-    for (let i = 1; i < pts.length; i++) {
-      sl += Math.hypot((pts[i][0] - pts[i - 1][0]) * (W / 100), (pts[i][1] - pts[i - 1][1]) * (H / 100));
-    }
-    pl.style.strokeDasharray = sl.toFixed(1);
-    pl.style.strokeDashoffset = sl.toFixed(1);
-    // Stagger the draw per ray, but glow + fade hit all rays at once so the
-    // completed web "lights up" in a single pulse.
-    const d = idx * 0.045;
-    pl.style.animationDelay = d.toFixed(2) + "s, 0.68s, 1.1s";
-    svg.appendChild(pl);
-  });
-  setTimeout(() => intro.appendChild(svg), 850);
+  // 3) A perfect cross that splits the page into four boxes — except its four
+  //    arms stop at a box traced around the name. The box is measured from the
+  //    name's real on-screen size so it always hugs it. Timeline (seconds):
+  //    0–0.6 name pops · 0.6–2.6 lines draw (arms, then the box) ·
+  //    2.6–4.6 everything shines · 4.6 corners peel + name jumps out.
+  const start = () => {
+    const rect = name.getBoundingClientRect();
+    const padX = 32;
+    const padY = 24;
+    const l = Math.max(5, ((rect.left - padX) / W) * 100);
+    const r = Math.min(95, ((rect.right + padX) / W) * 100);
+    const t = Math.max(8, ((rect.top - padY) / H) * 100);
+    const b = Math.min(92, ((rect.bottom + padY) / H) * 100);
 
-  // Timeline: name pop 0–0.7s · rays draw ~0.85–1.5s · glow ~1.5–1.9s ·
-  // corners peel + name jumps out from 1.95s · everything gone by ~3s.
-  setTimeout(() => intro.remove(), 3100);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "cracks");
+    svg.setAttribute("viewBox", "0 0 100 100");
+    svg.setAttribute("preserveAspectRatio", "none");
+
+    const pxLen = (pts) => {
+      let sl = 0;
+      for (let i = 1; i < pts.length; i++) {
+        sl += Math.hypot((pts[i][0] - pts[i - 1][0]) * (W / 100), (pts[i][1] - pts[i - 1][1]) * (H / 100));
+      }
+      return sl;
+    };
+    const addLine = (pts, drawDur, drawDelay) => {
+      const pl = document.createElementNS(NS, "polyline");
+      pl.setAttribute("points", pts.map((p) => p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" "));
+      const sl = pxLen(pts);
+      pl.style.strokeDasharray = sl.toFixed(1);
+      pl.style.strokeDashoffset = sl.toFixed(1);
+      // The three values map to: draw / shine / fade.
+      pl.style.animationDuration = drawDur + "s, 2s, 0.5s";
+      pl.style.animationDelay = drawDelay + "s, 2s, 4s";
+      svg.appendChild(pl);
+    };
+    // Cross arms, drawing in from the edges to the box (1.1s)...
+    addLine([[50, 0], [50, t]], 1.1, 0);
+    addLine([[50, 100], [50, b]], 1.1, 0);
+    addLine([[0, 50], [l, 50]], 1.1, 0);
+    addLine([[100, 50], [r, 50]], 1.1, 0);
+    // ...then the box traces around the name (0.9s), starting where the left
+    // arm lands and looping the whole way round.
+    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.9, 1.1);
+    intro.appendChild(svg);
+  };
+  // Wait for the name to pop in (and the webfont to settle) before measuring.
+  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  const minDelay = new Promise((res) => setTimeout(res, 600));
+  const fontCap = new Promise((res) => setTimeout(res, 1200)); // don't stall if fonts hang
+  Promise.all([minDelay, Promise.race([fontsReady, fontCap])]).then(start);
+
+  setTimeout(() => intro.remove(), 6000);
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.
