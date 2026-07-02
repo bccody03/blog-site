@@ -76,13 +76,18 @@ function buildIntro(intro) {
   const W = window.innerWidth || 1000;
   const H = window.innerHeight || 700;
 
-  // 1) Four backdrop quadrants. At the end each peels off into its own corner.
+  const t0 = Date.now();
+
+  // 1) Four backdrop quadrants. At the end each peels off into its OWN corner
+  //    (top-left piece to the top-left of the screen, and so on). Once the name
+  //    box is measured they get re-cut so the middle box is its own piece.
   const corners = [
     { clip: "inset(0 50% 50% 0)", dx: -45, dy: -45 }, // top-left
     { clip: "inset(0 0 50% 50%)", dx: 45, dy: -45 }, // top-right
     { clip: "inset(50% 50% 0 0)", dx: -45, dy: 45 }, // bottom-left
     { clip: "inset(50% 0 0 50%)", dx: 45, dy: 45 }, // bottom-right
   ];
+  const cornerEls = [];
   for (const cfg of corners) {
     const el = document.createElement("div");
     el.className = "corner";
@@ -90,6 +95,7 @@ function buildIntro(intro) {
     el.style.setProperty("--dx", cfg.dx + "vw");
     el.style.setProperty("--dy", cfg.dy + "vh");
     intro.appendChild(el);
+    cornerEls.push(el);
   }
 
   // 2) The name, centered on top. Pops in, then jumps out at the viewer.
@@ -114,6 +120,27 @@ function buildIntro(intro) {
     const r = Math.min(95, ((rect.right + padX) / W) * 100);
     const t = Math.max(8, ((rect.top - padY) / H) * 100);
     const b = Math.min(92, ((rect.bottom + padY) / H) * 100);
+
+    // Re-cut the backdrop so the pieces match the drawing: each corner piece is
+    // its quadrant MINUS the name box, and the box becomes its own piece that
+    // flies straight at the viewer. (Same gradient everywhere, so the re-cut is
+    // invisible until the break.)
+    const poly = (pts) => "polygon(" + pts.map((p) => p[0] + "% " + p[1] + "%").join(", ") + ")";
+    const notched = [
+      [[0, 0], [50, 0], [50, t], [l, t], [l, 50], [0, 50]], // top-left
+      [[50, 0], [100, 0], [100, 50], [r, 50], [r, t], [50, t]], // top-right
+      [[0, 50], [l, 50], [l, b], [50, b], [50, 100], [0, 100]], // bottom-left
+      [[100, 50], [100, 100], [50, 100], [50, b], [r, b], [r, 50]], // bottom-right
+    ];
+    notched.forEach((pts, i) => { cornerEls[i].style.clipPath = poly(pts); });
+    const boxEl = document.createElement("div");
+    boxEl.className = "boxpiece";
+    boxEl.style.clipPath = poly([[l, t], [r, t], [r, b], [l, b]]);
+    // Its exit is timed in CSS from element creation, so compensate for the
+    // measuring delay to fire at the same absolute moment as the corners (4.6s).
+    const elapsed = (Date.now() - t0) / 1000;
+    boxEl.style.animationDelay = Math.max(0, 4.6 - elapsed).toFixed(2) + "s";
+    intro.appendChild(boxEl);
 
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("class", "cracks");

@@ -38,6 +38,22 @@
   to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.04); filter: blur(2px); }
 }
 
+/* The middle box (the piece framed around the name): flies straight at the
+   viewer while the corner pieces head for their own corners. Its exit delay
+   is set inline in app.js (it is created later than the corners). */
+.boxpiece {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(135deg, #2a201a 0%, #6b4a32 55%, #9a3b27 100%);
+  animation: boxOut 0.6s cubic-bezier(0.55, 0, 0.85, 0.4) 4.6s forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+@keyframes boxOut {
+  to { transform: scale(2.7); opacity: 0; filter: blur(2px); }
+}
+
 .intro-center {
   position: absolute;
   inset: 0;
