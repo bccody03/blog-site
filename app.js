@@ -76,112 +76,50 @@ function buildIntro(intro) {
   const W = window.innerWidth || 1000;
   const H = window.innerHeight || 700;
 
-  // 1) Two lightning-bolt cracks: one horizontal (side to side) and one
-  //    vertical (top to bottom). Each is a sharp zigzag with varied jag sizes,
-  //    and the screen breaks into the four regions they carve.
-  const bolt = (isHorizontal) => {
-    const band = 40 + Math.random() * 20; // where the bolt lives (40–60%)
-    const steps = 8 + Math.floor(Math.random() * 3);
-    const pts = [];
-    let sign = Math.random() < 0.5 ? 1 : -1;
-    for (let i = 0; i <= steps; i++) {
-      const t = (i / steps) * 100;
-      let off = 0;
-      if (i !== 0 && i !== steps) {
-        off = sign * (2 + Math.random() * 6);
-        if (Math.random() < 0.8) sign = -sign; // mostly alternate -> zigzag
-      }
-      pts.push(isHorizontal ? [t, band + off] : [band + off, t]);
-    }
-    return pts;
-  };
-  const hLine = bolt(true); // left edge -> right edge
-  const vLine = bolt(false); // top edge -> bottom edge
-
-  // Where the two bolts cross (they always meet near the middle).
-  const segInt = (a, b, c, d) => {
-    const rx = b[0] - a[0];
-    const ry = b[1] - a[1];
-    const sx = d[0] - c[0];
-    const sy = d[1] - c[1];
-    const den = rx * sy - ry * sx;
-    if (!den) return null;
-    const t = ((c[0] - a[0]) * sy - (c[1] - a[1]) * sx) / den;
-    const u = ((c[0] - a[0]) * ry - (c[1] - a[1]) * rx) / den;
-    if (t < 0 || t > 1 || u < 0 || u > 1) return null;
-    return [a[0] + t * rx, a[1] + t * ry];
-  };
-  let hit = null;
-  for (let i = 0; i < hLine.length - 1 && !hit; i++) {
-    for (let j = 0; j < vLine.length - 1 && !hit; j++) {
-      const p = segInt(hLine[i], hLine[i + 1], vLine[j], vLine[j + 1]);
-      if (p) hit = { p, hi: i, vi: j };
-    }
-  }
-  if (!hit) hit = { p: [50, 50], hi: Math.floor(hLine.length / 2) - 1, vi: Math.floor(vLine.length / 2) - 1 };
-  const I = hit.p;
-  const hLeft = hLine.slice(0, hit.hi + 1).concat([I]); // left edge -> I
-  const hRight = [I].concat(hLine.slice(hit.hi + 1)); // I -> right edge
-  const vTop = vLine.slice(0, hit.vi + 1).concat([I]); // top edge -> I
-  const vBottom = [I].concat(vLine.slice(hit.vi + 1)); // I -> bottom edge
-  const rev = (arr) => arr.slice().reverse();
-
-  // 2) The four regions bounded by the bolts — the break follows them exactly.
-  const regions = [
-    [[0, 0]].concat(vTop, rev(hLeft)), // top-left
-    [vTop[0], [100, 0]].concat(rev(hRight), rev(vTop)), // top-right
-    hLeft.concat(vBottom, [[0, 100]]), // bottom-left
-    hRight.concat([[100, 100]], rev(vBottom)), // bottom-right
+  // 1) Four backdrop panels (quadrants). Later each fades off into its own corner.
+  const corners = [
+    { clip: "inset(0 50% 50% 0)", dx: -45, dy: -45 }, // top-left
+    { clip: "inset(0 0 50% 50%)", dx: 45, dy: -45 }, // top-right
+    { clip: "inset(50% 50% 0 0)", dx: -45, dy: 45 }, // bottom-left
+    { clip: "inset(50% 0 0 50%)", dx: 45, dy: 45 }, // bottom-right
   ];
-
-  // 3) One shard per region — together they form the whole screen; each flies
-  //    outward from the center so it splits apart exactly along the cracks.
-  const frag = document.createDocumentFragment();
-  let maxEnd = 0;
-  for (const region of regions) {
-    const shard = document.createElement("div");
-    shard.className = "tile";
-    shard.style.clipPath =
-      "polygon(" + region.map((p) => p[0].toFixed(2) + "% " + p[1].toFixed(2) + "%").join(", ") + ")";
-    let cx = 0;
-    let cy = 0;
-    for (const p of region) {
-      cx += p[0];
-      cy += p[1];
-    }
-    cx /= region.length;
-    cy /= region.length;
-    let dirx = cx - 50;
-    let diry = cy - 50;
-    let dist = Math.hypot(dirx, diry);
-    if (dist < 1) {
-      const ang = Math.random() * Math.PI * 2;
-      dirx = Math.cos(ang);
-      diry = Math.sin(ang);
-      dist = 1;
-    }
-    const fly = 42 + Math.random() * 38;
-    shard.style.setProperty("--dx", ((dirx / dist) * fly).toFixed(1) + "vw");
-    shard.style.setProperty("--dy", ((diry / dist) * fly).toFixed(1) + "vh");
-    shard.style.setProperty("--dr", (Math.random() * 70 - 35).toFixed(0) + "deg");
-    const delay = 1.6 + Math.random() * 0.16;
-    shard.style.animationDelay = delay.toFixed(2) + "s";
-    maxEnd = Math.max(maxEnd, delay + 1.3);
-    const name = document.createElement("span");
-    name.className = "intro-name";
-    name.textContent = "Blake Cody";
-    shard.appendChild(name);
-    frag.appendChild(shard);
+  for (const cfg of corners) {
+    const el = document.createElement("div");
+    el.className = "corner";
+    el.style.clipPath = cfg.clip;
+    el.style.setProperty("--dx", cfg.dx + "vw");
+    el.style.setProperty("--dy", cfg.dy + "vh");
+    intro.appendChild(el);
   }
-  intro.appendChild(frag);
 
-  // 4) Draw the solid crack lines along those same boundaries. Added ~1s in so
-  //    the name is clean at first; each line is a single solid stroke.
+  // 2) The name, centered on top. Pops in, then jumps out at the viewer.
+  const center = document.createElement("div");
+  center.className = "intro-center";
+  const name = document.createElement("span");
+  name.className = "intro-name";
+  name.textContent = "Blake Cody";
+  center.appendChild(name);
+  intro.appendChild(center);
+
+  // 3) Rays that draw in from the edges/corners and come together around the
+  //    name (like spokes converging on a centre box), with a slight bend for
+  //    character. Once complete they glow, then fade (see .cracks in CSS).
   const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("class", "cracks");
   svg.setAttribute("viewBox", "0 0 100 100");
   svg.setAttribute("preserveAspectRatio", "none");
-  for (const pts of [hLine, vLine]) {
+  const targets = [
+    [0, 0], [100, 0], [100, 100], [0, 100], // corners
+    [0, 50], [100, 50], [50, 0], [50, 100], // edge midpoints
+  ];
+  targets.forEach(([ex, ey], idx) => {
+    const ang = Math.atan2(ey - 50, ex - 50);
+    // Stop just outside the name's box (wider than tall).
+    const sx = 50 + Math.cos(ang) * 21;
+    const sy = 50 + Math.sin(ang) * 13;
+    const mx = (sx + ex) / 2 + (Math.random() - 0.5) * 7;
+    const my = (sy + ey) / 2 + (Math.random() - 0.5) * 7;
+    const pts = [[ex, ey], [mx, my], [sx, sy]]; // edge -> centre (draws inward)
     const pl = document.createElementNS(NS, "polyline");
     pl.setAttribute("points", pts.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
     let sl = 0;
@@ -190,12 +128,17 @@ function buildIntro(intro) {
     }
     pl.style.strokeDasharray = sl.toFixed(1);
     pl.style.strokeDashoffset = sl.toFixed(1);
+    // Stagger the draw per ray, but glow + fade hit all rays at once so the
+    // completed web "lights up" in a single pulse.
+    const d = idx * 0.045;
+    pl.style.animationDelay = d.toFixed(2) + "s, 0.68s, 1.1s";
     svg.appendChild(pl);
-  }
-  setTimeout(() => intro.appendChild(svg), 1000);
-  // Clear the container's backdrop just before the break so the pieces reveal the site.
-  setTimeout(() => { intro.style.background = "transparent"; }, 1550);
-  setTimeout(() => intro.remove(), (maxEnd + 0.25) * 1000);
+  });
+  setTimeout(() => intro.appendChild(svg), 850);
+
+  // Timeline: name pop 0–0.7s · rays draw ~0.85–1.5s · glow ~1.5–1.9s ·
+  // corners peel + name jumps out from 1.95s · everything gone by ~3s.
+  setTimeout(() => intro.remove(), 3100);
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.
