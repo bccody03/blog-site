@@ -63,7 +63,7 @@
   stroke-width: 3;
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linejoin: miter; /* sharp corners — lightning, not rounded waves */
   /* dash-array / dash-offset are set per-line in app.js to each line's exact
      on-screen length, so each crack is ONE solid dash that draws in cleanly.
      The SVG is added ~1s in, so the draw starts the moment the cracks appear. */

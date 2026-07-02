@@ -76,51 +76,63 @@ function buildIntro(intro) {
   const W = window.innerWidth || 1000;
   const H = window.innerHeight || 700;
 
-  // 1) Two clean cracks: one roughly horizontal (side to side) and one roughly
-  //    vertical (top to bottom), crossing near the middle so the screen breaks
-  //    into four pieces. A little jitter keeps them from being perfectly rigid.
-  const jitter = () => (Math.random() - 0.5) * 10;
-  const hy = 40 + Math.random() * 20; // horizontal crack's height band (40–60%)
-  const vx = 40 + Math.random() * 20; // vertical crack's x band
-  const lines = [
-    [[0, hy + jitter()], [100, hy + jitter()]], // left edge -> right edge
-    [[vx + jitter(), 0], [vx + jitter(), 100]], // top edge -> bottom edge
-  ];
-
-  // 2) Carve the full-screen rectangle into the regions those lines create, by
-  //    splitting every polygon along each line (a line arrangement).
-  const splitConvex = (poly, L) => {
-    const a = L[1][1] - L[0][1];
-    const b = -(L[1][0] - L[0][0]);
-    const c = -(a * L[0][0] + b * L[0][1]);
-    const pos = [];
-    const neg = [];
-    for (let i = 0; i < poly.length; i++) {
-      const cur = poly[i];
-      const nxt = poly[(i + 1) % poly.length];
-      const dc = a * cur[0] + b * cur[1] + c;
-      const dn = a * nxt[0] + b * nxt[1] + c;
-      if (dc >= 0) pos.push(cur);
-      if (dc <= 0) neg.push(cur);
-      if ((dc > 0 && dn < 0) || (dc < 0 && dn > 0)) {
-        const t = dc / (dc - dn);
-        const ip = [cur[0] + t * (nxt[0] - cur[0]), cur[1] + t * (nxt[1] - cur[1])];
-        pos.push(ip);
-        neg.push(ip);
+  // 1) Two lightning-bolt cracks: one horizontal (side to side) and one
+  //    vertical (top to bottom). Each is a sharp zigzag with varied jag sizes,
+  //    and the screen breaks into the four regions they carve.
+  const bolt = (isHorizontal) => {
+    const band = 40 + Math.random() * 20; // where the bolt lives (40–60%)
+    const steps = 8 + Math.floor(Math.random() * 3);
+    const pts = [];
+    let sign = Math.random() < 0.5 ? 1 : -1;
+    for (let i = 0; i <= steps; i++) {
+      const t = (i / steps) * 100;
+      let off = 0;
+      if (i !== 0 && i !== steps) {
+        off = sign * (2 + Math.random() * 6);
+        if (Math.random() < 0.8) sign = -sign; // mostly alternate -> zigzag
       }
+      pts.push(isHorizontal ? [t, band + off] : [band + off, t]);
     }
-    return [pos.length >= 3 ? pos : null, neg.length >= 3 ? neg : null];
+    return pts;
   };
-  let regions = [[[0, 0], [100, 0], [100, 100], [0, 100]]];
-  for (const L of lines) {
-    const next = [];
-    for (const poly of regions) {
-      const [p, n] = splitConvex(poly, L);
-      if (p) next.push(p);
-      if (n) next.push(n);
+  const hLine = bolt(true); // left edge -> right edge
+  const vLine = bolt(false); // top edge -> bottom edge
+
+  // Where the two bolts cross (they always meet near the middle).
+  const segInt = (a, b, c, d) => {
+    const rx = b[0] - a[0];
+    const ry = b[1] - a[1];
+    const sx = d[0] - c[0];
+    const sy = d[1] - c[1];
+    const den = rx * sy - ry * sx;
+    if (!den) return null;
+    const t = ((c[0] - a[0]) * sy - (c[1] - a[1]) * sx) / den;
+    const u = ((c[0] - a[0]) * ry - (c[1] - a[1]) * rx) / den;
+    if (t < 0 || t > 1 || u < 0 || u > 1) return null;
+    return [a[0] + t * rx, a[1] + t * ry];
+  };
+  let hit = null;
+  for (let i = 0; i < hLine.length - 1 && !hit; i++) {
+    for (let j = 0; j < vLine.length - 1 && !hit; j++) {
+      const p = segInt(hLine[i], hLine[i + 1], vLine[j], vLine[j + 1]);
+      if (p) hit = { p, hi: i, vi: j };
     }
-    regions = next;
   }
+  if (!hit) hit = { p: [50, 50], hi: Math.floor(hLine.length / 2) - 1, vi: Math.floor(vLine.length / 2) - 1 };
+  const I = hit.p;
+  const hLeft = hLine.slice(0, hit.hi + 1).concat([I]); // left edge -> I
+  const hRight = [I].concat(hLine.slice(hit.hi + 1)); // I -> right edge
+  const vTop = vLine.slice(0, hit.vi + 1).concat([I]); // top edge -> I
+  const vBottom = [I].concat(vLine.slice(hit.vi + 1)); // I -> bottom edge
+  const rev = (arr) => arr.slice().reverse();
+
+  // 2) The four regions bounded by the bolts — the break follows them exactly.
+  const regions = [
+    [[0, 0]].concat(vTop, rev(hLeft)), // top-left
+    [vTop[0], [100, 0]].concat(rev(hRight), rev(vTop)), // top-right
+    hLeft.concat(vBottom, [[0, 100]]), // bottom-left
+    hRight.concat([[100, 100]], rev(vBottom)), // bottom-right
+  ];
 
   // 3) One shard per region — together they form the whole screen; each flies
   //    outward from the center so it splits apart exactly along the cracks.
@@ -169,10 +181,13 @@ function buildIntro(intro) {
   svg.setAttribute("class", "cracks");
   svg.setAttribute("viewBox", "0 0 100 100");
   svg.setAttribute("preserveAspectRatio", "none");
-  for (const [p, q] of lines) {
+  for (const pts of [hLine, vLine]) {
     const pl = document.createElementNS(NS, "polyline");
-    pl.setAttribute("points", p[0].toFixed(1) + "," + p[1].toFixed(1) + " " + q[0].toFixed(1) + "," + q[1].toFixed(1));
-    const sl = Math.hypot((q[0] - p[0]) * (W / 100), (q[1] - p[1]) * (H / 100));
+    pl.setAttribute("points", pts.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
+    let sl = 0;
+    for (let i = 1; i < pts.length; i++) {
+      sl += Math.hypot((pts[i][0] - pts[i - 1][0]) * (W / 100), (pts[i][1] - pts[i - 1][1]) * (H / 100));
+    }
     pl.style.strokeDasharray = sl.toFixed(1);
     pl.style.strokeDashoffset = sl.toFixed(1);
     svg.appendChild(pl);
