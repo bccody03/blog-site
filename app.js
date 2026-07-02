@@ -81,11 +81,15 @@ function buildIntro(intro) {
   // 1) Four backdrop quadrants. At the end each peels off into its OWN corner
   //    (top-left piece to the top-left of the screen, and so on). Once the name
   //    box is measured they get re-cut so the middle box is its own piece.
+  // All pieces share the identical full-screen gradient, so they OVERLAP by a
+  // little (eps) — otherwise anti-aliasing at the clip edges lets a hairline of
+  // the page behind peek through as a faint seam line.
+  const eps = 0.6;
   const corners = [
-    { clip: "inset(0 50% 50% 0)", dx: -45, dy: -45 }, // top-left
-    { clip: "inset(0 0 50% 50%)", dx: 45, dy: -45 }, // top-right
-    { clip: "inset(50% 50% 0 0)", dx: -45, dy: 45 }, // bottom-left
-    { clip: "inset(50% 0 0 50%)", dx: 45, dy: 45 }, // bottom-right
+    { clip: `polygon(0 0, ${50 + eps}% 0, ${50 + eps}% ${50 + eps}%, 0 ${50 + eps}%)`, dx: -45, dy: -45 }, // top-left
+    { clip: `polygon(${50 - eps}% 0, 100% 0, 100% ${50 + eps}%, ${50 - eps}% ${50 + eps}%)`, dx: 45, dy: -45 }, // top-right
+    { clip: `polygon(0 ${50 - eps}%, ${50 + eps}% ${50 - eps}%, ${50 + eps}% 100%, 0 100%)`, dx: -45, dy: 45 }, // bottom-left
+    { clip: `polygon(${50 - eps}% ${50 - eps}%, 100% ${50 - eps}%, 100% 100%, ${50 - eps}% 100%)`, dx: 45, dy: 45 }, // bottom-right
   ];
   const cornerEls = [];
   for (const cfg of corners) {
@@ -125,17 +129,19 @@ function buildIntro(intro) {
     // its quadrant MINUS the name box, and the box becomes its own piece that
     // flies straight at the viewer. (Same gradient everywhere, so the re-cut is
     // invisible until the break.)
-    const poly = (pts) => "polygon(" + pts.map((p) => p[0] + "% " + p[1] + "%").join(", ") + ")";
+    const poly = (pts) => "polygon(" + pts.map((p) => p[0].toFixed(2) + "% " + p[1].toFixed(2) + "%").join(", ") + ")";
+    // Same eps overlap as at creation, so no hairline seams show between pieces.
+    const e = eps;
     const notched = [
-      [[0, 0], [50, 0], [50, t], [l, t], [l, 50], [0, 50]], // top-left
-      [[50, 0], [100, 0], [100, 50], [r, 50], [r, t], [50, t]], // top-right
-      [[0, 50], [l, 50], [l, b], [50, b], [50, 100], [0, 100]], // bottom-left
-      [[100, 50], [100, 100], [50, 100], [50, b], [r, b], [r, 50]], // bottom-right
+      [[0, 0], [50 + e, 0], [50 + e, t + e], [l + e, t + e], [l + e, 50 + e], [0, 50 + e]], // top-left
+      [[50 - e, 0], [100, 0], [100, 50 + e], [r - e, 50 + e], [r - e, t + e], [50 - e, t + e]], // top-right
+      [[0, 50 - e], [l + e, 50 - e], [l + e, b - e], [50 + e, b - e], [50 + e, 100], [0, 100]], // bottom-left
+      [[100, 50 - e], [100, 100], [50 - e, 100], [50 - e, b - e], [r - e, b - e], [r - e, 50 - e]], // bottom-right
     ];
     notched.forEach((pts, i) => { cornerEls[i].style.clipPath = poly(pts); });
     const boxEl = document.createElement("div");
     boxEl.className = "boxpiece";
-    boxEl.style.clipPath = poly([[l, t], [r, t], [r, b], [l, b]]);
+    boxEl.style.clipPath = poly([[l - e, t - e], [r + e, t - e], [r + e, b + e], [l - e, b + e]]);
     // Its exit is timed in CSS from element creation, so compensate for the
     // measuring delay to fire at the same absolute moment as the corners (4.6s).
     const elapsed = (Date.now() - t0) / 1000;
