@@ -658,8 +658,7 @@ body {
   flex: 0 0 auto;
   width: clamp(96px, 14vw, 132px);
   height: auto;
-  border-radius: 24%;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
 }
 .app-card-body { max-width: 40em; }
 .app-card-body .section-label { color: rgba(255, 255, 255, 0.75); }
@@ -900,8 +899,7 @@ body {
 .built-card-icon {
   width: 76px;
   height: auto;
-  border-radius: 24%;
-  box-shadow: var(--shadow);
+  filter: drop-shadow(0 4px 10px rgba(60, 45, 30, 0.2));
   margin-bottom: 16px;
 }
 .built-card-title {
