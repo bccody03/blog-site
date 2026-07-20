@@ -650,6 +650,16 @@ body {
   border-radius: 20px;
   padding: 36px clamp(24px, 5vw, 44px);
   box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 40px);
+}
+.app-card-icon {
+  flex: 0 0 auto;
+  width: clamp(96px, 14vw, 132px);
+  height: auto;
+  border-radius: 24%;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 .app-card-body { max-width: 40em; }
 .app-card-body .section-label { color: rgba(255, 255, 255, 0.75); }
@@ -887,6 +897,13 @@ body {
   padding: 26px 26px 24px;
   box-shadow: var(--shadow);
 }
+.built-card-icon {
+  width: 76px;
+  height: auto;
+  border-radius: 24%;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
 .built-card-title {
   font-family: var(--serif);
   font-size: 1.3rem;
@@ -996,6 +1013,7 @@ body.plain { background: var(--bg); }
 
 @media (max-width: 560px) {
   .hero { padding: 48px 0 32px; }
+  .app-card { flex-direction: column; align-items: flex-start; }
   .site-footer .wrap { flex-direction: column; gap: 10px; }
   .post-list { gap: 24px 18px; }
   .about { flex-direction: column; align-items: center; text-align: center; }
