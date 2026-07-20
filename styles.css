@@ -668,23 +668,13 @@ body {
 }
 .app-card-sub strong { color: #fff; }
 
-/* App Store badge — reused on Home and About */
+/* App Store badge (Apple's official artwork) — reused on Home and About */
 .appstore-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 10px;
-  padding: 9px 16px;
-  text-decoration: none;
-  transition: transform 0.15s ease, background 0.15s ease;
+  display: inline-block;
+  transition: transform 0.15s ease;
 }
-.appstore-badge:hover { transform: translateY(-1px); background: #1a1a1a; }
-.appstore-badge svg { width: 22px; height: 22px; fill: #fff; flex: 0 0 auto; }
-.appstore-badge-text { display: flex; flex-direction: column; line-height: 1.15; }
-.appstore-badge-text small { font-size: 0.62rem; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.8); }
-.appstore-badge-text strong { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; color: #fff; }
+.appstore-badge:hover { transform: translateY(-1px); }
+.appstore-badge img { height: 52px; width: auto; display: block; }
 
 /* Standalone pages reuse the section styles but drop the in-page divider */
 .book-page,
