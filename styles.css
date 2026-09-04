@@ -911,6 +911,7 @@ body {
 .about-photo {
   flex: 0 0 auto;
   width: 280px;
+  height: auto;
   max-width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
