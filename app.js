@@ -52,6 +52,65 @@ const els = {
 
 els.year.textContent = new Date().getFullYear();
 
+/* ------------------------------------------------------------
+   Measurement. GoatCounter only counts pageviews out of the box; these
+   helpers turn the things that actually matter (Substack clicks, App Store
+   taps, chapter requests, reflections, feed failures) into named events.
+   ------------------------------------------------------------ */
+function track(name, title) {
+  try {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: name, title: title || name, event: true });
+    }
+  } catch (e) {}
+}
+
+// Remember how this visit started (landing page, referrer, query) so form
+// submissions can say where they came from.
+try {
+  if (!sessionStorage.getItem("entry")) {
+    sessionStorage.setItem("entry", JSON.stringify({
+      landing: location.pathname,
+      referrer: document.referrer,
+      query: location.search,
+    }));
+  }
+} catch (e) {}
+function entryContext() {
+  let entry = null;
+  try { entry = sessionStorage.getItem("entry"); } catch (e) {}
+  return { entry, page: location.pathname };
+}
+
+// Every outbound Substack / App Store click, one delegated listener.
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a");
+  if (!a || !a.href) return;
+  if (a.href.includes("substack.com")) {
+    const where = a.id ? a.id : a.closest(".post") ? "card" : "other";
+    track("click-substack-" + where, "Substack click");
+  } else if (a.href.includes("apps.apple.com")) {
+    track("click-appstore", "App Store click");
+  }
+});
+
+// Tag outbound Substack links so Substack's own stats credit this site, with
+// a distinct utm_content per placement (nav, footer, book CTA, post card).
+const UTM = "utm_source=blakecody.com&utm_medium=referral";
+function withUtm(url, campaign, content) {
+  const sep = url.includes("?") ? "&" : "?";
+  return url + sep + UTM + "&utm_campaign=" + campaign + (content ? "&utm_content=" + content : "");
+}
+
+function escapeHtml(s) {
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 /* Intro splash: name pops in, a cross + box draw around it, shine, then the
    pieces break away. Plays once per browsing session — refreshing or coming
    back to Home in the same visit skips it. (Also skipped for reduced motion.) */
@@ -195,11 +254,16 @@ function buildIntro(intro) {
 
 // Point the Substack links (nav + book CTA) at the configured URL.
 if (CONFIG.substackUrl) {
-  els.substackLinks.forEach((a) => a && (a.href = CONFIG.substackUrl));
+  els.substackLinks.forEach((a) => {
+    if (!a) return;
+    a.href = withUtm(CONFIG.substackUrl, "site", a.id || "link");
+  });
 }
 
-// If a cover image is set in CONFIG, use it right away.
-if (CONFIG.coverImage) setCover(CONFIG.coverImage);
+// The default hero (hero-bg.jpg) is declared in styles.css and preloaded from
+// index.html so it starts downloading before this script even runs. Only
+// touch it here if CONFIG points somewhere else.
+if (CONFIG.coverImage && CONFIG.coverImage !== "hero-bg.jpg") setCover(CONFIG.coverImage);
 
 /* Sneak-peek lead magnet: embed the real Substack signup, and let the
    reader unlock the rest of the chapter once they've subscribed. The
@@ -223,12 +287,13 @@ if (chapterForm) {
         const res = await fetch(CONFIG.chapterWebhook, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString() }),
+          body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString(), ...entryContext() }),
         });
         if (!res.ok) throw new Error("submit failed");
       } else {
         console.info("[demo mode] chapter request:", email);
       }
+      track("chapter-request", "Chapter 1 requested");
       const gate = document.getElementById("excerpt-gate");
       const done = document.getElementById("chapter-done");
       if (gate) gate.hidden = true;
@@ -289,6 +354,7 @@ if (reflectForm) {
       name: document.getElementById("reflect-name").value.trim(),
       email: document.getElementById("reflect-email").value.trim(),
       submittedAt: new Date().toISOString(),
+      ...entryContext(),
     };
 
     try {
@@ -302,6 +368,7 @@ if (reflectForm) {
       } else {
         console.info("[demo mode] Reflection captured (no webhook set):", payload);
       }
+      track("reflect-submit-" + (reflectCatInput && reflectCatInput.value || "none"), "Reflection sent");
       reflectForm.hidden = true;
       reflectThanks.hidden = false;
       reflectThanks.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -395,15 +462,17 @@ function postLimit() {
 // Build the HTML for a single post card.
 function postCard(p) {
   const img = p.image || firstImage(p.content);
+  const title = escapeHtml(p.title);
   const thumb = img
-    ? `<div class="post-thumb"><img src="${img}" alt="" loading="lazy" /></div>`
+    ? `<div class="post-thumb"><img src="${img}" alt="${title}" loading="lazy" width="480" height="320" /></div>`
     : "";
+  const href = withUtm(p.link, els.list && els.list.getAttribute("data-page-size") ? "articles" : "home-latest", "card");
   return `
-      <a class="post${img ? " has-thumb" : ""}" href="${p.link}" target="_blank" rel="noopener">
+      <a class="post${img ? " has-thumb" : ""}" href="${href}" target="_blank" rel="noopener">
         ${thumb}
         <div class="post-body">
           <div class="post-meta">${fmtDate(p.pubDate)}</div>
-          <h2 class="post-title">${p.title}</h2>
+          <h3 class="post-title">${title}</h3>
           <p class="post-excerpt">${excerpt(p.content || p.description, 110)}</p>
           <span class="post-more">Read on Substack →</span>
         </div>
@@ -591,6 +660,8 @@ async function loadFromSubstack(url) {
   return mapRss2json(data);
 }
 
+// Sample posts for local development only. They are never shown to real
+// visitors: add ?demo to the URL to see them.
 const SAMPLE_POSTS = [
   {
     title: "Why I Started Writing in Public",
@@ -619,8 +690,9 @@ async function init() {
   // Only the Home and Writing pages list posts; the About page wants the
   // Substack avatar. Other pages (Book, Reflect) need no feed at all.
   if (!els.list && !els.avatar) return;
-  if (!CONFIG.substackUrl) {
-    setState("Demo mode — add your Substack URL in app.js to go live.");
+  const demo = new URLSearchParams(location.search).has("demo");
+  if (!CONFIG.substackUrl || demo) {
+    setState("Demo mode — showing sample posts.");
     render(SAMPLE_POSTS);
     els.state.classList.remove("hidden"); // keep the demo note visible
     return;
@@ -641,8 +713,14 @@ async function init() {
     render(posts);
   } catch (err) {
     console.error(err);
-    setState("Couldn't reach the Substack feed right now. Showing sample posts.", true);
-    render(SAMPLE_POSTS);
+    track("feed-error", "Substack feed failed");
+    // Never render placeholder articles to real visitors — point them at
+    // Substack instead, and the feed-error event above says it happened.
+    if (els.state) {
+      els.state.innerHTML = `Latest posts are on <a href="${withUtm(CONFIG.substackUrl, "site", "feed-error")}" target="_blank" rel="noopener">Substack →</a>`;
+      els.state.classList.remove("hidden");
+      els.state.classList.remove("error");
+    }
   }
 }
 
