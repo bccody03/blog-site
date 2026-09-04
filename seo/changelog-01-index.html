@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SEO Change Log — 01 Homepage (index.html) — blakecody.com</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font: 10.5pt/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1c1a19; margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 4px; letter-spacing: -.4px; }
+  h2 { font-size: 14pt; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #9a3b27; color: #9a3b27; page-break-after: avoid; }
+  h3 { font-size: 11pt; margin: 0 0 6px; page-break-after: avoid; }
+  p { margin: 0 0 8px; }
+  .sub { color: #6b625d; font-size: 9.5pt; margin: 0 0 2px; }
+  .meta { margin: 14px 0 0; padding: 10px 12px; background: #faf7f4; border-left: 3px solid #9a3b27; font-size: 9.5pt; }
+  .meta div { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6ded8; vertical-align: top; }
+  th { background: #f5efea; font-weight: 600; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; }
+  code { font-size: 9pt; background: #f2ece8; padding: 1px 4px; border-radius: 3px; }
+  pre { font-size: 8.4pt; line-height: 1.45; background: #1f1c1a; color: #f0e9e3; padding: 9px 11px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+  pre .c { color: #9aa39a; }
+  .f { page-break-inside: avoid; margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e6ded8; border-radius: 5px; background: #fffdfc; }
+  .f.hi { border-left: 4px solid #b3261e; }
+  .f.me { border-left: 4px solid #c47f18; }
+  .f.lo { border-left: 4px solid #5c7a5c; }
+  .f.ok { border-left: 4px solid #9aa39a; background: #fafafa; }
+  .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; vertical-align: 2px; margin-left: 6px; }
+  .b-hi { background: #b3261e; color: #fff; }
+  .b-me { background: #c47f18; color: #fff; }
+  .b-lo { background: #5c7a5c; color: #fff; }
+  .b-ok { background: #9aa39a; color: #fff; }
+  .id { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt; color: #9a3b27; font-weight: 700; }
+  .lbl { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .4px; color: #6b625d; display: block; margin: 8px 0 2px; }
+  ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .pri { page-break-inside: avoid; }
+  .foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #e6ded8; font-size: 9pt; color: #6b625d; }
+  .kpi { display: flex; gap: 8px; margin: 12px 0 0; }
+  .kpi div { flex: 1; padding: 8px; background: #f5efea; border-radius: 4px; text-align: center; }
+  .kpi b { display: block; font-size: 17pt; line-height: 1.1; }
+  .kpi span { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #6b625d; }
+</style>
+</head>
+<body>
+
+<p class="sub">blakecody.com — SEO audit &amp; change log</p>
+<h1>Page 01 — Homepage <code style="font-size:12pt">/</code> (index.html)</h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 3 September 2026 · live site + repository <code>bccody03/blog-site</code> @ <code>claude/blakecody-com-access-yi26f9</code></div>
+  <div><b>Live URL:</b> https://blakecody.com/ — HTTP 200, GitHub Pages via Fastly, <code>Last-Modified: 2026-07-20</code></div>
+  <div><b>Method:</b> static HTML parse · headless Chromium render (Playwright) · live HTTP header + redirect probes · DNS · full read of <code>app.js</code></div>
+  <div><b>Status:</b> Audit only — <b>no code changes have been applied</b>. Every entry below is a proposed change with the exact edit.</div>
+</div>
+
+<div class="kpi">
+  <div><b>32</b><span>changes proposed</span></div>
+  <div><b>11</b><span>high</span></div>
+  <div><b>14</b><span>medium</span></div>
+  <div><b>7</b><span>low / info</span></div>
+</div>
+
+<h2>Scorecard</h2>
+<table>
+  <tr><th style="width:20%">Area</th><th style="width:12%">Grade</th><th>Headline</th></tr>
+  <tr><td>Technical</td><td><b>C</b></td><td>Clean, valid markup and correct canonical/robots/sitemap basics — undermined by HTTP not redirecting to HTTPS, all real content rendering client-side from a third-party API, and zero structured data.</td></tr>
+  <tr><td>Content / text</td><td><b>D</b></td><td>146 words of indexable static copy. The H1 and title spend the page's strongest signals on a brand term you already own, and 100% of article content lives on Substack, not on this domain.</td></tr>
+  <tr><td>Tracking</td><td><b>D</b></td><td>GoatCounter counts pageviews and nothing else. Not one conversion on the site — Substack clicks, App Store taps, chapter downloads, reflections — is measured.</td></tr>
+  <tr><td>Performance</td><td><b>C</b></td><td>Small HTML, gzip on, sensible asset count. But the LCP image is JS-injected, the font CSS is a render-blocking third-party dependency, and a 6-second intro animation owns the first visit.</td></tr>
+</table>
+
+<h2>Do these in this order</h2>
+<div class="pri">
+<p><b>P0 — this week (≈2 hours, biggest return)</b></p>
+<ol>
+  <li><span class="id">T1</span> Turn on Enforce HTTPS in GitHub Pages settings — <i>2 minutes</i></li>
+  <li><span class="id">T3</span> Delete the fake sample-post fallback — <i>15 minutes</i></li>
+  <li><span class="id">K1</span> Wire GoatCounter events for the five conversions — <i>30 minutes</i></li>
+  <li><span class="id">C1 C2 C6</span> Rewrite title, H1 and meta description — <i>20 minutes</i></li>
+  <li><span class="id">T5</span> Add the JSON-LD <code>@graph</code> block — <i>30 minutes</i></li>
+</ol>
+<p><b>P1 — this month</b></p>
+<ol start="6">
+  <li><span class="id">C3</span> Write 120–180 words of real body copy onto the homepage</li>
+  <li><span class="id">T4</span> Self-host the fonts (or make the font CSS non-blocking)</li>
+  <li><span class="id">T6</span> Move the hero background into CSS and preload it</li>
+  <li><span class="id">T10</span> Fix image weights and add width/height</li>
+  <li><span class="id">K3</span> UTM-tag every outbound Substack and App Store link</li>
+  <li><span class="id">T8 C5 C8</span> Internal links to <code>/</code>, post titles to <code>h3</code>, real alt text</li>
+</ol>
+<p><b>P2 — the strategic one (do it once, changes everything)</b></p>
+<ol start="12">
+  <li><span class="id">C4 + T2</span> Host the essays on blakecody.com and prerender them at build time. Until this happens the domain has no article content to rank, and every essay you publish builds Substack's authority instead of yours.</li>
+</ol>
+</div>
+
+<h2>A. Technical</h2>
+
+<div class="f hi">
+<h3><span class="id">T1</span> HTTP is served directly — no redirect to HTTPS <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>$ curl -I http://blakecody.com
+HTTP/1.1 200 OK          <span class="c">&lt;- serves the page. No 301. No Location header.</span>
+server: GitHub.com</pre>
+<p>Google treats <code>http://</code> and <code>https://</code> as two separate URL sets, so the site currently exists twice. There is no HSTS, anyone landing on an <code>http://</code> link sees Chrome's "Not secure", and the GoatCounter script (see <span class="id">K2</span>) is loaded protocol-relative, so on those loads your analytics go over plaintext too.</p>
+<span class="lbl">Change to</span>
+<p>GitHub repo → <b>Settings → Pages → Enforce HTTPS</b> (checkbox). The certificate is already provisioned, so this is a two-minute change with no code.</p>
+<span class="lbl">Verify</span>
+<pre>$ curl -I http://blakecody.com
+HTTP/1.1 301 Moved Permanently
+location: https://blakecody.com/</pre>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T2</span> The only real content on the page is rendered client-side from a third-party API <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>The served HTML contains an empty container and a loading string:</p>
+<pre>&lt;div class="state" id="state"&gt;Loading the latest…&lt;/div&gt;
+&lt;div class="post-list" id="post-list" data-limit="3"&gt;&lt;/div&gt;</pre>
+<p>Posts are injected by <code>app.js</code> → <code>init()</code> → <code>loadFromSubstack()</code>, which <code>fetch</code>es <code>api.rss2json.com</code> (a public relay, with the API key hardcoded in the client-side file) and only then builds the cards. Measured: <b>146 words</b> of static indexable text vs <b>242 words</b> after render.</p>
+<p>Googlebot does render JavaScript, but on a deferred second pass and within a budget — and a cross-origin API call inside that pass makes your freshest content non-deterministic to the crawler. Bing, and essentially every AI/LLM crawler, do not execute JS at all: they see "Loading the latest…" and nothing else.</p>
+<span class="lbl">Change to</span>
+<ol>
+  <li><b>Prerender at build time.</b> A GitHub Action on a cron (say every 6 hours) fetches the Substack RSS, writes the latest 3 cards into <code>index.html</code> and 12 into <code>articles.html</code>, and commits. The content is then in the served HTML for every crawler, on a static host, at zero runtime cost. <code>app.js</code> keeps its fetch only to refresh what is already there.</li>
+  <li><b>Interim (10 minutes):</b> add a <code>&lt;noscript&gt;</code> block with the three most recent post titles and links, plus the <code>ItemList</code> JSON-LD from <span class="id">T5</span>.</li>
+</ol>
+<p><i>Note:</i> the hardcoded rss2json key is public in <code>app.js</code> and served to every visitor. That is inherent to this pattern, but it means anyone can spend your quota — another reason to move the fetch to build time, where the key can live in GitHub Actions secrets.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T3</span> When the feed fails, the homepage publishes three articles that do not exist <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>Headless render of the live markup, feed unreachable:</p>
+<pre>state:     "Couldn't reach the Substack feed right now. Showing sample posts."
+postCards: 3
+  JUNE 10, 2026  "Why I Started Writing in Public"     -&gt; href="#"
+  MAY 22, 2026   "The Case for Doing Less, Better"     -&gt; href="#"
+  MAY 1, 2026    "Notes on Building Small Things"      -&gt; href="#"</pre>
+<p>These come from the <code>SAMPLE_POSTS</code> array in <code>app.js</code>. They are invented titles with invented dates and dead <code>#</code> links, and they are shown to real visitors and to Googlebot whenever rss2json is down, rate-limited, or the key lapses. If a render happens during that window, fabricated articles get indexed under your name — a credibility problem well beyond SEO.</p>
+<span class="lbl">Change to</span>
+<pre>} catch (err) {
+  console.error(err);
+  track('feed-error');                    <span class="c">// see K1 — get alerted instead of surprised</span>
+  setState('Latest posts are on Substack →', false);
+  <span class="c">// render nothing. Never render placeholder articles.</span>
+}</pre>
+<p>Keep <code>SAMPLE_POSTS</code> if you want it for local development, but gate it: <code>if (new URLSearchParams(location.search).has('demo'))</code>.</p>
+<p><i>Could not verify the live feed state from this environment — <code>api.rss2json.com</code> is blocked by the sandbox's egress policy. Open blakecody.com in a browser and look for the "Showing sample posts" line under "Latest articles".</i></p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T4</span> Render-blocking third-party font CSS sits on the critical path <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;
+1,9..144,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" /&gt;</pre>
+<p>Two families, six faces including an italic, fetched from a third party, render-blocking, in the head. In the headless render where that host was unreachable, <b>first-contentful-paint was 12.9 seconds</b> — the page painted nothing at all until the request gave up. In normal conditions it is fast, but it is still a single point of failure that can hold your entire first paint hostage, and it costs a DNS lookup + connection + round trip before anything appears.</p>
+<span class="lbl">Change to</span>
+<p><b>Best:</b> self-host. Download the woff2 files into <code>/fonts/</code>, declare them with <code>@font-face { font-display: swap }</code> in <code>styles.css</code>, and preload the two faces used above the fold:</p>
+<pre>&lt;link rel="preload" href="/fonts/fraunces-600.woff2" as="font" type="font/woff2" crossorigin&gt;
+&lt;link rel="preload" href="/fonts/inter-400.woff2"    as="font" type="font/woff2" crossorigin&gt;</pre>
+<p><b>Minimum:</b> keep Google Fonts but make it non-blocking, and drop the faces you do not use (the Fraunces italic and at least one Inter weight):</p>
+<pre>&lt;link rel="preload" as="style" href="https://fonts.googleapis.com/css2?..."
+      onload="this.onload=null;this.rel='stylesheet'"&gt;</pre>
+<p><code>display=swap</code> is already set — that part is correct.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T5</span> No structured data anywhere on the page <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p><code>document.querySelectorAll('script[type="application/ld+json"]').length === 0</code>. There is no machine-readable statement that Blake Cody is a person, that <i>Aligned</i> is a book he wrote, or that My JRNL is his app. Nothing for a Knowledge Panel, nothing for sitelinks, nothing for an answer engine to attribute a claim to.</p>
+<span class="lbl">Change to</span>
+<p>One block before <code>&lt;/head&gt;</code>. Fill in the <code>sameAs</code> list with every profile you actually control:</p>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Person", "@id": "https://blakecody.com/#person",
+      "name": "Blake Cody", "url": "https://blakecody.com/",
+      "jobTitle": "Author", "image": "https://blakecody.com/logo.png",
+      "knowsAbout": ["discipline","intentional living","journaling","personal growth"],
+      "sameAs": ["https://bccody.substack.com",
+                 "https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326"] },
+    { "@type": "WebSite", "@id": "https://blakecody.com/#website",
+      "url": "https://blakecody.com/", "name": "Blake Cody",
+      "inLanguage": "en-US", "publisher": { "@id": "https://blakecody.com/#person" } },
+    { "@type": "Book", "@id": "https://blakecody.com/#aligned",
+      "name": "Aligned: Lead with Love, Live with Intention",
+      "author": { "@id": "https://blakecody.com/#person" },
+      "url": "https://blakecody.com/book.html" },
+    { "@type": "WebPage", "@id": "https://blakecody.com/#webpage",
+      "url": "https://blakecody.com/", "isPartOf": { "@id": "https://blakecody.com/#website" },
+      "about": { "@id": "https://blakecody.com/#person" },
+      "primaryImageOfPage": "https://blakecody.com/og-image.png" }
+  ]
+}
+&lt;/script&gt;</pre>
+<p>Add a <code>SoftwareApplication</code> node for My JRNL on whichever page promotes it hardest, and an <code>ItemList</code> of the latest posts once <span class="id">T2</span> puts them in the HTML. Validate at <code>validator.schema.org</code> and in Search Console's Rich Results Test.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T6</span> The LCP image is invisible to the browser's preload scanner <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p>The full-screen hero (<code>hero-bg.jpg</code>, 1600×1000, 90KB) is not referenced in the HTML or the CSS. <code>app.js</code> sets it as an inline style after it parses:</p>
+<pre>function setCover(url) {
+  if (url &amp;&amp; els.coverImg) els.coverImg.style.backgroundImage = `url("${url}")`;
+}</pre>
+<p>So the largest element on the page cannot begin downloading until HTML parse → JS download → JS execute have all finished. That is a wholly avoidable delay on your Largest Contentful Paint.</p>
+<span class="lbl">Change to</span>
+<p><code>CONFIG.coverImage</code> is a constant (<code>"hero-bg.jpg"</code>), so declare it statically and let JS only override it in the "use the latest post's cover" branch:</p>
+<pre><span class="c">/* styles.css */</span>
+.cover-img { background-image: url("hero-bg.jpg"); }
+
+<span class="c">&lt;!-- index.html, in &lt;head&gt; --&gt;</span>
+&lt;link rel="preload" as="image" href="hero-bg.jpg" fetchpriority="high"&gt;</pre>
+</div>
+
+<div class="f me">
+<h3><span class="id">T7</span> A six-second intro animation owns the first visit <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p><code>buildIntro()</code> runs a 4.6-second choreography and the overlay is removed at <code>setTimeout(..., 6000)</code>. A full-screen element covers the page for ~6s on the first load of every browsing session — which is exactly the load a visitor arriving from Google gets.</p>
+<p>Credit where due: it is <code>sessionStorage</code>-gated so it does not replay, it respects <code>prefers-reduced-motion</code>, and it is <code>aria-hidden</code>. Those are the right instincts. The problem is purely that it runs during the LCP window, doing SVG and clip-path work on the main thread while the browser should be painting content.</p>
+<span class="lbl">Change to</span>
+<ul>
+  <li>Cut the timeline to ~1.8–2.5s total (compress the 1.1s line draw and the 2s shine).</li>
+  <li>Start it only after the hero image has decoded, so it never competes with LCP:<br><code>document.querySelector('.cover-img') → new Image().decode().then(startIntro)</code></li>
+  <li>Optionally show it only on direct/bookmark entries (<code>!document.referrer</code>), so search visitors go straight to content.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">T8</span> <code>/index.html</code> is a second live copy of <code>/</code>, and every internal link points at it <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p><code>curl -I https://blakecody.com/index.html</code> → <b>200</b>. The canonical correctly names <code>https://blakecody.com/</code>, which resolves the duplicate for Google — but the header brand link and the "Home" nav item both use <code>href="index.html"</code>, so every internal link on the site sends crawlers and link equity to the non-canonical variant.</p>
+<span class="lbl">Change to</span>
+<pre>&lt;a class="brand" href="/"&gt;…&lt;/a&gt;
+&lt;a href="/" class="active"&gt;Home&lt;/a&gt;</pre>
+<p>Two lines per page, across all five pages.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T9</span> Sitemap <code>lastmod</code> is stale and contradicted by the server <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p>All five URLs claim <code>&lt;lastmod&gt;2026-06-21&lt;/lastmod&gt;</code>. The live <code>Last-Modified</code> header on <code>/</code> is <b>2026-07-20</b>. The file also uses <code>&lt;priority&gt;</code>, which Google has ignored for years.</p>
+<p><code>lastmod</code> is the one sitemap field Google does still use, and only while it trusts it. A date that is provably wrong teaches it not to.</p>
+<span class="lbl">Change to</span>
+<p>Generate the sitemap in the same GitHub Action as <span class="id">T2</span>, taking each date from the file's last git commit:</p>
+<pre>git log -1 --format=%cs -- index.html   <span class="c"># -&gt; 2026-07-20</span></pre>
+<p>Drop <code>&lt;priority&gt;</code>. Keep 404.html excluded (correct as-is).</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T10</span> Image weight, dimensions and formats <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<table>
+  <tr><th>File</th><th>Natural</th><th>Displayed</th><th>Size</th><th>Problem</th></tr>
+  <tr><td><code>logo.png</code></td><td>600×600</td><td><b>30×30</b></td><td>45 KB</td><td>400× more pixels than used; ~44 KB wasted on <i>every</i> page</td></tr>
+  <tr><td><code>cover.jpg</code></td><td>1350×1800</td><td>—</td><td><b>443 KB</b></td><td>heaviest asset on the site (used on the Book page)</td></tr>
+  <tr><td><code>og-image.png</code></td><td>1200×630</td><td>—</td><td>91 KB</td><td>PNG for a photographic social card; JPEG/WebP ≈ 25 KB</td></tr>
+  <tr><td><code>hero-bg.jpg</code></td><td>1600×1000</td><td>full-bleed</td><td>90 KB</td><td>acceptable; WebP ≈ 45 KB</td></tr>
+  <tr><td><code>app-icon.png</code></td><td>192×192</td><td>132×132</td><td>29 KB</td><td>fine, slightly oversized</td></tr>
+</table>
+<p>No <code>&lt;img&gt;</code> on the page carries <code>width</code>/<code>height</code> attributes (confirmed in the render), so each one is a layout-shift opportunity. No <code>srcset</code>, and no WebP or AVIF anywhere on the site.</p>
+<span class="lbl">Change to</span>
+<ul>
+  <li>Re-export <code>logo.png</code> at 60×60 (2× of its display size) → roughly 4 KB.</li>
+  <li>Add explicit <code>width</code> and <code>height</code> to all three <code>&lt;img&gt;</code> elements: <code>&lt;img class="brand-mark" src="logo.png" alt="" width="30" height="30"&gt;</code></li>
+  <li>Convert <code>hero-bg</code>, <code>cover</code> and <code>app-icon</code> to WebP, serving JPEG/PNG as a <code>&lt;picture&gt;</code> fallback.</li>
+  <li>Re-export <code>og-image</code> as JPEG at ≤40 KB — social scrapers do not need lossless.</li>
+</ul>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T11</span> Scripts are not deferred <span class="badge b-lo">Low</span></h3>
+<p><code>&lt;script src="app.js?v=23"&gt;&lt;/script&gt;</code> sits at the end of <code>&lt;body&gt;</code> — the classic pattern, so the parsing cost is small, but the download does not begin until the parser reaches it. Move both scripts into <code>&lt;head&gt;</code> with <code>defer</code>: the browser starts fetching immediately and still executes after parse, in order.</p>
+<pre>&lt;script src="app.js?v=23" defer&gt;&lt;/script&gt;</pre>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T12</span> The Substack embed iframe is not lazy <span class="badge b-lo">Low</span></h3>
+<p>Rendered <code>loading: "auto"</code> on <code>.sub-frame</code>, whose <code>src</code> is set by JS to <code>https://bccody.substack.com/embed</code>. That pulls a whole third-party document during load for a signup box that lives below the fold.</p>
+<pre>&lt;iframe class="sub-frame" title="Subscribe by email" loading="lazy" …&gt;</pre>
+<p>Better still: set <code>src</code> from an <code>IntersectionObserver</code> when it comes within a viewport of the fold.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T14</span> Missing feed link, <code>rel="me"</code>, and Bing verification <span class="badge b-lo">Low</span></h3>
+<pre>&lt;link rel="alternate" type="application/rss+xml"
+      title="Blake Cody on Substack" href="https://bccody.substack.com/feed"&gt;</pre>
+<p>Add <code>rel="me"</code> to the Substack and App Store links so they corroborate the <code>sameAs</code> list in <span class="id">T5</span>. And verify the site in Bing Webmaster Tools — see <span class="id">K5</span>.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">T13</span> Caching is capped at 10 minutes and you cannot change it <span class="badge b-ok">Info</span></h3>
+<p>Every asset returns <code>cache-control: max-age=600</code>. That is GitHub Pages' fixed default — not configurable. Worth knowing that your <code>?v=23</code> cache-busting query strings are not buying you anything against a 10-minute TTL.</p>
+<p>If repeat-visit performance ever matters, putting Cloudflare's free tier in front lets you set <code>max-age=31536000</code> on hashed assets, and hands you HSTS, Brotli and image resizing at the same time.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">T15</span> Already correct — do not touch <span class="badge b-ok">Pass</span></h3>
+<ul>
+  <li><code>lang="en"</code>, <code>charset</code> first, viewport meta — all correct.</li>
+  <li>Canonical is absolute and self-referential.</li>
+  <li>gzip is active on HTML, CSS and JS (6.8 KB HTML → 2.3 KB on the wire).</li>
+  <li><code>robots.txt</code> allows all and names the sitemap.</li>
+  <li>A missing URL returns a real <b>404</b>, not a soft 200.</li>
+  <li>Google Search Console verification tag is in place.</li>
+  <li>Open Graph and Twitter cards are present with correct 1200×630 dimensions.</li>
+  <li>Heading nesting in the static HTML is clean: one H1 → H2 → H3.</li>
+</ul>
+</div>
+
+<h2>B. Content &amp; text</h2>
+
+<div class="f hi">
+<h3><span class="id">C1</span> The title tag uses half its budget and targets nothing <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;title&gt;Blake Cody — Aligned &amp; Writing&lt;/title&gt;     <span class="c">30 characters</span></pre>
+<p>Google renders roughly 60 characters. You are using half. "Aligned &amp; Writing" reads as a fragment rather than a claim, and the only searchable term in it is your own name — which you already rank first for and gain nothing by defending.</p>
+<span class="lbl">Change to</span>
+<p>Pick by what you want the homepage to win. Lead with the book:</p>
+<pre>Blake Cody — Author of Aligned: Lead with Love, Live with Intention   <span class="c">66 chars</span></pre>
+<p>Or lead with the writing:</p>
+<pre>Blake Cody | Essays on Discipline, Love &amp; Intentional Living         <span class="c">59 chars</span></pre>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C2</span> The H1 is just your name <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;h1 class="cover-title"&gt;Blake Cody&lt;/h1&gt;
+&lt;p class="cover-lede"&gt;Lead with Love, Live with Intention&lt;/p&gt;</pre>
+<p>The single strongest on-page signal spends itself on a brand term. The line that actually describes the site sits in a <code>&lt;p&gt;</code>.</p>
+<span class="lbl">Change to</span>
+<p>Swap the semantics without changing the design — the name keeps its visual weight, the H1 carries meaning:</p>
+<pre>&lt;p class="cover-eyebrow"&gt;Blake Cody&lt;/p&gt;
+&lt;h1 class="cover-title"&gt;Lead with Love, Live with Intention&lt;/h1&gt;
+&lt;p class="cover-lede"&gt;Essays on discipline, mindset and direction —
+   written from inside the work, not after it.&lt;/p&gt;</pre>
+<p>If you would rather not touch the layout at all, the one-line version also works: <code>&lt;h1&gt;Blake Cody — Lead with Love, Live with Intention&lt;/h1&gt;</code></p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C3</span> 146 words of static copy — there is nothing for Google to read <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>The complete indexable text of the homepage is the navigation, four section labels, four card blurbs and a footer. No sentence on the page explains who you are, what <i>Aligned</i> argues, or what the essays are about. Google has no passage to match any query against except your name.</p>
+<span class="lbl">Change to</span>
+<p>Add a 120–180 word block between the hero and "Latest articles", written for a human first. Work in the language people actually type: <i>discipline</i>, <i>self-discipline</i>, <i>mindset</i>, <i>intentional living</i>, <i>rebuilding after burnout</i>, <i>journaling habit</i>. Add two or three sentences of framing above the "Explore" grid as well. Target roughly 400–500 static words on the page — enough to establish topic without turning the homepage into an essay.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C4</span> Every article lives on Substack, so this domain has nothing to rank <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;a class="post" href="${p.link}" target="_blank" rel="noopener"&gt;
+  …&lt;span class="post-more"&gt;Read on Substack →&lt;/span&gt;</pre>
+<p>Your sitemap contains five URLs. None of them is an article. Every essay you publish builds <code>bccody.substack.com</code>'s authority, and blakecody.com stays a five-page brochure that can only ever rank for "Blake Cody". The three post cards all carry the same non-descriptive call to action.</p>
+<p>This is the single highest-value change in the audit, and the only one that changes the ceiling rather than the floor.</p>
+<span class="lbl">Change to</span>
+<p>Host the essays here and let Substack be the distribution channel, not the home:</p>
+<ol>
+  <li>The GitHub Action from <span class="id">T2</span> writes each post to <code>/articles/&lt;slug&gt;.html</code> with the full text, an <code>Article</code> JSON-LD block, and a self-referential canonical.</li>
+  <li>The Substack version links back to the canonical URL on your domain.</li>
+  <li><code>articles.html</code> becomes a real internal hub linking to on-site articles instead of an outbound bounce page.</li>
+  <li>The sitemap grows from 5 URLs to 5 + one per essay, all on your domain.</li>
+</ol>
+<p>If you are not ready to move: keep the outbound links, but tag them (<span class="id">K3</span>) so you can at least measure what the site sends Substack.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C5</span> Heading hierarchy breaks the moment posts render <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p>Rendered DOM order:</p>
+<pre>H2  Latest articles
+H2  Why I Started Writing in Public      <span class="c">&lt;- sibling of the section, not a child</span>
+H2  The Case for Doing Less, Better
+H2  Notes on Building Small Things
+H2  Explore</pre>
+<span class="lbl">Change to</span>
+<p>In <code>postCard()</code>, one character: <code>&lt;h2 class="post-title"&gt;</code> → <code>&lt;h3 class="post-title"&gt;</code>. This also fixes <code>articles.html</code>, which reuses the same function.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C6</span> The meta description is accurate but gives no reason to click <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<pre>Blake Cody — author of Aligned: Lead with Love, Live with Intention. Honest
+dispatches on love, discipline, and living with intention.        <span class="c">134 chars</span></pre>
+<p>Good length, but "intention" appears three times and there is no hook or offer.</p>
+<span class="lbl">Change to</span>
+<pre>Essays on discipline, love and living with intention — from Blake Cody, author
+of Aligned. New writing most weeks, plus a free opening chapter.  <span class="c">146 chars</span></pre>
+<p>The free chapter is a concrete reason to click that you are already offering and not currently advertising in the snippet.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C7</span> Title, OG title and description all say different things <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<table>
+  <tr><th>Field</th><th>Value</th></tr>
+  <tr><td><code>&lt;title&gt;</code></td><td>Blake Cody — Aligned &amp; Writing</td></tr>
+  <tr><td><code>og:title</code></td><td>Blake Cody — Honest dispatches from inside the work</td></tr>
+  <tr><td><code>meta description</code></td><td>Blake Cody — author of <i>Aligned</i>…</td></tr>
+  <tr><td><code>og:description</code></td><td>Rebuilding discipline, mindset, and direction in real time…</td></tr>
+</table>
+<p>Someone who finds you in search and someone who gets your link in a message see two different positioning statements.</p>
+<span class="lbl">Change to</span>
+<p>Choose one line and use it everywhere. Then add the four tags that are missing:</p>
+<pre>&lt;meta property="og:locale" content="en_US" /&gt;
+&lt;meta property="og:image:alt" content="Blake Cody — Lead with Love, Live with Intention" /&gt;
+&lt;meta name="twitter:image:alt" content="Blake Cody — Lead with Love, Live with Intention" /&gt;
+&lt;meta name="twitter:creator" content="@yourhandle" /&gt;   <span class="c">if you have one</span></pre>
+</div>
+
+<div class="f me">
+<h3><span class="id">C8</span> Post thumbnails ship with empty alt text <span class="badge b-me">Medium</span></h3>
+<pre><span class="c">// app.js, postCard()</span>
+`&lt;div class="post-thumb"&gt;&lt;img src="${img}" alt="" loading="lazy" /&gt;&lt;/div&gt;`</pre>
+<p>An empty <code>alt</code> declares an image decorative. These thumbnails are the post's cover art — they carry meaning, and they are the only images on the page that could earn image-search traffic.</p>
+<pre>`&lt;img src="${img}" alt="${escapeHtml(p.title)}" loading="lazy" width="480" height="270" /&gt;`</pre>
+<p>(The header logo's <code>alt=""</code> is correct — the words "Blake Cody" sit right next to it.)</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C10</span> No author signals on the page <span class="badge b-me">Medium</span></h3>
+<p>For a personal-brand site giving advice on discipline and mindset, Google leans heavily on author and entity signals. The homepage has no byline, no bio text, no visible dates and no links to profiles — nothing that says a real, identifiable person stands behind the advice.</p>
+<span class="lbl">Change to</span>
+<p>Add a compact author block above the footer: photo, two sentences in the first person, and links to Substack, the App Store and any social profiles. Back it with the <code>Person</code> node from <span class="id">T5</span> and mark the links <code>rel="me"</code> (<span class="id">T14</span>). Add <code>dateModified</code> to the <code>WebPage</code> node so freshness is machine-readable.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C11</span> No keyword target has been chosen for this page <span class="badge b-me">Medium</span></h3>
+<p>Nothing on the site currently targets a query other than "blake cody". That is a strategy gap, not a page defect — but it means the homepage is being asked to do a job it is the wrong page for.</p>
+<span class="lbl">Change to</span>
+<table>
+  <tr><th>Page</th><th>Should target</th></tr>
+  <tr><td><b>Homepage</b></td><td>Brand + book: <i>Blake Cody</i>, <i>Aligned book</i>, <i>lead with love live with intention</i>. Optimize it as an entity hub, not a topic page.</td></tr>
+  <tr><td>/articles + article pages</td><td>The topics: <i>how to rebuild discipline</i>, <i>living with intention</i>, <i>daily journaling habit</i>. <b>Requires <span class="id">C4</span>.</b></td></tr>
+  <tr><td>/book</td><td><i>Aligned Blake Cody</i>, <i>free first chapter</i></td></tr>
+  <tr><td>/reflect</td><td><i>free reflection prompts</i>, <i>write to a stranger</i></td></tr>
+</table>
+<p>Stop asking the homepage to rank for topics. That is what the articles are for — which is why <span class="id">C4</span> is the change that matters most.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">C9</span> Already correct — do not touch <span class="badge b-ok">Pass</span></h3>
+<ul>
+  <li>Explore card anchors are descriptive: "Read all →", "Open the book →", "Start writing →", "More about me →".</li>
+  <li>App Store badge has a real <code>alt</code>: "Download My JRNL on the App Store".</li>
+  <li>App icon has a real <code>alt</code>.</li>
+  <li>The scroll cue has an <code>aria-label</code> despite having no text.</li>
+  <li>The header logo correctly uses <code>alt=""</code> next to its text equivalent.</li>
+  <li>Copy voice is consistent and genuinely well written — the writing is not the problem, the amount of it is.</li>
+</ul>
+</div>
+
+<h2>C. Tracking &amp; measurement</h2>
+
+<div class="f hi">
+<h3><span class="id">K1</span> GoatCounter counts pageviews and nothing else <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;script data-goatcounter="https://bccody03.goatcounter.com/count" async
+        src="//gc.zgo.at/count.js"&gt;&lt;/script&gt;</pre>
+<p>The default snippet, unmodified. A grep of <code>app.js</code> for <code>goatcounter</code> returns zero hits. You can see that the homepage got traffic. You cannot see whether a single person clicked through to Substack, tapped the App Store badge, requested the chapter, or sent a reflection. <b>Every conversion on this site is currently unmeasured</b>, which means you have no way to tell whether any of the other changes in this document worked.</p>
+<span class="lbl">Change to</span>
+<p>Add a helper and five call sites. GoatCounter events are free and need no extra script:</p>
+<pre>function track(name, title) {
+  if (window.goatcounter &amp;&amp; window.goatcounter.count) {
+    window.goatcounter.count({ path: name, title: title || name, event: true });
+  }
+}
+
+<span class="c">// 1 + 2 — every outbound click, one delegated listener</span>
+document.addEventListener('click', (e) =&gt; {
+  const a = e.target.closest('a'); if (!a || !a.href) return;
+  if (a.href.includes('substack.com'))
+    track('click-substack-' + (a.id || a.closest('.post') ? 'card' : 'other'), 'Substack click');
+  if (a.href.includes('apps.apple.com')) track('click-appstore', 'App Store click');
+});
+
+<span class="c">// 3 — in the chapter form's success branch (app.js ~line 240)</span>
+track('chapter-request', 'Chapter 1 requested');
+
+<span class="c">// 4 — in the reflect form's success branch (app.js ~line 305)</span>
+track('reflect-submit-' + (payload.category || 'none'), 'Reflection sent');
+
+<span class="c">// 5 — in the init() catch block — turns T3 into an alert, not a surprise</span>
+track('feed-error', 'Substack feed failed');</pre>
+<p>Those five rows in GoatCounter are the entire business value of the site, and right now none of them exists.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">K3</span> Outbound links carry no attribution, so Substack cannot credit you <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>Every Substack link — nav, footer, book CTA, all three post cards — points at the bare URL. In Substack's own stats they all land as direct/unknown traffic. The number you most want ("how many subscribers did my website send me?") is currently unknowable from either end.</p>
+<span class="lbl">Change to</span>
+<pre><span class="c">// app.js — where substackLinks are pointed at CONFIG.substackUrl</span>
+const UTM = '?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=site';
+els.substackLinks.forEach((a) =&gt; {
+  if (!a) return;
+  a.href = CONFIG.substackUrl + UTM + '&amp;utm_content=' + (a.id || 'link');
+});
+
+<span class="c">// postCard() — mind the &amp; vs ? if the post URL already has a query</span>
+const sep = p.link.includes('?') ? '&amp;' : '?';
+const href = p.link + sep + 'utm_source=blakecody.com&amp;utm_medium=referral'
+           + '&amp;utm_campaign=home-latest';</pre>
+<p>Use a distinct <code>utm_content</code> per placement — <code>nav</code>, <code>footer</code>, <code>book-cta</code>, <code>card</code> — so you learn which placement actually converts rather than which one gets clicked.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">K4</span> Search Console is verified but barely used <span class="badge b-me">Medium</span></h3>
+<p>The <code>google-site-verification</code> meta tag is present, so the property exists. Checklist to make it useful:</p>
+<ul>
+  <li>Add a <b>Domain property</b> (DNS-verified) alongside the URL-prefix one. A domain property covers http, https and www in a single view — which matters a great deal given <span class="id">T1</span>.</li>
+  <li><b>Submit <code>sitemap.xml</code> explicitly.</b> robots.txt discovery works but is slower and gives you no error reporting.</li>
+  <li>Run <b>URL Inspection → Test live URL → View rendered HTML</b> on <code>/</code>. Confirm the three post cards are present and are <i>real posts</i>, not the samples from <span class="id">T3</span>. This single test settles both <span class="id">T2</span> and <span class="id">T3</span> definitively.</li>
+  <li>Watch the Coverage report for <code>/index.html</code> appearing as a duplicate (<span class="id">T8</span>).</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">K5</span> Not verified in Bing Webmaster Tools <span class="badge b-me">Medium</span></h3>
+<p>Two clicks: bing.com/webmasters → <b>Import from Google Search Console</b>. No new tag needed.</p>
+<p>Worth doing beyond Bing's own traffic: Bing's index feeds Copilot and parts of ChatGPT's search. For a personal brand whose goal is to be the answer to "who is Blake Cody", being indexed by the engine those assistants read is not optional — and Bing does not execute JavaScript, which makes <span class="id">T2</span> its blocker.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">K6</span> Form submissions cannot be traced to a source <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<pre>body: JSON.stringify({ email, request: 'Chapter 1 PDF', submittedAt })
+body: JSON.stringify({ category, message, name, email, submittedAt })</pre>
+<p>Both Formspree payloads record what was sent but nothing about where it came from. "Did the chapter downloads come from search or from the newsletter?" is currently unanswerable.</p>
+<span class="lbl">Change to</span>
+<pre><span class="c">// capture the landing context once, on first page of the session</span>
+try {
+  if (!sessionStorage.getItem('entry')) sessionStorage.setItem('entry', JSON.stringify({
+    landing: location.pathname, referrer: document.referrer, query: location.search
+  }));
+} catch (e) {}
+
+<span class="c">// then include it in both payloads</span>
+entry: sessionStorage.getItem('entry'), page: location.pathname</pre>
+</div>
+
+<div class="f me">
+<h3><span class="id">K7</span> No visibility when something breaks <span class="badge b-me">Medium</span></h3>
+<p>If rss2json goes down, or the API key hits its quota, or a GitHub Pages certificate renewal fails, you find out by visiting your own site. Two free fixes:</p>
+<ul>
+  <li>The <code>feed-error</code> event from <span class="id">K1</span> — a GoatCounter row that spikes the moment the feed breaks.</li>
+  <li>An UptimeRobot check (free tier) on <code>https://blakecody.com</code>, 5-minute interval, email alert. It catches cert failures and DNS problems too.</li>
+</ul>
+</div>
+
+<div class="f lo">
+<h3><span class="id">K2</span> Protocol-relative analytics URL <span class="badge b-lo">Low</span></h3>
+<pre>src="//gc.zgo.at/count.js"   →   src="https://gc.zgo.at/count.js"</pre>
+<p>A 2013 pattern. Combined with <span class="id">T1</span>, on an <code>http://</code> load it currently fetches your analytics over plaintext.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">K8</span> No Core Web Vitals field data <span class="badge b-lo">Low</span></h3>
+<p>Every performance number in this document is a lab measurement. You have no data on what real visitors experience.</p>
+<ul>
+  <li><b>Free and immediate:</b> run PageSpeed Insights on <code>/</code> monthly and read the CrUX panel (it needs enough traffic to populate).</li>
+  <li><b>Real field data:</b> the <code>web-vitals</code> library is 1.5 KB — bucket the values and push them into GoatCounter as events: <code>track('cwv-lcp-' + bucket)</code>. That gives you distributions for LCP, INP and CLS at zero cost and with no extra vendor.</li>
+</ul>
+</div>
+
+<div class="f lo">
+<h3><span class="id">K9</span> No privacy page <span class="badge b-lo">Low</span></h3>
+<p>GoatCounter is cookieless and IP-anonymising, so you are genuinely clear of a consent banner — a good choice, worth keeping. But Formspree stores names, emails and personal reflections, and there is no page saying what happens to them.</p>
+<p>Add a short <code>/privacy.html</code>: what GoatCounter records, what the two forms store, how to ask for deletion. Link it in the footer. It is a trust signal Google's quality systems look for, and it costs twenty minutes.</p>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:34%">Check</th><th>Result</th></tr>
+  <tr><td><code>curl -I https://blakecody.com</code></td><td>200 · GitHub.com via Fastly · <code>Last-Modified: Mon, 20 Jul 2026</code> · gzip · <code>max-age=600</code></td></tr>
+  <tr><td><code>curl -I http://blakecody.com</code></td><td><b>200, no redirect</b> → <span class="id">T1</span></td></tr>
+  <tr><td><code>curl -I …/index.html</code></td><td>200 — duplicate of <code>/</code> → <span class="id">T8</span></td></tr>
+  <tr><td><code>curl -I …/does-not-exist</code></td><td>404 — correct</td></tr>
+  <tr><td>DNS</td><td>apex → 185.199.108–111.153 · <code>www</code> → <code>bccody03.github.io</code> (www redirect not verifiable from this sandbox)</td></tr>
+  <tr><td>Static text extraction</td><td><b>146 words</b> in <code>&lt;body&gt;</code> → <span class="id">C3</span></td></tr>
+  <tr><td>Headless render (Chromium 1194)</td><td>242 words · 3 post cards · <b>0 JSON-LD blocks</b> · FCP 12.9 s with fonts unreachable · <code>coverBg</code> set by JS · no <code>width</code>/<code>height</code> on any image</td></tr>
+  <tr><td>Feed fallback</td><td>"Showing sample posts" + 3 fabricated posts with <code>href="#"</code> → <span class="id">T3</span></td></tr>
+  <tr><td>Third-party runtime deps</td><td><code>fonts.googleapis.com</code> (blocking) · <code>api.rss2json.com</code> (content) · <code>gc.zgo.at</code> (analytics) · <code>bccody.substack.com</code> (iframe)</td></tr>
+  <tr><td>Asset weights</td><td>cover.jpg 443 KB · og-image.png 91 KB · hero-bg.jpg 90 KB · logo.png 45 KB at 30×30 → <span class="id">T10</span></td></tr>
+  <tr><td>Not verifiable here</td><td><code>api.rss2json.com</code> and <code>www.blakecody.com</code> are blocked by this sandbox's egress policy — both flagged for manual confirmation</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 01 of 6 complete.</b> Remaining: <code>articles.html</code> · <code>book.html</code> · <code>reflect.html</code> · <code>about.html</code> · <code>404.html</code>.</p>
+  <p>Findings marked <span class="id">T2</span>, <span class="id">C4</span>, <span class="id">C5</span>, <span class="id">C8</span>, <span class="id">K1</span> and <span class="id">K3</span> live in <code>app.js</code>, which is shared across every page — fixing them once fixes them site-wide. They will be cross-referenced rather than repeated in later reports.</p>
+  <p>blakecody.com SEO change log · generated 3 September 2026</p>
+</div>
+
+</body>
+</html>
