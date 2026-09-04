@@ -175,9 +175,10 @@ function buildIntro(intro) {
 
   // 3) A perfect cross that splits the page into four boxes — except its four
   //    arms stop at a box traced around the name. The box is measured from the
-  //    name's real on-screen size so it always hugs it. Timeline (seconds):
-  //    0–0.6 name pops · 0.6–2.6 lines draw (arms, then the box) ·
-  //    2.6–4.6 everything shines · 4.6 corners peel + name jumps out.
+  //    name's real on-screen size so it always hugs it. Timeline (seconds),
+  //    compressed to ~2s total so it never competes with LCP:
+  //    0–0.2 name pops · 0.2–0.9 lines draw (arms, then the box) ·
+  //    0.9–1.6 everything shines · 1.6 corners peel + name jumps out.
   const start = () => {
     const rect = name.getBoundingClientRect();
     const padX = 32;
@@ -205,9 +206,9 @@ function buildIntro(intro) {
     boxEl.className = "boxpiece";
     boxEl.style.clipPath = poly([[l - e, t - e], [r + e, t - e], [r + e, b + e], [l - e, b + e]]);
     // Its exit is timed in CSS from element creation, so compensate for the
-    // measuring delay to fire at the same absolute moment as the corners (4.6s).
+    // measuring delay to fire at the same absolute moment as the corners (1.6s).
     const elapsed = (Date.now() - t0) / 1000;
-    boxEl.style.animationDelay = Math.max(0, 4.6 - elapsed).toFixed(2) + "s";
+    boxEl.style.animationDelay = Math.max(0, 1.6 - elapsed).toFixed(2) + "s";
     intro.appendChild(boxEl);
 
     const svg = document.createElementNS(NS, "svg");
@@ -229,27 +230,27 @@ function buildIntro(intro) {
       pl.style.strokeDasharray = sl.toFixed(1);
       pl.style.strokeDashoffset = sl.toFixed(1);
       // The three values map to: draw / shine / fade.
-      pl.style.animationDuration = drawDur + "s, 2s, 0.5s";
-      pl.style.animationDelay = drawDelay + "s, 2s, 4s";
+      pl.style.animationDuration = drawDur + "s, 0.7s, 0.2s";
+      pl.style.animationDelay = drawDelay + "s, 0.7s, 1.4s";
       svg.appendChild(pl);
     };
-    // Cross arms, drawing in from the edges to the box (1.1s)...
-    addLine([[50, 0], [50, t]], 1.1, 0);
-    addLine([[50, 100], [50, b]], 1.1, 0);
-    addLine([[0, 50], [l, 50]], 1.1, 0);
-    addLine([[100, 50], [r, 50]], 1.1, 0);
-    // ...then the box traces around the name (0.9s), starting where the left
+    // Cross arms, drawing in from the edges to the box (0.4s)...
+    addLine([[50, 0], [50, t]], 0.4, 0);
+    addLine([[50, 100], [50, b]], 0.4, 0);
+    addLine([[0, 50], [l, 50]], 0.4, 0);
+    addLine([[100, 50], [r, 50]], 0.4, 0);
+    // ...then the box traces around the name (0.3s), starting where the left
     // arm lands and looping the whole way round.
-    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.9, 1.1);
+    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.3, 0.4);
     intro.appendChild(svg);
   };
   // Wait for the name to pop in (and the webfont to settle) before measuring.
   const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  const minDelay = new Promise((res) => setTimeout(res, 600));
-  const fontCap = new Promise((res) => setTimeout(res, 1200)); // don't stall if fonts hang
+  const minDelay = new Promise((res) => setTimeout(res, 200));
+  const fontCap = new Promise((res) => setTimeout(res, 400)); // don't stall if fonts hang
   Promise.all([minDelay, Promise.race([fontsReady, fontCap])]).then(start);
 
-  setTimeout(() => intro.remove(), 6000);
+  setTimeout(() => intro.remove(), 2100);
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.
