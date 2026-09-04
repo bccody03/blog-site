@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>UI Design Change Log — 01 Homepage (index.html) — blakecody.com</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font: 10.5pt/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1c1a19; margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 4px; letter-spacing: -.4px; }
+  h2 { font-size: 14pt; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #9a3b27; color: #9a3b27; page-break-after: avoid; }
+  h3 { font-size: 11pt; margin: 0 0 6px; page-break-after: avoid; }
+  p { margin: 0 0 8px; }
+  .sub { color: #6b625d; font-size: 9.5pt; margin: 0 0 2px; }
+  .meta { margin: 14px 0 0; padding: 10px 12px; background: #faf7f4; border-left: 3px solid #9a3b27; font-size: 9.5pt; }
+  .meta div { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6ded8; vertical-align: top; }
+  th { background: #f5efea; font-weight: 600; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; }
+  code { font-size: 9pt; background: #f2ece8; padding: 1px 4px; border-radius: 3px; }
+  pre { font-size: 8.4pt; line-height: 1.45; background: #1f1c1a; color: #f0e9e3; padding: 9px 11px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+  pre .c { color: #9aa39a; }
+  .f { page-break-inside: avoid; margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e6ded8; border-radius: 5px; background: #fffdfc; }
+  .f.cr { border-left: 4px solid #7a1410; }
+  .f.hi { border-left: 4px solid #b3261e; }
+  .f.me { border-left: 4px solid #c47f18; }
+  .f.lo { border-left: 4px solid #5c7a5c; }
+  .f.ok { border-left: 4px solid #9aa39a; background: #fafafa; }
+  .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; vertical-align: 2px; margin-left: 6px; }
+  .b-cr { background: #7a1410; color: #fff; }
+  .b-hi { background: #b3261e; color: #fff; }
+  .b-me { background: #c47f18; color: #fff; }
+  .b-lo { background: #5c7a5c; color: #fff; }
+  .b-ok { background: #9aa39a; color: #fff; }
+  .id { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt; color: #9a3b27; font-weight: 700; }
+  .lbl { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .4px; color: #6b625d; display: block; margin: 8px 0 2px; }
+  ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #e6ded8; font-size: 9pt; color: #6b625d; }
+  .kpi { display: flex; gap: 8px; margin: 12px 0 0; }
+  .kpi div { flex: 1; padding: 8px; background: #f5efea; border-radius: 4px; text-align: center; }
+  .kpi b { display: block; font-size: 17pt; line-height: 1.1; }
+  .kpi span { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #6b625d; }
+  figure { margin: 10px 0 12px; page-break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid #d9cfc7; border-radius: 4px; display: block; }
+  figcaption { font-size: 8.5pt; color: #6b625d; margin-top: 5px; font-style: italic; }
+  .score { display: flex; align-items: center; gap: 14px; margin: 10px 0 6px; padding: 12px 14px; background: #1f1c1a; color: #f0e9e3; border-radius: 5px; page-break-inside: avoid; }
+  .score > b { font-size: 30pt; line-height: 1; color: #e8a87c; flex: 0 0 auto; }
+  .score span b { font-size: 9.5pt; color: #f0e9e3; }
+  .score span { font-size: 9.5pt; }
+  .bar { display: inline-block; height: 7px; background: #9a3b27; border-radius: 4px; vertical-align: middle; }
+  .barbg { display: inline-block; width: 90px; height: 7px; background: #eee3da; border-radius: 4px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 01 — Homepage <code style="font-size:12pt">/</code> (index.html)</h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 4 September 2026 · repository <code>bccody03/blog-site</code> @ <code>claude/blakecody-com-access-yi26f9</code></div>
+  <div><b>Lens:</b> Does this page catch a reader's eye, hold it, and turn it into a subscriber? — hierarchy, typography, colour, spacing, imagery, CTA design, mobile.</div>
+  <div><b>Method:</b> headless Chromium renders at 1440 / 820 / 390 px with the real webfonts and a realistic loaded feed · computed-style and geometry extraction · WCAG contrast maths on measured colour pairs · full read of <code>styles.css</code> (25 KB).</div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>. Every entry is a proposed change with the exact edit.</div>
+</div>
+
+<div class="kpi">
+  <div><b>24</b><span>changes proposed</span></div>
+  <div><b>1</b><span>critical</span></div>
+  <div><b>10</b><span>high</span></div>
+  <div><b>13</b><span>medium / low</span></div>
+</div>
+
+<div class="score">
+  <b>45</b>
+  <span><b>UX score, out of 100.</b> Weighted across first impression, value clarity, conversion path, usability, hierarchy, navigation, trust, strategy and accessibility.<br>
+  <b>This is not a score for how it looks.</b> The craft here is real — the hero typography is the best thing on the site and better than most personal sites get. The score is low because the rubric measures whether a stranger who lands here becomes a reader, and almost nothing on the page is built to do that job.</span>
+</div>
+
+<table>
+  <tr><th style="width:34%">Dimension</th><th style="width:16%">Score</th><th>The one reason it isn't higher</th></tr>
+  <tr><td>First impression <i>(w15)</i></td><td>5/10 <span class="barbg"><span class="bar" style="width:45px"></span></span></td><td>The first full screen gives a name and a tagline. Nothing says what you get or what to do.</td></tr>
+  <tr><td>Clarity of value <i>(w15)</i></td><td>5/10 <span class="barbg"><span class="bar" style="width:45px"></span></span></td><td>"Lead with Love, Live with Intention" is a good line, but it's the only claim on the page.</td></tr>
+  <tr><td>Conversion path <i>(w15)</i></td><td>3/10 <span class="barbg"><span class="bar" style="width:27px"></span></span></td><td>The primary ask is the last thing on the page, under an ad for a different product, with no button.</td></tr>
+  <tr><td>Usability <i>(w15)</i></td><td>6/10 <span class="barbg"><span class="bar" style="width:54px"></span></span></td><td>Clean and uncluttered, but half the navigation is unreachable on a phone.</td></tr>
+  <tr><td>Information hierarchy <i>(w10)</i></td><td>4/10 <span class="barbg"><span class="bar" style="width:36px"></span></span></td><td>The iOS app gets the strongest visual treatment on the page. The book gets a body-text mention.</td></tr>
+  <tr><td>Navigation <i>(w10)</i></td><td>4/10 <span class="barbg"><span class="bar" style="width:36px"></span></span></td><td>Three of six destinations render off-screen on mobile with no menu and no visible affordance.</td></tr>
+  <tr><td>Trust <i>(w10)</i></td><td>3/10 <span class="barbg"><span class="bar" style="width:27px"></span></span></td><td>No photograph of Blake, no bio, no reader quote, no subscriber count. Nothing but assertion.</td></tr>
+  <tr><td>Product strategy <i>(w5)</i></td><td>6/10 <span class="barbg"><span class="bar" style="width:54px"></span></span></td><td>"Reflect with me" is a genuinely distinctive offer, buried as one of four equal cards.</td></tr>
+  <tr><td>Accessibility <i>(w5)</i></td><td>4/10 <span class="barbg"><span class="bar" style="width:36px"></span></span></td><td>Two measured contrast failures, an invisible focus ring, and every tap target under 44px.</td></tr>
+</table>
+
+<h2>The five that matter</h2>
+<table>
+  <tr><th style="width:8%">#</th><th style="width:12%">ID</th><th>Change</th><th style="width:16%">Severity</th></tr>
+  <tr><td>1</td><td><span class="id">R1</span></td><td>Give mobile a menu button. Right now Reflect, About and Substack are off-screen on a phone with no hamburger and no visible scrollbar.</td><td><span class="badge b-cr">Critical</span></td></tr>
+  <tr><td>2</td><td><span class="id">H1</span></td><td>Put an offer and a button in the hero. One full screen currently carries a name, a tagline and a 26px scroll cue.</td><td><span class="badge b-hi">High</span></td></tr>
+  <tr><td>3</td><td><span class="id">X1 X3</span></td><td>Move the email capture up and build it in your own palette instead of a bare Substack iframe at 81% scroll depth.</td><td><span class="badge b-hi">High</span></td></tr>
+  <tr><td>4</td><td><span class="id">H3 V7</span></td><td>Give the book the visual weight the app currently has — you own a 1350×1800 cover image and never display it.</td><td><span class="badge b-hi">High</span></td></tr>
+  <tr><td>5</td><td><span class="id">H2</span></td><td>Use a button. There are zero button elements on the homepage, though <code>.substack-btn</code> already exists in your CSS.</td><td><span class="badge b-hi">High</span></td></tr>
+</table>
+
+<h2>A. First impression &amp; hierarchy</h2>
+
+<figure>
+  <img src="assets/01-hero-desktop.png" alt="Homepage hero at 1440×900" />
+  <figcaption>The entire first screen at 1440×900. Measured: cover section is 1440×900 — exactly one viewport. Note the two different left edges — the header brand starts at x=360, the H1 at x=84.</figcaption>
+</figure>
+
+<div class="f hi">
+<h3><span class="id">H1</span> The first full screen contains a name and nothing to do <span class="badge b-hi">High</span></h3>
+<span class="lbl">Problem</span>
+<p>The <code>.cover</code> section measures exactly 1440×900 on desktop and 390×844 on mobile — one full viewport on both. Its entire contents: a 112px name, a 24px tagline, and a 26×42px scroll cue in the bottom-left corner. No value proposition, no offer, no button, no image of the person, nothing to click.</p>
+<span class="lbl">Why it matters</span>
+<p>A first-time visitor decides in about five seconds whether to keep going. They need four things: what this is, who it's for, why it matters, and what to do next. This screen answers one — <i>who</i>. The other three sit below a full screen of scrolling, and the page is 3.0 viewports deep on desktop, 4.8 on mobile.</p>
+<span class="lbl">Impact</span>
+<p>Every visitor, at the widest point of the funnel. This is the finding that caps First Impression at 5/10 and it gates everything downstream. <i>Inferred from layout, not measured — confirm with a scroll-depth event (you have no analytics on this today; see the SEO report, K1).</i></p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Keep the type treatment exactly as it is. It is the strongest asset on the site.</li>
+  <li>Reduce the cover to about 70vh so the next section's edge is visible — a sliver of the cream panel below the fold is the single most reliable scroll prompt there is.</li>
+  <li>Add one sentence of positioning under the tagline: what you write about and who it's for.</li>
+  <li>Add one primary button. "Get the free chapter" or "Read the latest" — whichever you'd rather have them do.</li>
+  <li>Centre the scroll cue horizontally and enlarge it; at 26×42 in a corner it reads as decoration.</li>
+</ul>
+<span class="lbl">Expected outcome</span>
+<p>More visitors reach the article row. Measure scroll depth past the fold and clicks on the new hero button.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">H2</span> There is not a single button on the page <span class="badge b-hi">High</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured: <code>querySelectorAll('button, [class*=btn], [class*=button]')</code> returns <b>zero results</b> on the homepage. The only element with any button affordance is the App Store badge — an Apple-supplied graphic advertising a side project.</p>
+<p>Every action you want a reader to take — "Read all →", "Open the book →", "Start writing →", "Read on Substack →" — is 13.6–14.4px Inter with a trailing arrow.</p>
+<span class="lbl">Why it matters</span>
+<p>Text links are for navigation; buttons are for commitment. With no filled shape anywhere, the eye has nowhere to land and no way to rank six competing asks. Arrows all the way down means everything is equally optional.</p>
+<span class="lbl">Fix</span>
+<p><b>You have already built the button.</b> <code>styles.css:963</code> defines <code>.substack-btn</code> — <code>--accent</code> fill, white text, 10px radius, 12×22 padding, hover to <code>#832f1f</code> with a 1px lift. It is used on the About page and nowhere else.</p>
+<pre><span class="c">/* already in your stylesheet — just use it */</span>
+.substack-btn {
+  background: var(--accent); color: #fff; border-radius: 10px;
+  padding: 12px 22px; font-weight: 600;
+}</pre>
+<p>Promote it to a shared <code>.btn</code> / <code>.btn-outline</code> pair and use the solid one <b>at most twice per page</b> — hero and subscribe. Scarcity is the whole mechanism; a page of buttons is the same as a page of none.</p>
+<span class="lbl">Expected outcome</span>
+<p>A clearer primary path. Measure click-through on the two button placements against the current text links.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">H3</span> The iOS app outranks everything you actually want read <span class="badge b-hi">High</span></h3>
+<span class="lbl">Problem</span>
+<p>The <code>.app-card</code> is the only block below the fold with a dark gradient fill (<code>135deg, #2a201a → #6b4a32 → #9a3b27</code>), a 33.6px serif headline, a 132px icon and a real button. By every measure of visual weight it is the strongest element on the page.</p>
+<p><i>Aligned</i> — the book — appears once, as body text inside one of four identical 327×173 cards: "Read the free opening chapter of <i>Aligned</i>."</p>
+<span class="lbl">Why it matters</span>
+<p>Visual weight should track business priority. A reader scanning this page concludes the app is the main event and the book is a footnote. If that's backwards, the layout is actively working against you.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Build a book feature block: the real <code>cover.jpg</code> art at a readable size, the title, one line about what it argues, and the chapter offer as a button. Put it where the app card is now.</li>
+  <li>Demote the app to the Explore-card treatment, or move it below the subscribe section — it's a fine thing to offer, just not the first thing.</li>
+  <li>If the app genuinely is the priority, then this finding inverts and the <i>book</i> is what needs demoting. Either way, only one of them can be loudest.</li>
+</ul>
+</div>
+
+<figure>
+  <img src="assets/01-cards.png" alt="Latest articles row, cropped" />
+  <figcaption>The "Latest articles" row at 1440px. Five red arrow links in one section; card 3's CTA sits 48px above the other two; three thumbnails of completely different tonal weight, all cropped to 3:2 from 1.6:1, 0.75:1 and 1:1 sources.</figcaption>
+</figure>
+
+<div class="f me">
+<h3><span class="id">H4</span> Five near-identical arrow links compete inside one section <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Problem</span>
+<p>Inside <code>#latest</code> alone: "See all articles →" (top right), three × "Read on Substack →", and "Read every post →". All in <code>--accent</code> or <code>--accent-soft</code>, all Inter 600 at 13.6–14.7px, all with the same trailing arrow. <b>Two of them go to the same URL</b> (<code>articles.html</code>).</p>
+<p>Worse, "Read every post →" sits 46px directly below card 1's "Read on Substack →", so it reads as a fourth line of that card rather than as a section footer.</p>
+<span class="lbl">Why it matters</span>
+<p>Repetition without differentiation destroys hierarchy. When five things look equally clickable, the reader stops reading them and picks none.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Delete "Read every post →" (<code>.see-all-foot</code>). Keep "See all articles →" top-right.</li>
+  <li>The whole card is already a link — drop the per-card "Read on Substack →" text, or reveal it only on hover. The date, title and excerpt already say "this is an article".</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">H5</span> Card CTAs sit at three different heights <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured at 1440px: cards 1 and 2 place <code>.post-more</code> at y=1325; card 3 at y=1277. A <b>48px ragged edge</b>, because card 3's title wraps to two lines instead of three. The cards are equal height (360px) but their contents are top-aligned, so the bottoms never line up.</p>
+<span class="lbl">Fix</span>
+<pre>.post-body { display: flex; flex-direction: column; height: 100%; }
+.post-more { margin-top: auto; }</pre>
+<p>Two lines. Titles then align at the top, CTAs at the bottom, and the row reads as a row.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">H6</span> The header and the hero don't share a left edge <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured at 1440px: the header's <code>.wrap</code> is 720px and centred, so the brand mark starts at <b>x=360</b>. The hero H1 starts at <b>x=84</b>. Two different left margins, 276px apart, in the same first screen — visible in the hero screenshot above.</p>
+<span class="lbl">Why it matters</span>
+<p>A shared left edge is the cheapest way a layout signals intentionality. Two competing ones read as an accident even to people who can't name what's wrong.</p>
+<span class="lbl">Fix</span>
+<p>Put the cover content inside the same <code>.wrap</code> container as the header, or give both the same padding. Given <span class="id">V1</span>, the better move is to widen <code>.wrap</code> and align the hero to it.</p>
+</div>
+
+<h2>B. Visual system</h2>
+
+<div class="f hi">
+<h3><span class="id">V1</span> One breakpoint exists in the entire stylesheet <span class="badge b-hi">High</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured: the only layout media query in all 25 KB of <code>styles.css</code> is <code>@media (max-width: 560px)</code>. From 561px to any width above, there is a single layout, and <code>.wrap</code> is capped at <b>720px</b>.</p>
+<p>Consequences at 1440px:</p>
+<ul>
+  <li>The content column occupies <b>exactly 50%</b> of the screen. 360px of empty margin on each side.</li>
+  <li>The three post cards are <b>207px wide each</b> — narrower than a phone screen.</li>
+  <li>Post thumbnails render at 207×138. A 1600×1000 photograph is displayed at postage-stamp size.</li>
+  <li>Post titles wrap to three lines in a 207px column, which is why card 1 looks cramped.</li>
+</ul>
+<p>On a 1920px display the proportions get worse. The page reads as a phone layout stretched onto a desktop, with the hero as the only element using the full canvas — which is exactly why the hero feels so much stronger than everything below it.</p>
+<span class="lbl">Fix</span>
+<pre>.wrap { max-width: 720px; }                              <span class="c">/* keep as the base */</span>
+@media (min-width: 1024px) { .wrap { max-width: 920px; } }
+@media (min-width: 1280px) { .wrap { max-width: 1100px; } }</pre>
+<p>At 1100px the post cards reach roughly 340px and the thumbnails become real images. This is the single largest visual improvement available for the effort, and it needs no new design work — the existing components just get room to breathe.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">V2</span> Two text colours fail WCAG AA contrast <span class="badge b-hi">High</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured against the page background <code>--bg #f7f1e6</code>:</p>
+<table>
+  <tr><th>Element</th><th>Colour</th><th>Size</th><th>Ratio</th><th>AA requires</th></tr>
+  <tr><td><code>.section-label</code><br><span style="font-size:8.5pt;color:#6b625d">"LATEST ARTICLES", "EXPLORE", "NOW ON IOS"</span></td><td><code>--accent-soft</code><br><code>#c46a4f</code></td><td>13.1px</td><td><b style="color:#b3261e">3.38</b></td><td>4.5</td></tr>
+  <tr><td><code>.post-meta</code><br><span style="font-size:8.5pt;color:#6b625d">every article date</span></td><td><code>--accent-soft</code><br><code>#c46a4f</code></td><td>12.2px</td><td><b style="color:#b3261e">3.38</b></td><td>4.5</td></tr>
+</table>
+<p>Both are small text, so the 3:1 large-text allowance does not apply. Every section label and every date on the site fails.</p>
+<span class="lbl">Fix</span>
+<p>Use <code>--accent #9a3b27</code> for both — it measures <b>6.17</b> on the same background, comfortably AA, and it's already the colour of your links so nothing new enters the palette. If you want to keep the lighter tone distinct, darken <code>--accent-soft</code> to about <code>#a8532f</code> (≈4.6).</p>
+<span class="lbl">Verified passing — leave alone</span>
+<p>Post titles 13.62 · excerpts 5.52 · explore body 5.97 · explore CTA 6.67 · footer 5.52 · nav on the hero 15.31 · hero H1 15.31.</p>
+<p><i>One caveat for whoever runs an automated checker next: it will report the app card's white text at 1.12 and flag it. That is a false positive — <code>.app-card</code> paints its dark background with a <code>linear-gradient</code> (a <code>background-image</code>), which contrast tools can't read, so they fall through to the page cream. The real contrast there is fine.</i></p>
+</div>
+
+<figure>
+  <img src="assets/01-explore.png" alt="Explore card grid" />
+  <figcaption>The Explore grid. Card fill <code>#fffaf2</code> on a page of <code>#f7f1e6</code> — a 1.04:1 surface difference. Four identical boxes for four very different offers.</figcaption>
+</figure>
+
+<div class="f me">
+<h3><span class="id">V3</span> The Explore cards are almost invisible, and all weighted the same <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured: card background <code>#fffaf2</code> against a page background of <code>#f7f1e6</code> — a <b>1.04:1</b> surface difference — with a 1px <code>#e4d8c5</code> border and a shadow at 0.06 alpha. Four identical 327×173 boxes.</p>
+<p>This section is the branching point into the rest of the site and it has the least visual energy of anything on the page. And "Reflect with me" — write to me and I'll reply personally, free — carries the same weight as "About".</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Commit in one direction: either raise the card surface enough to see (or tint it), or drop the fill entirely and let the border and spacing do the work. The current in-between reads as an unfinished state.</li>
+  <li>Break the 2×2 symmetry. Make "Reflect with me" a full-width card with its own treatment; let Articles, Book and About share the row below.</li>
+</ul>
+<p><i>Credit where due: <code>styles.css:624</code> already gives these a −4px hover lift with an accent border. The hover craft across this site is genuinely good — it just does nothing for the 100% of mobile visitors who never hover, or for anyone deciding where to look first.</i></p>
+</div>
+
+<div class="f me">
+<h3><span class="id">V4</span> Thumbnails are cropped from incompatible aspect ratios <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured: all three thumbnails render at 207×138 (3:2) with <code>object-fit: cover</code>, from natural sizes of:</p>
+<table>
+  <tr><th>Source</th><th>Natural</th><th>Ratio</th><th>What happens</th></tr>
+  <tr><td>photo</td><td>1600×1000</td><td>1.60</td><td>fine — near-native crop</td></tr>
+  <tr><td>book cover</td><td>1350×1800</td><td><b>0.75 (portrait)</b></td><td>centre-cropped to landscape; most of the image is discarded</td></tr>
+  <tr><td>app icon</td><td>192×192</td><td>1.00</td><td>upscaled beyond its native width; soft edges</td></tr>
+</table>
+<p>Beyond the geometry, the three images have completely different tonal weight — a dark abstract, a bright outdoor photograph, a light cream illustration. In the screenshot above, the eye goes to the middle card. Not because it's the best post, but because it's the brightest picture.</p>
+<span class="lbl">Why it matters</span>
+<p>This will keep happening: the thumbnails come from whatever cover art each Substack post has. Without a unifying treatment, your most eye-catching row is at the mercy of arbitrary imagery.</p>
+<span class="lbl">Fix — pick one</span>
+<ul>
+  <li><b>Unify:</b> apply a warm duotone or a low-opacity <code>--accent</code> overlay with <code>mix-blend-mode: multiply</code>, so any incoming image resolves into your palette. Removes the tonal lottery permanently.</li>
+  <li><b>Remove:</b> drop thumbnails from the homepage and let the Fraunces titles carry the row. Given the editorial voice, three well-set serif headlines with dates would look more considered than three mismatched images — and it's the cheaper fix.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">V5</span> Three different card languages in three consecutive sections <span class="badge b-me">Medium</span></h3>
+<p><b>Post cards:</b> no container, no border, no fill — content floating on the page background.<br>
+<b>Explore cards:</b> bordered, filled, 16px radius, shadowed.<br>
+<b>App card:</b> dark gradient, no border, 132px icon.</p>
+<p>Three systems, one page, no rule a reader could infer about which is which.</p>
+<span class="lbl">Fix</span>
+<p>Pick one and let the exception be deliberate. Given the editorial tone, the post cards are the right model — quiet, borderless, image and type doing the work. Bring the Explore cards toward them, and keep the app card as the single, obvious exception.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">V6</span> The type scale has a hole in the middle <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Observed</span>
+<p>The scale is genuinely well built. Measured, in use:</p>
+<table>
+  <tr><th>Fraunces (display)</th><th>Inter (UI &amp; body)</th></tr>
+  <tr><td>112px / 600 / −2.24px tracking — hero<br>33.6px / 600 — app headline<br>32px / 600 — subscribe<br>20.8px / 600 — explore heading<br>19.2px / 600 — post title<br>17.6–24px / 400 italic — tagline</td><td>16.3px / 400 — app body<br>15.4px / 400 — explore body<br>15.2px / 400 — post excerpt<br>14.7px / 600 — nav, see-all<br>14.4px / 600 — explore CTA<br>13.6px / 600 — post CTA<br>13.1px / 600 / +1.05px — section labels<br>12.2px / 600 — dates</td></tr>
+</table>
+<span class="lbl">Problem</span>
+<p>The scale jumps from <b>112px straight to 33.6px</b>. There is no 40–56px tier — exactly the size a section headline or a feature block needs. Everything below the hero lives between 12 and 34px, which is why the page feels visually flat the moment you scroll past the cover.</p>
+<span class="lbl">Fix</span>
+<p>Add one tier at 44–48px and spend it on the two things you most want read: the book feature (<span class="id">H3</span>) and the subscribe ask (<span class="id">X3</span>). One new size, and the lower page gains a second focal point.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">V7</span> You own a book cover and never show it <span class="badge b-hi">High</span></h3>
+<p><code>cover.jpg</code> — 1350×1800, 443 KB — sits in the repository. It is the largest asset on the site and the highest-quality piece of art you have. On the homepage it appears <b>nowhere</b>. The book is represented by the words "the free opening chapter of <i>Aligned</i>" in 15px body text inside a small card.</p>
+<span class="lbl">Fix</span>
+<p>Book cover art is the most conventional trust signal an author has, and it works. Show it: a feature block with the cover at a readable size, a slight shadow or angle, the title in the new 44–48px tier, one line about what the book argues, and the free-chapter offer as a button. This one change fixes <span class="id">H3</span>, <span class="id">V6</span> and part of <span class="id">X2</span> at once.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">V8</span> There is no photograph of Blake anywhere on the page <span class="badge b-hi">High</span></h3>
+<p>The only human face on the homepage arrived by accident, inside a Substack post thumbnail. For a site whose entire proposition is one person writing honestly about their own life, the homepage never shows that person.</p>
+<span class="lbl">Why it matters</span>
+<p>Faces are the most reliable attention anchor in visual design — the eye finds them before anything else. On a personal-brand site they are also the trust signal, and this page currently has none (see <span class="id">X2</span>).</p>
+<span class="lbl">Fix</span>
+<p>An author block above the footer: a real photograph, two or three sentences in the first person, and links out. It costs one section and it is the difference between "a website about ideas" and "a person you might want to hear from."</p>
+</div>
+
+<h2>C. Conversion &amp; CTA design</h2>
+
+<div class="f hi">
+<h3><span class="id">X1</span> The primary conversion is the last thing on the page <span class="badge b-hi">High</span></h3>
+<p>Measured: <code>.subscribe-cta</code> begins at <b>y=2220 of 2737px</b> on desktop (81% scroll depth) and <b>y=3545 of 4081px</b> on mobile (87%). It is the final content section — below the article row, below Explore, and below an advertisement for an iOS app.</p>
+<span class="lbl">Why it matters</span>
+<p>You are asking a reader to hand over their email <i>after</i> making them scroll past a promotion for a different product. Intent is highest right after someone reads something good, which on this page is the article row — not four screens later.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Add a compact inline capture directly beneath the article row: one line, an email field, one button.</li>
+  <li>Keep the full section at the bottom for people who scroll all the way. Same ask, two chances, no extra design.</li>
+</ul>
+<span class="lbl">Expected outcome</span>
+<p>More signups from the same traffic. Measure the two placements separately (see the SEO report, <span class="id">K1</span> and <span class="id">K3</span> — right now neither is measurable at all).</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">X2</span> Zero social proof anywhere on the page <span class="badge b-hi">High</span></h3>
+<p>No subscriber count. No reader quote. No book endorsement. No App Store rating. No "as featured in". Nothing.</p>
+<p>The page asks for an email address, an app install and a chapter request, and offers no evidence that anyone else has found any of it worthwhile.</p>
+<span class="lbl">Fix — cheapest true version first</span>
+<ul>
+  <li><b>"Join N readers"</b> under the subscribe heading. Substack gives you the number.</li>
+  <li><b>One or two reader replies as pull quotes.</b> You already receive these through Reflect — ask permission and use them. A real sentence from a real reader outperforms any badge.</li>
+  <li><b>The App Store rating</b> on the app card, once there are enough ratings to show.</li>
+</ul>
+<p><b>Use only real figures.</b> If the numbers are small, use a quote instead of a count — a single genuine reader reply is stronger than "join 47 readers", and inventing a number is the fastest way to lose the trust this whole site is built on.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">X3</span> The subscribe block is a bare heading over a third-party iframe <span class="badge b-hi">High</span></h3>
+<p>Measured: <code>.sub-frame</code> is a 160px Substack embed inside a 397px section, with no card, no border, no background differentiation, no image, and roughly 180px of empty space beneath it. Above it sit a centred 32px heading and a two-line subtitle.</p>
+<p>Because it is an <code>&lt;iframe&gt;</code>, the form inside renders in <b>Substack's</b> typography and button colour, in the middle of your carefully art-directed cream-and-rust page. You cannot style it.</p>
+<p><i>I could not render the real embed — this environment blocks substack.com — so confirm the visual mismatch in a browser. The structural finding holds regardless of how the embed looks.</i></p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Replace the iframe with your own email field and button, posting to Substack's subscribe endpoint. You already have the form styling (<code>.reflect-submit</code>, <code>.chapter-submit</code>) and it looks like your site.</li>
+  <li>Give the section a card or a distinct background so it reads as a destination rather than as the page running out.</li>
+  <li>Put the book cover or your portrait beside it. An email field alone on a cream field is the least persuasive version of this ask.</li>
+  <li>Add the subscriber count from <span class="id">X2</span> directly beneath the button.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">X4</span> Your most distinctive offer is the third of four equal cards <span class="badge b-me">Medium</span></h3>
+<p>"Write what's on your mind — I'll reply personally. Free."</p>
+<p>That is an unusual, generous, memorable promise, and it is the single strongest reason a stranger would bookmark this site. It receives a 327×173 card identical to the one for "About".</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Give it a dedicated block with its own visual treatment — full width, its own background, ideally your handwriting or a portrait.</li>
+  <li>Say what happens next: "I read everything and usually reply within a few days." Specificity is what turns a generous promise into a believable one.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">X5</span> Seven asks, no ranked order <span class="badge b-me">Medium</span></h3>
+<p>Below the fold the page asks the reader to: read an article on Substack · see all articles · read the book chapter · write a reflection · read the About page · download an iOS app · subscribe by email.</p>
+<p>Seven asks, all at roughly equal visual weight, none marked as primary.</p>
+<span class="lbl">Fix</span>
+<p>Decide the one thing a first-time visitor should do — on a writer's site it is almost always <i>subscribe</i>. Make that the only primary button on the page. Demote everything else to text links. This is a subtraction, and subtraction is the change most likely to move the number.</p>
+</div>
+
+<h2>D. Responsive &amp; accessibility</h2>
+
+<figure>
+  <img src="assets/01-hero-mobile.png" alt="Homepage at 390×844 showing truncated navigation" />
+  <figcaption>390×844. The nav ends at "Book" — <b>Reflect, About and Substack render off-screen</b> at x=375, 441 and 499. No hamburger, no scrollbar, no edge fade.</figcaption>
+</figure>
+
+<div class="f cr">
+<h3><span class="id">R1</span> Three of six nav items are off-screen on a phone, with no affordance <span class="badge b-cr">Critical</span></h3>
+<span class="lbl">Problem</span>
+<pre>viewport 390 × 844
+.nav  clientWidth 170   scrollWidth 385   overflow-x: auto
+      scrollbar height: 0        hamburger present: false
+
+  Home        x 196 → 238   visible
+  Articles    x 254 → 308   visible
+  Book        x 324 → 360   visible
+  Reflect     x 375 → 424   OFF-SCREEN
+  About       x 441 → 483   OFF-SCREEN
+  Substack ↗  x 499 → 581   OFF-SCREEN</pre>
+<span class="lbl">Why it matters</span>
+<p>The nav <i>is</i> horizontally scrollable, so this isn't strictly broken — but there is no visible scrollbar, no hamburger, no gradient mask at the edge, and nothing on screen suggests more items exist. A horizontal swipe inside a 24px-tall strip in a header is an undiscoverable gesture.</p>
+<p>In practice, on mobile, half your navigation does not exist — including the Substack link (your subscribe path) and the Reflect page (your most distinctive offer, <span class="id">X4</span>).</p>
+<span class="lbl">Impact</span>
+<p>Every mobile visitor. On a personal writing site that is likely most of them. This blocks two of your three conversion paths outright. <b>Observed, not inferred.</b></p>
+<span class="lbl">Fix</span>
+<p>Below 560px, replace the inline nav with a standard menu button and a full-screen panel — you already have the <code>max-width: 560px</code> breakpoint to hang it on. Keeping the horizontal scroller is possible if you add a right-edge gradient mask so it visibly continues, but the menu is the correct answer at six items.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">R2</span> Every tap target on the page is under 44px <span class="badge b-hi">High</span></h3>
+<p>Measured: <b>11</b> interactive elements below 44px in at least one dimension.</p>
+<table>
+  <tr><th>Element</th><th>Size</th></tr>
+  <tr><td>All six nav links</td><td><b>24px tall</b> (36–82px wide)</td></tr>
+  <tr><td>"See all articles →"</td><td>119 × 24</td></tr>
+  <tr><td>"Read every post →"</td><td>131 × 24</td></tr>
+  <tr><td>"Read on Substack ↗" (footer)</td><td>137 × 23</td></tr>
+  <tr><td>Scroll cue</td><td>26 × 42</td></tr>
+  <tr><td>Brand / logo lockup</td><td>158 × 36</td></tr>
+</table>
+<p>Apple's HIG and WCAG 2.5.5 both put the comfortable floor at 44×44. WCAG 2.5.8 sets the hard minimum at 24×24 — the nav links sit exactly on that line, meaning they pass the letter of the requirement and fail the intent.</p>
+<span class="lbl">Fix</span>
+<pre>.nav a       { padding: 12px 8px; margin: -12px 0; }  <span class="c">/* 24px → 48px, no visual change */</span>
+.see-all,
+.see-all-foot,
+.post-more,
+.explore-go  { padding: 8px 0; }</pre>
+<p>Negative margins keep the layout identical while doubling the hit area.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">R3</span> The focus ring is the browser default and invisible on the hero <span class="badge b-hi">High</span></h3>
+<span class="lbl">Problem</span>
+<p>Measured on a focused nav link: <code>outline: auto 1px rgb(16,16,16)</code>, <code>box-shadow: none</code> — the browser default. A 1px near-black ring around white text on a dark brown header is effectively invisible.</p>
+<p>Searching <code>styles.css</code> for focus rules returns three hits, all of them form inputs on the Book and Reflect pages (<code>.chapter-form input:focus</code>, <code>.reflect-form textarea:focus</code>, <code>.reflect-form input:focus</code>). <b>There is no <code>:focus-visible</code> rule anywhere in the stylesheet</b>, and no focus styling at all for links, cards or the nav.</p>
+<span class="lbl">Why it matters</span>
+<p>Anyone navigating by keyboard — from choice or necessity — cannot see where they are on your site. It is one of the most common and most consequential accessibility failures, and one of the cheapest to fix.</p>
+<span class="lbl">Fix</span>
+<pre>:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.site-header :focus-visible,
+.cover :focus-visible { outline-color: #fff; }   <span class="c">/* on the dark hero */</span></pre>
+<p>Seven lines, applies site-wide, fixes every page at once.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">R4</span> Mobile is 4.8 screens tall and the first one is a name <span class="badge b-me">Medium</span></h3>
+<p>Measured at 390×844: document height <b>4081px = 4.84 viewports</b>. The cover takes the entire first screen. Post thumbnails render 342×228, so each stacked article card is 355–402px tall and the three of them span roughly two full screens. The subscribe ask arrives at 87% scroll depth.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Cover to ~70vh on mobile, so the cream panel edge shows.</li>
+  <li>Thumbnail height 228px → ~150px, or drop thumbnails on mobile entirely (see <span class="id">V4</span>).</li>
+  <li>Compact subscribe form after the first article card (<span class="id">X1</span>).</li>
+</ul>
+<p>Together these take the page from ~4.8 screens to roughly 3, and move the primary ask from 87% depth to about 40%.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">R5</span> Six seconds of animation before the site is visible <span class="badge b-me">Medium</span></h3>
+<p>The intro overlay covers everything for ~6s on the first load of every session, running a 4.6s SVG choreography — name pop, cross arms drawing in, a box tracing the name, a 2s shine hold, then the pieces break away.</p>
+<p><b>As craft it is the most ambitious thing on the site</b>, and it is built thoughtfully: session-gated so it never replays, <code>prefers-reduced-motion</code>-aware, and it fails safe if anything throws.</p>
+<p><b>As product</b> it is a six-second interstitial in front of your content, shown to someone who has not yet decided you're worth their time — and it plays <i>before</i> they have read a single word of your writing. The tolerable range for a brand transition is roughly 0.6–2s; this is three to ten times that.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Compress to 1.5–2s total. Keep the name pop and the box trace — that's the memorable part. Cut the 2s shine hold, which is where the time goes.</li>
+  <li>Consider showing it only when <code>!document.referrer</code> — someone arriving from a search result came for a specific thing, and an animation is a tax on that intent.</li>
+</ul>
+</div>
+
+<div class="f lo">
+<h3><span class="id">R6</span> No dark mode <span class="badge b-lo">Low</span></h3>
+<p>Measured: zero <code>prefers-color-scheme</code> rules in <code>styles.css</code>. The palette is a fixed warm light theme, so on a phone at night a full-brightness <code>#f7f1e6</code> page is genuinely uncomfortable — and reading in bed is exactly when personal essays get read.</p>
+<span class="lbl">Fix</span>
+<p>Optional, but you are closer than most sites: the hero already establishes <code>#2a201a</code> dark against <code>#f7f1e6</code> cream as a working pair. A dark variant is largely a matter of swapping the six tokens in <code>:root</code> under a media query, and it would look striking.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">V9</span> What's already working — protect these <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The hero typography.</b> Fraunces 600 at 112px with −2.24px tracking over the topographic background is the best thing on the site by a distance. Nothing in this report suggests changing it.</li>
+  <li><b>The palette.</b> Warm cream, deep brown, rust accent — coherent, distinctive, and it doesn't look like a template. Six tokens doing a lot of work.</li>
+  <li><b>The type pairing.</b> Fraunces for display against Inter for UI is a genuinely good match for an essayist's site.</li>
+  <li><b>Hover craft.</b> Post cards lift 4px, thumbnails scale 1.05, titles shift to accent, explore cards lift with an accent border, the App Store badge nudges. This is more care than most sites take.</li>
+  <li><b>Restraint.</b> No popups, no cookie banner, no autoplay, no chat widget. The page respects the reader, and that is rarer than good typography.</li>
+  <li><b>Reduced-motion support</b> throughout the animation work.</li>
+</ul>
+<p>The gap on this page is not taste. It is that a well-made object has not yet been asked to do a job.</p>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:36%">Measurement</th><th>Result</th></tr>
+  <tr><td>Render environment</td><td>Chromium 1194 headless · real Fraunces + Inter woff2 served locally · realistic 8-item feed injected via route interception · intro splash suppressed except where noted</td></tr>
+  <tr><td>Page depth</td><td>1440×900 → 2737px (3.04 folds) · 820×1180 → 3016px · 390×844 → 4081px (4.84 folds)</td></tr>
+  <tr><td>Cover section</td><td>Full viewport at every width (1440×900, 390×844)</td></tr>
+  <tr><td>Content column</td><td><code>.wrap</code> = 720px at 1440px viewport (50%) · post cards 207px each · only breakpoint in the stylesheet is <code>max-width: 560px</code></td></tr>
+  <tr><td>Left-edge alignment</td><td>header brand x=360 · hero H1 x=84 · 276px apart</td></tr>
+  <tr><td>Buttons on page</td><td><b>0</b> — <code>.substack-btn</code> exists at <code>styles.css:963</code> but is used only on About</td></tr>
+  <tr><td>Contrast failures</td><td><code>.section-label</code> 3.38 · <code>.post-meta</code> 3.38 (both <code>#c46a4f</code> on <code>#f7f1e6</code>, need 4.5)</td></tr>
+  <tr><td>Card CTA alignment</td><td>y=1325, 1325, <b>1277</b> — 48px ragged</td></tr>
+  <tr><td>Thumbnails</td><td>207×138 (3:2) via <code>object-fit: cover</code> from 1.60, <b>0.75</b> and 1.00 ratio sources</td></tr>
+  <tr><td>Explore cards</td><td><code>#fffaf2</code> on <code>#f7f1e6</code> — 1.04:1 surface difference</td></tr>
+  <tr><td>Mobile nav</td><td>clientWidth 170 · scrollWidth 385 · 3 items off-screen · no hamburger · scrollbar height 0</td></tr>
+  <tr><td>Tap targets</td><td>11 elements under 44px; all nav links 24px tall</td></tr>
+  <tr><td>Focus</td><td><code>outline: auto 1px rgb(16,16,16)</code> — browser default; no <code>:focus-visible</code> in the stylesheet</td></tr>
+  <tr><td>Dark mode</td><td>0 <code>prefers-color-scheme</code> rules</td></tr>
+  <tr><td>Not verifiable here</td><td>The real Substack embed (<span class="id">X3</span>) — substack.com is blocked by this sandbox's egress policy. Confirm its visual fit in a browser.</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 01 of 6 complete.</b> Remaining: <code>articles.html</code> · <code>book.html</code> · <code>reflect.html</code> · <code>about.html</code> · <code>404.html</code>.</p>
+  <p>Findings <span class="id">R1</span>, <span class="id">R2</span>, <span class="id">R3</span>, <span class="id">V1</span>, <span class="id">V2</span>, <span class="id">R5</span> and <span class="id">R6</span> live in shared markup or <code>styles.css</code> and apply to every page — fixing them once fixes the site. Later reports will cross-reference rather than repeat them.</p>
+  <p>Companion document: <code>seo/changelog-01-index.pdf</code> — technical, content and tracking findings for the same page.</p>
+  <p>blakecody.com UI change log · generated 4 September 2026</p>
+</div>
+
+</body>
+</html>
