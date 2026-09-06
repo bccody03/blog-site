@@ -4,40 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About — Blake Cody</title>
-  <meta name="description" content="About Blake Cody, author of Aligned: Lead with Love, Live with Intention." />
+  <meta name="description" content="About Blake Cody, and the book he's writing, Aligned: Lead with Love, Live with Intention." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#9a3b27" />
   <link rel="canonical" href="https://blakecody.com/about.html" />
   <meta property="og:type" content="profile" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Blake Cody" />
   <meta property="og:title" content="About — Blake Cody" />
   <meta property="og:description" content="I'm Blake Cody — 22, from Michigan. An aspiring author and life & relationship coach, writing in public." />
   <meta property="og:url" content="https://blakecody.com/about.html" />
-  <meta property="og:image" content="https://blakecody.com/og-image.png" />
+  <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Blake Cody — Lead with Love, Live with Intention" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="About — Blake Cody" />
   <meta name="twitter:description" content="I'm Blake Cody — 22, from Michigan. An aspiring author and life & relationship coach, writing in public." />
-  <meta name="twitter:image" content="https://blakecody.com/og-image.png" />
-  <link rel="stylesheet" href="styles.css?v=23" />
+  <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
+  <link rel="stylesheet" href="styles.css?v=24" />
+  <script src="app.js?v=24" defer></script>
+  <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
   <header class="site-header scrolled" id="site-header">
     <div class="wrap">
-      <a class="brand" href="index.html"><img class="brand-mark" src="logo.png" alt="" />Blake Cody</a>
+      <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
       <nav class="nav">
-        <a href="index.html">Home</a>
+        <a href="/">Home</a>
         <a href="articles.html">Articles</a>
         <a href="book.html">Book</a>
         <a href="reflect.html">Reflect</a>
         <a href="about.html" class="active">About</a>
-        <a id="substack-link" href="#" target="_blank" rel="noopener">Substack ↗</a>
+        <a id="substack-link" href="https://bccody.substack.com" target="_blank" rel="noopener me">Substack ↗</a>
       </nav>
     </div>
   </header>
@@ -45,16 +50,16 @@
   <main class="plain-main">
     <div class="wrap">
       <section class="archive about-page">
-        <p class="eyebrow"><a href="index.html">← Home</a></p>
+        <p class="eyebrow"><a href="/">← Home</a></p>
         <h1 class="archive-title">About</h1>
         <div class="about about-stack">
-          <img class="about-photo" src="cover.jpg" alt="Blake Cody at the 2025 U.S. Open" />
+          <img class="about-photo" src="cover.jpg" alt="Blake Cody at the 2025 U.S. Open" width="900" height="1200" />
           <div class="about-text">
             <p>I'm Blake Cody — 22 years old, living in Michigan. One day I want to be an author and a coach for life and relationships: someone who helps people work through what they're carrying and build a life that actually feels like their own.</p>
             <p>For now, I write on Substack — honest thoughts and lessons pulled straight from my own life, shared in the hope that they might help someone out. Alongside it I'm writing my book, <em>Aligned: Lead with Love, Live with Intention</em>, figuring all of this out in real time and writing down what's working and what isn't as I go.</p>
             <p>This site mirrors my Substack — subscribe there to get every piece in your inbox.</p>
             <p class="about-actions">
-              <a class="substack-btn js-substack" href="https://bccody.substack.com" target="_blank" rel="noopener">Read &amp; subscribe on Substack ↗</a>
+              <a class="substack-btn js-substack" id="about-cta" href="https://bccody.substack.com" target="_blank" rel="noopener me">Read &amp; subscribe on Substack ↗</a>
             </p>
           </div>
         </div>
@@ -65,13 +70,13 @@
         <h2 class="section-label">What I've built</h2>
         <div class="built-grid">
           <div class="built-card">
-            <img class="built-card-icon" src="app-icon.png?v=2" alt="My JRNL app icon" />
+            <img class="built-card-icon" src="app-icon.png?v=2" alt="My JRNL app icon" width="192" height="192" />
             <div class="built-card-body">
               <h3 class="built-card-title">My JRNL</h3>
               <p class="built-card-sub">Journal &amp; Habits · iOS</p>
               <p>My first app — a simple space to journal your thoughts and build the habits that stick.</p>
-              <a class="appstore-badge" href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener">
-                <img src="appstore-badge.svg" alt="Download My JRNL on the App Store" />
+              <a class="appstore-badge" href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">
+                <img src="appstore-badge.svg" alt="Download My JRNL on the App Store" width="156" height="52" />
               </a>
             </div>
           </div>
@@ -83,19 +88,17 @@
       <div class="wrap">
         <h2 class="subscribe-title">Stay up to date in your inbox</h2>
         <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
-        <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no"></iframe>
+        <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no" loading="lazy"></iframe>
       </div>
     </section>
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>© <span id="year"></span> Blake Cody</span>
-        <a id="substack-link-footer" href="#" target="_blank" rel="noopener">Read on Substack ↗</a>
+        <span>© <span id="year"></span> Blake Cody · <a href="privacy.html">Privacy</a></span>
+        <a id="substack-link-footer" href="https://bccody.substack.com" target="_blank" rel="noopener">Read on Substack ↗</a>
       </div>
     </footer>
   </main>
 
-  <script src="app.js?v=23"></script>
-  <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

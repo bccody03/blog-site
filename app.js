@@ -52,6 +52,65 @@ const els = {
 
 els.year.textContent = new Date().getFullYear();
 
+/* ------------------------------------------------------------
+   Measurement. GoatCounter only counts pageviews out of the box; these
+   helpers turn the things that actually matter (Substack clicks, App Store
+   taps, chapter requests, reflections, feed failures) into named events.
+   ------------------------------------------------------------ */
+function track(name, title) {
+  try {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: name, title: title || name, event: true });
+    }
+  } catch (e) {}
+}
+
+// Remember how this visit started (landing page, referrer, query) so form
+// submissions can say where they came from.
+try {
+  if (!sessionStorage.getItem("entry")) {
+    sessionStorage.setItem("entry", JSON.stringify({
+      landing: location.pathname,
+      referrer: document.referrer,
+      query: location.search,
+    }));
+  }
+} catch (e) {}
+function entryContext() {
+  let entry = null;
+  try { entry = sessionStorage.getItem("entry"); } catch (e) {}
+  return { entry, page: location.pathname };
+}
+
+// Every outbound Substack / App Store click, one delegated listener.
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a");
+  if (!a || !a.href) return;
+  if (a.href.includes("substack.com")) {
+    const where = a.id ? a.id : a.closest(".post") ? "card" : "other";
+    track("click-substack-" + where, "Substack click");
+  } else if (a.href.includes("apps.apple.com")) {
+    track("click-appstore", "App Store click");
+  }
+});
+
+// Tag outbound Substack links so Substack's own stats credit this site, with
+// a distinct utm_content per placement (nav, footer, book CTA, post card).
+const UTM = "utm_source=blakecody.com&utm_medium=referral";
+function withUtm(url, campaign, content) {
+  const sep = url.includes("?") ? "&" : "?";
+  return url + sep + UTM + "&utm_campaign=" + campaign + (content ? "&utm_content=" + content : "");
+}
+
+function escapeHtml(s) {
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 /* Intro splash: name pops in, a cross + box draw around it, shine, then the
    pieces break away. Plays once per browsing session — refreshing or coming
    back to Home in the same visit skips it. (Also skipped for reduced motion.) */
@@ -116,9 +175,10 @@ function buildIntro(intro) {
 
   // 3) A perfect cross that splits the page into four boxes — except its four
   //    arms stop at a box traced around the name. The box is measured from the
-  //    name's real on-screen size so it always hugs it. Timeline (seconds):
-  //    0–0.6 name pops · 0.6–2.6 lines draw (arms, then the box) ·
-  //    2.6–4.6 everything shines · 4.6 corners peel + name jumps out.
+  //    name's real on-screen size so it always hugs it. Timeline (seconds),
+  //    compressed to ~2s total so it never competes with LCP:
+  //    0–0.2 name pops · 0.2–0.9 lines draw (arms, then the box) ·
+  //    0.9–1.6 everything shines · 1.6 corners peel + name jumps out.
   const start = () => {
     const rect = name.getBoundingClientRect();
     const padX = 32;
@@ -146,9 +206,9 @@ function buildIntro(intro) {
     boxEl.className = "boxpiece";
     boxEl.style.clipPath = poly([[l - e, t - e], [r + e, t - e], [r + e, b + e], [l - e, b + e]]);
     // Its exit is timed in CSS from element creation, so compensate for the
-    // measuring delay to fire at the same absolute moment as the corners (4.6s).
+    // measuring delay to fire at the same absolute moment as the corners (1.6s).
     const elapsed = (Date.now() - t0) / 1000;
-    boxEl.style.animationDelay = Math.max(0, 4.6 - elapsed).toFixed(2) + "s";
+    boxEl.style.animationDelay = Math.max(0, 1.6 - elapsed).toFixed(2) + "s";
     intro.appendChild(boxEl);
 
     const svg = document.createElementNS(NS, "svg");
@@ -170,36 +230,41 @@ function buildIntro(intro) {
       pl.style.strokeDasharray = sl.toFixed(1);
       pl.style.strokeDashoffset = sl.toFixed(1);
       // The three values map to: draw / shine / fade.
-      pl.style.animationDuration = drawDur + "s, 2s, 0.5s";
-      pl.style.animationDelay = drawDelay + "s, 2s, 4s";
+      pl.style.animationDuration = drawDur + "s, 0.7s, 0.2s";
+      pl.style.animationDelay = drawDelay + "s, 0.7s, 1.4s";
       svg.appendChild(pl);
     };
-    // Cross arms, drawing in from the edges to the box (1.1s)...
-    addLine([[50, 0], [50, t]], 1.1, 0);
-    addLine([[50, 100], [50, b]], 1.1, 0);
-    addLine([[0, 50], [l, 50]], 1.1, 0);
-    addLine([[100, 50], [r, 50]], 1.1, 0);
-    // ...then the box traces around the name (0.9s), starting where the left
+    // Cross arms, drawing in from the edges to the box (0.4s)...
+    addLine([[50, 0], [50, t]], 0.4, 0);
+    addLine([[50, 100], [50, b]], 0.4, 0);
+    addLine([[0, 50], [l, 50]], 0.4, 0);
+    addLine([[100, 50], [r, 50]], 0.4, 0);
+    // ...then the box traces around the name (0.3s), starting where the left
     // arm lands and looping the whole way round.
-    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.9, 1.1);
+    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.3, 0.4);
     intro.appendChild(svg);
   };
   // Wait for the name to pop in (and the webfont to settle) before measuring.
   const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  const minDelay = new Promise((res) => setTimeout(res, 600));
-  const fontCap = new Promise((res) => setTimeout(res, 1200)); // don't stall if fonts hang
+  const minDelay = new Promise((res) => setTimeout(res, 200));
+  const fontCap = new Promise((res) => setTimeout(res, 400)); // don't stall if fonts hang
   Promise.all([minDelay, Promise.race([fontsReady, fontCap])]).then(start);
 
-  setTimeout(() => intro.remove(), 6000);
+  setTimeout(() => intro.remove(), 2100);
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.
 if (CONFIG.substackUrl) {
-  els.substackLinks.forEach((a) => a && (a.href = CONFIG.substackUrl));
+  els.substackLinks.forEach((a) => {
+    if (!a) return;
+    a.href = withUtm(CONFIG.substackUrl, "site", a.id || "link");
+  });
 }
 
-// If a cover image is set in CONFIG, use it right away.
-if (CONFIG.coverImage) setCover(CONFIG.coverImage);
+// The default hero (hero-bg.jpg) is declared in styles.css and preloaded from
+// index.html so it starts downloading before this script even runs. Only
+// touch it here if CONFIG points somewhere else.
+if (CONFIG.coverImage && CONFIG.coverImage !== "hero-bg.jpg") setCover(CONFIG.coverImage);
 
 /* Sneak-peek lead magnet: embed the real Substack signup, and let the
    reader unlock the rest of the chapter once they've subscribed. The
@@ -223,12 +288,13 @@ if (chapterForm) {
         const res = await fetch(CONFIG.chapterWebhook, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString() }),
+          body: JSON.stringify({ email, request: "Chapter 1 PDF", submittedAt: new Date().toISOString(), ...entryContext() }),
         });
         if (!res.ok) throw new Error("submit failed");
       } else {
         console.info("[demo mode] chapter request:", email);
       }
+      track("chapter-request", "Chapter 1 requested");
       const gate = document.getElementById("excerpt-gate");
       const done = document.getElementById("chapter-done");
       if (gate) gate.hidden = true;
@@ -289,6 +355,7 @@ if (reflectForm) {
       name: document.getElementById("reflect-name").value.trim(),
       email: document.getElementById("reflect-email").value.trim(),
       submittedAt: new Date().toISOString(),
+      ...entryContext(),
     };
 
     try {
@@ -302,6 +369,7 @@ if (reflectForm) {
       } else {
         console.info("[demo mode] Reflection captured (no webhook set):", payload);
       }
+      track("reflect-submit-" + (reflectCatInput && reflectCatInput.value || "none"), "Reflection sent");
       reflectForm.hidden = true;
       reflectThanks.hidden = false;
       reflectThanks.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -395,15 +463,17 @@ function postLimit() {
 // Build the HTML for a single post card.
 function postCard(p) {
   const img = p.image || firstImage(p.content);
+  const title = escapeHtml(p.title);
   const thumb = img
-    ? `<div class="post-thumb"><img src="${img}" alt="" loading="lazy" /></div>`
+    ? `<div class="post-thumb"><img src="${img}" alt="${title}" loading="lazy" width="480" height="320" /></div>`
     : "";
+  const href = withUtm(p.link, els.list && els.list.getAttribute("data-page-size") ? "articles" : "home-latest", "card");
   return `
-      <a class="post${img ? " has-thumb" : ""}" href="${p.link}" target="_blank" rel="noopener">
+      <a class="post${img ? " has-thumb" : ""}" href="${href}" target="_blank" rel="noopener">
         ${thumb}
         <div class="post-body">
           <div class="post-meta">${fmtDate(p.pubDate)}</div>
-          <h2 class="post-title">${p.title}</h2>
+          <h3 class="post-title">${title}</h3>
           <p class="post-excerpt">${excerpt(p.content || p.description, 110)}</p>
           <span class="post-more">Read on Substack →</span>
         </div>
@@ -591,6 +661,8 @@ async function loadFromSubstack(url) {
   return mapRss2json(data);
 }
 
+// Sample posts for local development only. They are never shown to real
+// visitors: add ?demo to the URL to see them.
 const SAMPLE_POSTS = [
   {
     title: "Why I Started Writing in Public",
@@ -619,8 +691,9 @@ async function init() {
   // Only the Home and Writing pages list posts; the About page wants the
   // Substack avatar. Other pages (Book, Reflect) need no feed at all.
   if (!els.list && !els.avatar) return;
-  if (!CONFIG.substackUrl) {
-    setState("Demo mode — add your Substack URL in app.js to go live.");
+  const demo = new URLSearchParams(location.search).has("demo");
+  if (!CONFIG.substackUrl || demo) {
+    setState("Demo mode — showing sample posts.");
     render(SAMPLE_POSTS);
     els.state.classList.remove("hidden"); // keep the demo note visible
     return;
@@ -641,8 +714,14 @@ async function init() {
     render(posts);
   } catch (err) {
     console.error(err);
-    setState("Couldn't reach the Substack feed right now. Showing sample posts.", true);
-    render(SAMPLE_POSTS);
+    track("feed-error", "Substack feed failed");
+    // Never render placeholder articles to real visitors — point them at
+    // Substack instead, and the feed-error event above says it happened.
+    if (els.state) {
+      els.state.innerHTML = `Latest posts are on <a href="${withUtm(CONFIG.substackUrl, "site", "feed-error")}" target="_blank" rel="noopener">Substack →</a>`;
+      els.state.classList.remove("hidden");
+      els.state.classList.remove("error");
+    }
   }
 }
 
