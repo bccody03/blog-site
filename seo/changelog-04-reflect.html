@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SEO Change Log — 04 Reflect (reflect.html) — blakecody.com</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font: 10.5pt/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1c1a19; margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 4px; letter-spacing: -.4px; }
+  h2 { font-size: 14pt; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #9a3b27; color: #9a3b27; page-break-after: avoid; }
+  h3 { font-size: 11pt; margin: 0 0 6px; page-break-after: avoid; }
+  p { margin: 0 0 8px; }
+  .sub { color: #6b625d; font-size: 9.5pt; margin: 0 0 2px; }
+  .meta { margin: 14px 0 0; padding: 10px 12px; background: #faf7f4; border-left: 3px solid #9a3b27; font-size: 9.5pt; }
+  .meta div { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6ded8; vertical-align: top; }
+  th { background: #f5efea; font-weight: 600; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; }
+  code { font-size: 9pt; background: #f2ece8; padding: 1px 4px; border-radius: 3px; }
+  pre { font-size: 8.4pt; line-height: 1.45; background: #1f1c1a; color: #f0e9e3; padding: 9px 11px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+  pre .c { color: #9aa39a; }
+  .f { page-break-inside: avoid; margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e6ded8; border-radius: 5px; background: #fffdfc; }
+  .f.hi { border-left: 4px solid #b3261e; }
+  .f.me { border-left: 4px solid #c47f18; }
+  .f.lo { border-left: 4px solid #5c7a5c; }
+  .f.ok { border-left: 4px solid #4a7a4a; background: #f6faf6; }
+  .f.op { border-left: 4px solid #8a6a3a; background: #fdfaf4; }
+  .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; vertical-align: 2px; margin-left: 6px; }
+  .b-hi { background: #b3261e; color: #fff; }
+  .b-me { background: #c47f18; color: #fff; }
+  .b-lo { background: #5c7a5c; color: #fff; }
+  .b-ok { background: #4a7a4a; color: #fff; }
+  .b-op { background: #8a6a3a; color: #fff; }
+  .id { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt; color: #9a3b27; font-weight: 700; }
+  .lbl { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .4px; color: #6b625d; display: block; margin: 8px 0 2px; }
+  ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #e6ded8; font-size: 9pt; color: #6b625d; }
+  .kpi { display: flex; gap: 8px; margin: 12px 0 0; }
+  .kpi div { flex: 1; padding: 8px; background: #f5efea; border-radius: 4px; text-align: center; }
+  .kpi b { display: block; font-size: 17pt; line-height: 1.1; }
+  .kpi span { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #6b625d; }
+  .note { background: #fdfaf4; border: 1px solid #e6d9c0; border-left: 4px solid #8a6a3a; border-radius: 5px; padding: 11px 13px; margin: 10px 0 16px; page-break-inside: avoid; }
+  .note h3 { color: #6b5327; }
+  .tick { color: #4a7a4a; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<p class="sub">blakecody.com — SEO audit &amp; change log</p>
+<h1>Page 04 — Reflect with me <code style="font-size:12pt">/reflect.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 6 September 2026 · repository <code>bccody03/blog-site</code> @ <code>main c0a998a</code></div>
+  <div><b>Live URL:</b> https://blakecody.com/reflect.html — HTTP 200</div>
+  <div><b>Method:</b> static HTML parse · headless Chromium render · form accessibility inspection (accessible-name computation per field) · read of the reflect submit path in <code>app.js</code> · cross-check against <code>privacy.html</code></div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>. Every entry is a proposed change with the exact edit.</div>
+</div>
+
+<div class="kpi">
+  <div><b>12</b><span>changes proposed</span></div>
+  <div><b>3</b><span>high</span></div>
+  <div><b>6</b><span>medium</span></div>
+  <div><b>3</b><span>low</span></div>
+</div>
+
+<div class="note">
+<h3><span class="id">Status</span> Page-03 findings are still open <span class="badge b-op">Not yet implemented</span></h3>
+<p>Unlike the previous two passes, <code>main</code> has not moved since <code>c0a998a</code>. The <code>book.html</code> findings — <span class="id">T22</span> (the public, crawlable chapter PDF), <span class="id">T23</span> (no <code>Book</code> schema), <span class="id">C20</span>/<span class="id">C21</span> (title and H1) — are outstanding.</p>
+<p>Worth flagging because <span class="id">T22</span> is the only Critical still open across the whole audit, and its ten-minute mitigation (<code>Disallow: /chapter-1.pdf</code> in <code>robots.txt</code>, drop the static <code>href</code>) is independent of the larger publish-or-gate decision.</p>
+</div>
+
+<div class="note">
+<h3><span class="id">Opportunity</span> This is the most under-exploited page on the site</h3>
+<p>Every other page competes for something crowded — essays about discipline, a book about relationships, a personal brand. This one offers <b>free, one-to-one, personal replies from a real human being</b>, and the supply of that is genuinely thin.</p>
+<p>It currently targets none of it. The title, the H1 and the URL all say "Reflect with me" — a phrase you coined, which means the only people who can find it by name are people who already know you. Everything in section B below is about closing that gap.</p>
+<p><i>I am not going to give you a search volume — I have no keyword data and inventing one would be worse than useless. What I can say is that the intent exists and the page is currently invisible to it. Check Search Console's Performance report filtered to <code>/reflect.html</code>: if it shows only brand queries, or nothing at all, that is this finding measured.</i></p>
+</div>
+
+<h2>Do these in this order</h2>
+<p><b>P0 — this week</b></p>
+<ol>
+  <li><span class="id">C27 C28</span> Title and H1 — the biggest single search opportunity on the site is behind a coined phrase</li>
+  <li><span class="id">T29</span> Add real <code>&lt;label&gt;</code> elements. There are currently zero on a page that is entirely a form.</li>
+</ol>
+<p><b>P1 — this month</b></p>
+<ol start="3">
+  <li><span class="id">T27</span> <code>Service</code> + <code>BreadcrumbList</code> schema — and here the offer is real, so it can be declared honestly</li>
+  <li><span class="id">C29</span> Add proof: one or two anonymised exchanges, with permission</li>
+  <li><span class="id">C31</span> Link the privacy policy at the send button, not just the footer</li>
+  <li><span class="id">C30</span> Heading order (H1 → H3 → H2 today)</li>
+  <li><span class="id">K18</span> Track form-start and chip selection, not just submits</li>
+</ol>
+<p><b>P2</b></p>
+<ol start="8">
+  <li><span class="id">T30 T31</span> <code>aria-pressed</code> on the topic chips; announce the success state</li>
+  <li><span class="id">T28</span> Plan for the day "Free for now" stops being true</li>
+  <li><span class="id">C32</span> Internal links for the reader who is not ready to write</li>
+</ol>
+
+<h2>A. Technical</h2>
+
+<div class="f hi">
+<h3><span class="id">T29</span> Not one <code>&lt;label&gt;</code> on a page that is entirely a form <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now — measured accessible names</span>
+<pre>&lt;label&gt; elements on the page:  0
+
+  #reflect-answer   required  →  accessible name: PLACEHOLDER ONLY
+  #reflect-name     optional  →  accessible name: PLACEHOLDER ONLY
+  #reflect-email    required  →  accessible name: PLACEHOLDER ONLY</pre>
+<span class="lbl">Why it matters</span>
+<p>Placeholders are not labels. They vanish the moment someone types, so anyone who pauses mid-form loses the only description of the field. They are announced inconsistently across screen readers. And they fail two WCAG criteria outright — 3.3.2 (Labels or Instructions) and 1.3.1 (Info and Relationships).</p>
+<p>On most pages that is a moderate accessibility issue. Here the form <i>is</i> the page: every other element exists to get someone to fill it in.</p>
+<span class="lbl">Fix — and you have already written the label</span>
+<p><code>&lt;p class="reflect-prompt"&gt;What's on your mind?&lt;/p&gt;</code> is sitting directly above the textarea doing a label's job without being one. Change the element:</p>
+<pre>&lt;label class="reflect-prompt" for="reflect-answer"&gt;What's on your mind?&lt;/label&gt;
+
+&lt;label class="sr-only" for="reflect-name"&gt;First name (optional)&lt;/label&gt;
+&lt;label class="sr-only" for="reflect-email"&gt;Your email, so I can reply&lt;/label&gt;
+
+<span class="c">/* styles.css — if you do not already have it */</span>
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+           overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }</pre>
+<p>Zero visual change. Keep the placeholders as hints — they are good ones — but they stop being the only label.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T27</span> No structured data — and this page can declare a real offer <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p>Measured: <b>0</b> JSON-LD blocks. Site-wide: <code>index.html</code> 5 nodes · <code>articles.html</code> 2 nodes · <code>book.html</code> 0 (<span class="id">T23</span>, open) · <code>reflect.html</code> 0.</p>
+<span class="lbl">Why this page is different from the book page</span>
+<p>On <code>book.html</code> I warned against adding <code>offers</code>, because the book is unpublished and any price or ISBN would be fabricated. <b>Here the opposite applies.</b> You are offering a real service that really exists and really is free — so <code>Service</code> with a zero-price <code>Offer</code> is an accurate statement, not a claim you would have to defend.</p>
+<span class="lbl">Fix</span>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Service",
+      "@id": "https://blakecody.com/reflect.html#service",
+      "name": "Reflect with me",
+      "serviceType": "Personal reflection and coaching correspondence",
+      "description": "Write in about anything on your mind — a question about your
+                      life and where it is headed, something you are stuck on — and
+                      get a personal written reply.",
+      "provider": { "@id": "https://blakecody.com/#person" },
+      "areaServed": "Worldwide",
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://blakecody.com/reflect.html" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock" } },
+    { "@type": "WebPage",
+      "@id": "https://blakecody.com/reflect.html#webpage",
+      "url": "https://blakecody.com/reflect.html",
+      "isPartOf": { "@id": "https://blakecody.com/#website" },
+      "about":    { "@id": "https://blakecody.com/reflect.html#service" } },
+    { "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",
+          "item": "https://blakecody.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Reflect with me" } ] }
+  ]
+}
+&lt;/script&gt;</pre>
+<p>One caution that leads straight into <span class="id">T28</span>: <code>"price": "0"</code> is true today. The day it is not, this block is a false statement in machine-readable form, which is worse than a stale sentence on a page.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T28</span> "Free for now" appears in three places and nothing will catch it going stale <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<table>
+  <tr><th>Location</th><th>Text</th></tr>
+  <tr><td><code>&lt;meta name="description"&gt;</code></td><td>"… Free for now."</td></tr>
+  <tr><td><code>og:description</code> / <code>twitter:description</code></td><td>"… Free for now."</td></tr>
+  <tr><td><code>.coaching-free</code> eyebrow</td><td>"Work with me · Free for now"</td></tr>
+  <tr><td><code>.coaching-intro</code></td><td>"I'm opening this up while I build my coaching practice… No cost."</td></tr>
+  <tr><td><i>and, if you add <span class="id">T27</span></i></td><td><code>"price": "0"</code> in JSON-LD</td></tr>
+</table>
+<p>Your own copy says this is temporary — "while I build my coaching practice". So the change is not hypothetical, it is planned. When it happens, five separate places need editing, and the one that matters most (the schema) is the one nobody will remember.</p>
+<span class="lbl">Fix</span>
+<p>Nothing clever is needed — just make the change findable. Add a comment above the schema block naming every location:</p>
+<pre>&lt;!-- PRICING: "free" is asserted in 5 places on this page — meta description,
+     og:description, twitter:description, the .coaching-free eyebrow, and
+     offers.price below. If this ever becomes paid, update all five. --&gt;</pre>
+<p>If you would rather it be structural, drop <code>offers</code> from the schema entirely. <code>Service</code> without an <code>Offer</code> is still valid and says nothing that can become untrue.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T30</span> The topic chips do not expose their selected state <span class="badge b-lo">Low</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>.cat × 4    type="button"    aria-pressed: null    role: null</pre>
+<p>Selection is carried by an <code>.active</code> class and a hidden input. Visually it works. To a screen reader, all four chips are identical before and after a choice, so a user has no way to confirm which topic they picked — or that picking did anything.</p>
+<p>The container is already correct: <code>role="group"</code> with <code>aria-label="Choose a topic"</code> <span class="tick">✓</span>. Only the buttons are missing state.</p>
+<span class="lbl">Fix</span>
+<pre>&lt;button type="button" class="cat" data-cat="Relationships"
+        aria-pressed="false"&gt;Relationships&lt;/button&gt;
+
+<span class="c">// in the existing click handler in app.js</span>
+reflectCats.querySelectorAll(".cat").forEach((c) =&gt; {
+  c.classList.remove("active");
+  c.setAttribute("aria-pressed", "false");
+});
+if (!isActive) {
+  chip.classList.add("active");
+  chip.setAttribute("aria-pressed", "true");
+  reflectCatInput.value = chip.dataset.cat;
+}</pre>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T31</span> The success message is never announced <span class="badge b-lo">Low</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>#reflect-thanks   aria-live: null   role: null</pre>
+<p>On submit the form is hidden and the thanks block revealed. Sighted users see it and it scrolls into view. A screen reader user gets silence — the form they were filling in simply disappears, with no confirmation that anything was sent.</p>
+<p>On a page where the whole interaction is "I told a stranger something personal, did it arrive?", that silence is a real cost.</p>
+<span class="lbl">Fix</span>
+<pre>&lt;div class="reflect-thanks" id="reflect-thanks" role="status" hidden&gt;</pre>
+<p>One attribute. <code>role="status"</code> carries an implicit <code>aria-live="polite"</code>, so the heading and message are read out when the block appears.</p>
+</div>
+
+<h2>B. Content &amp; text</h2>
+
+<div class="f hi">
+<h3><span class="id">C27</span> The title targets a phrase only you use <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;title&gt;Reflect with me — Blake Cody&lt;/title&gt;        <span class="c">28 chars of ~60</span></pre>
+<p>"Reflect with me" is a good name. It is also a phrase you invented, which means the only people who can find this page by searching for it are people who already know it exists — and those people are already on your site.</p>
+<p>Meanwhile the page offers something people genuinely look for and rarely find: a real person who will read what they write and answer, at no cost.</p>
+<span class="lbl">Change to</span>
+<pre>Free Coaching — Write to Me, I'll Reply Personally | Blake Cody   <span class="c">62 chars</span></pre>
+<p>Or, if "coaching" feels like more than you want to claim yet:</p>
+<pre>Ask Me Anything About Your Life — Free, Personal Reply | Blake Cody  <span class="c">66, trim to ~60</span></pre>
+<p><b>On honesty:</b> "coaching" is accurate here — your own intro says "while I build my coaching practice" — so it is a description, not a stretch. Do not add "certified", "professional", or anything implying credentials you do not hold. The appeal of this page is precisely that it is a person rather than a practice, and overclaiming would trade the thing that makes it work for a word that would not help.</p>
+<p>Keep "Reflect with me" as the nav label, the eyebrow and the brand for it. The <code>&lt;title&gt;</code> is not branding — it is the sentence a stranger reads in a results list.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C28</span> The H1 is the coined phrase too <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;h1 class="coaching-title"&gt;Reflect with me&lt;/h1&gt;</pre>
+<p>Fourth page in a row with this shape. The homepage and archive are fixed; the book page (<span class="id">C21</span>) and this one are open.</p>
+<span class="lbl">Change to</span>
+<pre>&lt;h1 class="coaching-title"&gt;Write to me about what's on your mind —
+    I'll reply personally&lt;/h1&gt;</pre>
+<p>Or shorter, if the type size fights you: <code>Free, personal replies to whatever you're working through</code>.</p>
+<p>Either states the offer in the reader's language rather than yours, and both read naturally under the existing "Work with me · Free for now" eyebrow.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C29</span> 166 words, and no evidence anyone has ever done this <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>static words in &lt;body&gt;:  166      rendered: 140</pre>
+<p>The intro is well written and honest. But the page asks a stranger to write something personal to someone they have never met, and then offers nothing to suggest that anyone has done it, that a reply actually arrives, or what a reply looks like.</p>
+<p>Every other objection on this page is answered — cost (free), privacy (private), timing (a few days). The unanswered one is <i>is this real?</i></p>
+<span class="lbl">Fix</span>
+<p>One or two short anonymised exchanges. Not testimonials — an actual paraphrased question and the shape of what you wrote back:</p>
+<pre>&lt;h2&gt;What this usually looks like&lt;/h2&gt;
+&lt;blockquote&gt;Someone wrote in last month about staying in a relationship
+they had already decided to leave…&lt;/blockquote&gt;
+&lt;p&gt;What I said back, roughly: …&lt;/p&gt;</pre>
+<p><b>Get permission first, always, and anonymise properly</b> — no names, no identifying detail, and ideally paraphrase rather than quote. The trust this page runs on is the same trust you would be spending, so it is worth being conservative. If you are not comfortable using anyone's message, write a hypothetical and label it as one.</p>
+<p>Three things at once: it is the social proof the page lacks, it is 200–300 words of indexable content on exactly the topics you want to own, and it is the most persuasive thing you could put here. Target 350–450 static words.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C30</span> Heading order runs H1 → H3 → H2 <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>H1  Reflect with me
+H3  Got it. 🙏                        <span class="c">the success card (hidden)</span>
+H2  Stay up to date in your inbox    <span class="c">the subscribe block</span></pre>
+<p>Same shape as <code>book.html</code> (<span class="id">T25</span>). A level is skipped, then the order reverses, and nothing in the heading structure marks the form — which is the entire content of the page.</p>
+<span class="lbl">Fix</span>
+<p>The <span class="id">T29</span> label change and <span class="id">C29</span>'s new section together resolve this naturally:</p>
+<pre>H1  Write to me about what's on your mind — I'll reply personally
+  H2  What's on your mind?              <span class="c">above the form</span>
+  H2  What this usually looks like      <span class="c">the examples from C29</span>
+  H2  Stay up to date in your inbox
+    H3  Got it. 🙏                       <span class="c">success card, nested correctly</span></pre>
+</div>
+
+<div class="f me">
+<h3><span class="id">C31</span> The privacy policy is linked in the footer, not at the send button <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>privacy links on the page:      1, in the footer
+privacy link inside the form:   none</pre>
+<p>The form asks for maximum candour — <i>"Say whatever's on your mind. The more honest, the more I can help."</i> — and collects free-text personal disclosure plus an email address.</p>
+<p><b>The policy itself is good.</b> I checked: <code>privacy.html</code> covers the Reflect form specifically, names Formspree, and explains what happens to a message. That was done properly in pass 1. It is just linked in the one place nobody looks at the moment they hesitate.</p>
+<span class="lbl">Fix</span>
+<p><code>.reflect-note</code> already sits directly under the submit button and already says the right thing. Add four words and a link:</p>
+<pre>&lt;p class="reflect-note"&gt;Private. I read every one. I'll reply by email —
+   usually within a few days. &lt;a href="privacy.html"&gt;What I do with your
+   message&lt;/a&gt;.&lt;/p&gt;</pre>
+<p>It costs nothing, it makes work you have already done visible where it counts, and on a page asking for personal disclosure it is the difference between "trust me" and "here is why you can".</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">C32</span> Nowhere to go for the reader who is not ready to write <span class="badge b-lo">Low</span></h3>
+<p>Same as <span class="id">C25</span> on the book page. Apart from the nav, footer and "← Home" eyebrow, the body links nowhere. Someone who reads the offer, is interested, but is not ready to type something personal to a stranger today has one option: leave.</p>
+<p>Add a closing line linking to the essays — ideally by topic, matching the four chips. "Not ready to write? <a>Start with the essays on relationships</a>." That converts a hesitant visitor into a reader instead of a bounce, and gives this page its first internal links with descriptive anchor text.</p>
+</div>
+
+<h2>C. Tracking &amp; measurement</h2>
+
+<div class="f me">
+<h3><span class="id">K18</span> You measure completions but not attempts <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<pre>track("reflect-submit-" + category, "Reflection sent")   <span class="tick">✓</span> implemented</pre>
+<p>The per-category breakdown is genuinely useful and was the right thing to build first. What is missing is everything before the submit.</p>
+<span class="lbl">Why it matters</span>
+<p>This form asks for more than any other on the site — a personal disclosure <i>and</i> an email address, from someone who may have arrived two minutes ago. The abandonment rate is therefore the number that tells you whether the ask is too large, and you currently cannot see it. Ten submissions could be ten attempts or two hundred.</p>
+<p>Second gap: chips <i>clicked</i> versus chips <i>submitted</i>. That difference tells you what people arrive wanting to talk about versus what they actually go through with — and those are rarely the same on a page like this.</p>
+<span class="lbl">Fix</span>
+<pre><span class="c">// 1. form start — fires once, on the first keystroke</span>
+document.getElementById("reflect-answer")
+  ?.addEventListener("input", () =&gt; track("reflect-start", "Started writing"),
+                     { once: true });
+
+<span class="c">// 2. topic selection, in the existing chip click handler</span>
+track("reflect-topic-" + chip.dataset.cat, "Topic chosen");</pre>
+<p><code>reflect-start</code> → <code>reflect-submit-*</code> is your funnel. If starts are high and submits are low, the email field is the most likely blocker and is worth testing as optional-with-a-note. If starts themselves are low, the problem is <span class="id">C27</span>/<span class="id">C29</span> — nobody is finding the page or nobody believes it.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">K19</span> Verified working — and it already answers a question worth asking <span class="badge b-ok">Pass</span></h3>
+<ul>
+  <li><code>reflect-submit-&lt;category&gt;</code> fires on success, with the chosen topic <span class="tick">✓</span></li>
+  <li><code>entryContext()</code> — landing page, referrer, query — is spread into the Formspree payload <span class="tick">✓</span></li>
+</ul>
+<p>Worth pointing out because it is easy to miss: <b>that second one means every reflection you receive already tells you where the person came from.</b> "Do these arrive from the homepage Explore card, from the nav, or from search?" is answerable today, from the Formspree inbox alone, with no additional work. That is a question most sites cannot answer at all.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">C33</span> What is already right here — protect it <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The form is well constructed.</b> <code>required</code> on the message and email, name deliberately optional, correct <code>autocomplete</code> tokens on both, a real <code>&lt;button type="submit"&gt;</code>, <code>role="group"</code> with <code>aria-label="Choose a topic"</code> on the chips, and a 6-row textarea that visually invites a real answer rather than a sentence.</li>
+  <li><b>The expectation-setting is honest and specific.</b> "I read every one. I'll reply by email — usually within a few days." Specificity is what makes a generous promise believable, and most sites hedge exactly here.</li>
+  <li><b>The offer is genuinely distinctive.</b> Free, personal, from a named human. Nothing in this report suggests changing it — only that far too few people can currently find it.</li>
+  <li><b>Privacy coverage exists and is real</b> — <code>privacy.html</code> names this form and this processor. <span class="id">C31</span> is only about where it is linked from.</li>
+  <li><b>The topic chips are the taxonomy</b> the archive still needs (<span class="id">C18</span>, page 02). Four categories that reflect how you actually think about the subject, already built and already collecting data on which ones people pick.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:34%">Check</th><th>Result</th></tr>
+  <tr><td>Repo vs main</td><td><code>main</code> unchanged at <code>c0a998a</code> — page-03 findings still open</td></tr>
+  <tr><td>Static text in <code>&lt;body&gt;</code></td><td><b>166 words</b> · rendered: 140 (the hidden success card accounts for the difference)</td></tr>
+  <tr><td>Title / description</td><td>28 chars / 99 chars</td></tr>
+  <tr><td>Headings</td><td>H1 → H3 → H2 — level skipped, then reversed; no heading marks the form</td></tr>
+  <tr><td>JSON-LD</td><td><b>0</b> blocks</td></tr>
+  <tr><td>Form labels</td><td><b>0</b> <code>&lt;label&gt;</code> elements · all three visible fields resolve to <code>PLACEHOLDER ONLY</code></td></tr>
+  <tr><td>Topic chips</td><td><code>type="button"</code>, <code>aria-pressed: null</code> on all four · container <code>role="group"</code> + <code>aria-label</code> correct</td></tr>
+  <tr><td>Success region</td><td><code>#reflect-thanks</code> — <code>aria-live: null</code>, <code>role: null</code></td></tr>
+  <tr><td>Privacy links</td><td>1, in the footer · none inside the form</td></tr>
+  <tr><td><code>privacy.html</code> coverage</td><td>Names the Reflect form and Formspree explicitly <span class="tick">✓</span></td></tr>
+  <tr><td>Tracking</td><td><code>reflect-submit-&lt;category&gt;</code> ✓ · <code>entryContext()</code> in payload ✓ · no start or chip-selection event</td></tr>
+  <tr><td>Form validation</td><td><code>required</code> on message + email · <code>autocomplete="given-name"</code> / <code>"email"</code> · real submit button</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 04 of 7 complete.</b> Remaining: <code>about.html</code> · <code>404.html</code> · <code>privacy.html</code>.</p>
+  <p>Still open from earlier passes and cross-referenced rather than repeated: <span class="id">T22</span> (public chapter PDF — the only Critical outstanding), <span class="id">T23</span>, <span class="id">C20</span>, <span class="id">C21</span> from page 03; <span class="id">T2</span>, <span class="id">C4</span>, <span class="id">T13</span> site-wide.</p>
+  <p>The UI track remains one page behind: <code>ui/changelog-02-articles.pdf</code> is pending.</p>
+  <p>blakecody.com SEO change log · generated 6 September 2026</p>
+</div>
+
+</body>
+</html>

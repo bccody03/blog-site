@@ -8,8 +8,8 @@ One page per pass. Each pass produces a change log PDF in this folder covering
 | 01 | `index.html` — Homepage `/` | ✅ Done — 2026-09-03 | [changelog-01-index.pdf](changelog-01-index.pdf) | — / 11 / 21 |
 | 02 | `articles.html` — Articles archive | ✅ Done — 2026-09-06 | [changelog-02-articles.pdf](changelog-02-articles.pdf) | 1 / 6 / 9 |
 | 03 | `book.html` — The Book | ✅ Done — 2026-09-06 | [changelog-03-book.pdf](changelog-03-book.pdf) | 1 / 4 / 7 |
-| 04 | `reflect.html` — Reflect with me | ⬜ Next | — | — |
-| 05 | `about.html` — About | ⬜ Pending | — | — |
+| 04 | `reflect.html` — Reflect with me | ✅ Done — 2026-09-06 | [changelog-04-reflect.pdf](changelog-04-reflect.pdf) | — / 3 / 9 |
+| 05 | `about.html` — About | ⬜ Next | — | — |
 | 06 | `404.html` — Not found | ⬜ Pending | — | — |
 | 07 | `privacy.html` — Privacy | ⬜ Pending (new — added 2026-09-04) | — | — |
 
@@ -65,6 +65,19 @@ page-03 pass.
 | K11 | ✅ card-position tracking |
 | K10 | ⊘ Obsolete — existed only to decide T16, which was solved by deleting pagination |
 | T17 | ⬜ Still open — feed depth needs manual verification (rss2json blocked here) |
+
+## Page-04 findings carried forward
+
+| ID | Finding | Severity |
+|----|---------|----------|
+| C27 C28 | Title and H1 both target "Reflect with me", a coined phrase — the page's real search opportunity (free personal replies) is unaddressed | High |
+| T29 | Zero `<label>` elements; all three fields resolve to PLACEHOLDER ONLY (WCAG 3.3.2, 1.3.1) | High |
+| T27 | No schema — and unlike book.html, the offer here is real and free, so `Service` + zero-price `Offer` is honest | Medium |
+| C29 | No proof the service is real: no example exchange, no reply shown | Medium |
+| C31 | Privacy linked only in the footer, not at the point of personal disclosure | Medium |
+| T28 | "Free for now" asserted in 5 places with nothing to catch it going stale | Medium |
+| K18 | Submissions tracked, attempts not — abandonment rate unknown | Medium |
+| T30 T31 | Chips lack `aria-pressed`; success region lacks `role="status"` | Low |
 
 ## Page-03 findings carried forward
 
