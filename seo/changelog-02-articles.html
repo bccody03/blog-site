@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SEO Change Log — 02 Articles (articles.html) — blakecody.com</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font: 10.5pt/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1c1a19; margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 4px; letter-spacing: -.4px; }
+  h2 { font-size: 14pt; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #9a3b27; color: #9a3b27; page-break-after: avoid; }
+  h3 { font-size: 11pt; margin: 0 0 6px; page-break-after: avoid; }
+  p { margin: 0 0 8px; }
+  .sub { color: #6b625d; font-size: 9.5pt; margin: 0 0 2px; }
+  .meta { margin: 14px 0 0; padding: 10px 12px; background: #faf7f4; border-left: 3px solid #9a3b27; font-size: 9.5pt; }
+  .meta div { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6ded8; vertical-align: top; }
+  th { background: #f5efea; font-weight: 600; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; }
+  code { font-size: 9pt; background: #f2ece8; padding: 1px 4px; border-radius: 3px; }
+  pre { font-size: 8.4pt; line-height: 1.45; background: #1f1c1a; color: #f0e9e3; padding: 9px 11px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+  pre .c { color: #9aa39a; }
+  .f { page-break-inside: avoid; margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e6ded8; border-radius: 5px; background: #fffdfc; }
+  .f.cr { border-left: 4px solid #7a1410; }
+  .f.hi { border-left: 4px solid #b3261e; }
+  .f.me { border-left: 4px solid #c47f18; }
+  .f.lo { border-left: 4px solid #5c7a5c; }
+  .f.ok { border-left: 4px solid #4a7a4a; background: #f6faf6; }
+  .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; vertical-align: 2px; margin-left: 6px; }
+  .b-cr { background: #7a1410; color: #fff; }
+  .b-hi { background: #b3261e; color: #fff; }
+  .b-me { background: #c47f18; color: #fff; }
+  .b-lo { background: #5c7a5c; color: #fff; }
+  .b-ok { background: #4a7a4a; color: #fff; }
+  .id { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt; color: #9a3b27; font-weight: 700; }
+  .lbl { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .4px; color: #6b625d; display: block; margin: 8px 0 2px; }
+  ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #e6ded8; font-size: 9pt; color: #6b625d; }
+  .kpi { display: flex; gap: 8px; margin: 12px 0 0; }
+  .kpi div { flex: 1; padding: 8px; background: #f5efea; border-radius: 4px; text-align: center; }
+  .kpi b { display: block; font-size: 17pt; line-height: 1.1; }
+  .kpi span { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #6b625d; }
+  .win { background: #f6faf6; border: 1px solid #cfe2cf; border-left: 4px solid #4a7a4a; border-radius: 5px; padding: 11px 13px; margin: 10px 0 16px; page-break-inside: avoid; }
+  .win h3 { color: #2f5c2f; }
+  .tick { color: #4a7a4a; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<p class="sub">blakecody.com — SEO audit &amp; change log</p>
+<h1>Page 02 — Articles <code style="font-size:12pt">/articles.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 6 September 2026 · live site + repository <code>bccody03/blog-site</code> @ <code>main 88fdcd1</code> (merged into the audit branch)</div>
+  <div><b>Live URL:</b> https://blakecody.com/articles.html — HTTP 200, <code>Last-Modified: 2026-09-04</code>, repo copy verified byte-identical to live</div>
+  <div><b>Method:</b> static HTML parse · headless Chromium render with a 23-post feed injected · pagination behaviour tested by clicking through · live HTTP + redirect probes · full read of the updated <code>app.js</code></div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>. Every entry is a proposed change with the exact edit.</div>
+</div>
+
+<div class="kpi">
+  <div><b>16</b><span>changes proposed</span></div>
+  <div><b>1</b><span>critical</span></div>
+  <div><b>6</b><span>high</span></div>
+  <div><b>9</b><span>medium / low</span></div>
+  <div><b>17</b><span>page-01 fixes verified</span></div>
+</div>
+
+<div class="win">
+<h3>First: 17 of the page-01 findings are done, and done correctly <span class="badge b-ok">Verified</span></h3>
+<p>Since the homepage audit, <code>main</code> has moved (commit <code>88fdcd1</code>, "SEO audit pass 1"). I re-verified each fix against the live site rather than the diff. All of these carry over to this page:</p>
+<table>
+  <tr><th style="width:10%">ID</th><th style="width:45%">Fix</th><th>Verification</th></tr>
+  <tr><td><span class="id">T1</span></td><td>Enforce HTTPS</td><td><span class="tick">✓</span> <code>curl -I http://…/articles.html</code> → <b>301</b> → <code>https://</code></td></tr>
+  <tr><td><span class="id">T3</span></td><td>Fake sample posts removed</td><td><span class="tick">✓</span> <code>SAMPLE_POSTS</code> now gated behind <code>?demo</code>; the error path sets an honest "Latest posts are on Substack →" state and fires a <code>feed-error</code> event</td></tr>
+  <tr><td><span class="id">T4</span></td><td>Fonts non-blocking</td><td><span class="tick">✓</span> <code>rel="preload" as="style"</code> + <code>onload</code> swap, with a <code>&lt;noscript&gt;</code> fallback</td></tr>
+  <tr><td><span class="id">T8</span></td><td>Internal links to <code>/</code></td><td><span class="tick">✓</span> brand, Home and the "← Home" eyebrow all point at <code>/</code></td></tr>
+  <tr><td><span class="id">T9</span></td><td>Sitemap</td><td><span class="tick">✓</span> <code>lastmod</code> now 2026-09-04 and accurate; <code>&lt;priority&gt;</code> dropped; <code>privacy.html</code> added</td></tr>
+  <tr><td><span class="id">T10</span></td><td>Image weight</td><td><span class="tick">✓</span> logo 45 KB → <b>4 KB</b> at 60×60 with <code>width</code>/<code>height</code> · og-image PNG → JPEG, 91 → <b>46 KB</b> · cover 443 → <b>207 KB</b> · hero 92 → <b>79 KB</b></td></tr>
+  <tr><td><span class="id">T11</span></td><td>Scripts deferred</td><td><span class="tick">✓</span> <code>&lt;script src="app.js?v=24" defer&gt;</code> in the head</td></tr>
+  <tr><td><span class="id">T12</span></td><td>Lazy subscribe iframe</td><td><span class="tick">✓</span> <code>loading="lazy"</code></td></tr>
+  <tr><td><span class="id">T14</span></td><td><code>rel="me"</code></td><td><span class="tick">✓</span> on the Substack nav link</td></tr>
+  <tr><td><span class="id">C5</span></td><td>Post titles → <code>h3</code></td><td><span class="tick">✓</span> confirmed in the rendered DOM</td></tr>
+  <tr><td><span class="id">C7</span></td><td>OG completeness</td><td><span class="tick">✓</span> <code>og:locale</code>, <code>og:image:alt</code> added</td></tr>
+  <tr><td><span class="id">C8</span></td><td>Thumbnail alt text</td><td><span class="tick">✓</span> rendered alt = the post title, plus <code>width</code>/<code>height</code></td></tr>
+  <tr><td><span class="id">K1</span></td><td>GoatCounter events</td><td><span class="tick">✓</span> <code>track()</code> helper + delegated outbound listener + <code>feed-error</code></td></tr>
+  <tr><td><span class="id">K2</span></td><td>HTTPS analytics URL</td><td><span class="tick">✓</span> <code>https://gc.zgo.at/count.js</code></td></tr>
+  <tr><td><span class="id">K3</span></td><td>UTM tagging</td><td><span class="tick">✓</span> rendered card href carries <code>utm_campaign=articles&amp;utm_content=card</code></td></tr>
+  <tr><td><span class="id">K6</span></td><td>Form source attribution</td><td><span class="tick">✓</span> <code>entryContext()</code> captures landing page, referrer and query into <code>sessionStorage</code></td></tr>
+  <tr><td><span class="id">K9</span></td><td>Privacy page</td><td><span class="tick">✓</span> <code>/privacy.html</code> live, linked in the footer, in the sitemap</td></tr>
+</table>
+<p>That is a genuinely strong implementation pass. This report only covers what is still open <b>on this page</b>.</p>
+</div>
+
+<h2>Do these in this order</h2>
+<p><b>P0 — this week</b></p>
+<ol>
+  <li><span class="id">T16</span> Give pagination real URLs. Right now posts 10 and older have no address at all.</li>
+  <li><span class="id">C13 C15</span> Rewrite the title and the H1 — both currently spend themselves on the word "Articles".</li>
+  <li><span class="id">T18</span> Add <code>CollectionPage</code> + <code>ItemList</code> + <code>BreadcrumbList</code> schema. The homepage has a five-node graph; this page has none.</li>
+</ol>
+<p><b>P1 — this month</b></p>
+<ol start="4">
+  <li><span class="id">C14 C16 C19</span> Meta description, heading order, and 60–100 words of intro copy</li>
+  <li><span class="id">K10 K11</span> Track pagination depth and card position — you cannot currently tell if anyone ever reaches page 2</li>
+  <li><span class="id">C18</span> Add topic grouping; you already have the taxonomy on the Reflect page</li>
+  <li><span class="id">T19 T17</span> RSS link on the archive; confirm how deep the feed actually reaches</li>
+</ol>
+<p><b>P2 — the one that dissolves four of the above</b></p>
+<ol start="8">
+  <li><span class="id">C4</span> Host the essays on blakecody.com. <b><span class="id">T16</span>, <span class="id">T2-A</span>, <span class="id">C17</span> and half of <span class="id">C18</span> all disappear the moment articles have their own URLs on your domain.</b> Do not build elaborate client-side pagination URL handling if you are going to do this — it would be work you throw away.</li>
+</ol>
+
+<h2>A. Technical</h2>
+
+<div class="f cr">
+<h3><span class="id">T16</span> Pagination creates no URLs — posts 10 and older have no address <span class="badge b-cr">Critical</span></h3>
+<span class="lbl">Now</span>
+<p><code>articles.html</code> sets <code>data-page-size="9"</code>, and <code>renderPagination()</code> builds the controls as <b>buttons, not links</b>:</p>
+<pre>html += `&lt;button class="page-btn page-num..." data-page="${i}"...&gt;${i}&lt;/button&gt;`;</pre>
+<p>I rendered the page with a 23-post feed and clicked through to page 2. Measured:</p>
+<pre>pager elements:  BUTTON ←  BUTTON 1  BUTTON 2  BUTTON 3  BUTTON →
+                 href: null on every one
+
+after clicking page 2:
+  location.href    unchanged   <span class="c">(still /articles.html)</span>
+  location.search  ""
+  location.hash    ""
+  history.length   2           <span class="c">(unchanged — no history entry pushed)</span>
+  content          posts 10–18 now displayed</pre>
+<span class="lbl">Why it matters</span>
+<p>Four separate consequences, all from the same cause:</p>
+<ol>
+  <li><b>Crawlers never see past post 9.</b> Googlebot renders JavaScript but it does not click buttons. There is no URL for page 2, so there is no way for any crawler to reach posts 10 and older. On a page titled "Every essay and dispatch", most of the essays are invisible.</li>
+  <li><b>Nothing beyond page 1 can be linked or shared.</b> No reader can send someone "the page with that essay from March".</li>
+  <li><b>The back button is broken.</b> No history entry is pushed, so pressing Back from page 3 leaves the archive entirely instead of returning to page 2.</li>
+  <li><b>No <code>rel="next"</code>/<code>rel="prev"</code></b>, because there is nothing to point them at.</li>
+</ol>
+<span class="lbl">Fix — the interim version</span>
+<p>Make the pager real links with a query parameter, and read it on load:</p>
+<pre><span class="c">// renderPagination — links, not buttons</span>
+html += `&lt;a class="page-btn page-num${i === cur ? " active" : ""}" 
+          href="?page=${i}" data-page="${i}"&gt;${i}&lt;/a&gt;`;
+
+<span class="c">// on click, intercept and push state instead of reloading</span>
+history.pushState({ page: p }, "", p === 1 ? "articles.html" : "?page=" + p);
+
+<span class="c">// on load, honour the parameter</span>
+const start = parseInt(new URLSearchParams(location.search).get("page"), 10) || 1;
+renderPage(start);
+
+<span class="c">// and handle Back</span>
+addEventListener("popstate", (e) =&gt; renderPage((e.state &amp;&amp; e.state.page) || 1));</pre>
+<p>Then add <code>&lt;link rel="canonical" href="https://blakecody.com/articles.html?page=N"&gt;</code> per page — or, simpler and better for a small archive, keep the canonical on page 1 and add <code>rel="next"</code>/<code>rel="prev"</code>.</p>
+<span class="lbl">Fix — the version that actually solves it</span>
+<p>For an archive of this size, <b>paginating at all is the wrong call.</b> Nine per page across 20–30 essays gives you three pages, none of which a crawler can reach, in exchange for saving a reader a scroll. Either:</p>
+<ul>
+  <li><b>Show all posts on one page</b> — set <code>data-page-size="0"</code>, delete the pager. One URL, every essay crawlable, no history problem, no canonical question. This is a one-character change and it fixes the whole finding.</li>
+  <li><b>Or do <span class="id">C4</span></b> and give each essay its own URL, at which point the archive is a real index and pagination is a genuine paging concern rather than a content-hiding one.</li>
+</ul>
+<p>Given that you are likely to do <span class="id">C4</span> eventually, <b>I would set <code>data-page-size="0"</code> today</b> and not build the pushState machinery at all.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T2-A</span> The archive serves 50 words and an empty div <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>Measured static text in <code>&lt;body&gt;</code>: <b>50 words</b> — navigation, an H1, one sentence, "Loading…", the subscribe block and the footer. Rendered after JS: 296 words, 9 cards.</p>
+<pre>&lt;div class="state" id="state"&gt;Loading…&lt;/div&gt;
+&lt;div class="post-list" id="post-list" data-page-size="9"&gt;&lt;/div&gt;</pre>
+<span class="lbl">Why it matters</span>
+<p>This is the same root cause as <span class="id">T2</span> on the homepage, but the consequence is worse here. The homepage has an Explore grid, an app block and a subscribe section that exist in HTML regardless. This page's <i>entire reason to exist</i> is the list, and the list is not in the HTML. To a crawler that does not run JavaScript — Bing, and effectively every AI crawler — <code>articles.html</code> is a 50-word page that says "Loading…".</p>
+<span class="lbl">Fix</span>
+<p>Same build-time prerender proposed in <span class="id">T2</span>: a scheduled GitHub Action fetches the Substack RSS and writes the cards into the HTML. Interim, add a <code>&lt;noscript&gt;</code> list of the most recent titles and links so there is something real in the markup.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T18</span> No structured data on this page <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>Measured across the site:</p>
+<table>
+  <tr><th>Page</th><th>JSON-LD blocks</th></tr>
+  <tr><td><code>index.html</code></td><td>1 — a five-node graph: Person, WebSite, Book, SoftwareApplication, WebPage <span class="tick">✓</span></td></tr>
+  <tr><td><code>articles.html</code></td><td><b>0</b></td></tr>
+  <tr><td><code>book.html</code>, <code>reflect.html</code>, <code>about.html</code>, <code>privacy.html</code>, <code>404.html</code></td><td>0 <span style="color:#6b625d">(covered in their own reports)</span></td></tr>
+</table>
+<p>The homepage schema was implemented well. It just did not travel to the other pages.</p>
+<span class="lbl">Fix</span>
+<p>An archive wants three things: what kind of page it is, what it lists, and where it sits. Add before <code>&lt;/head&gt;</code>:</p>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "CollectionPage",
+      "@id": "https://blakecody.com/articles.html#webpage",
+      "url": "https://blakecody.com/articles.html",
+      "name": "Essays by Blake Cody",
+      "description": "Every essay and dispatch on discipline, love and living with intention.",
+      "isPartOf": { "@id": "https://blakecody.com/#website" },
+      "about":    { "@id": "https://blakecody.com/#person" },
+      "inLanguage": "en-US" },
+    { "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",
+          "item": "https://blakecody.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Articles" }
+      ] }
+  ]
+}
+&lt;/script&gt;</pre>
+<p>Note the <code>@id</code> references reuse the nodes the homepage already defines — that is what makes it one graph rather than five disconnected ones.</p>
+<p>Then add an <code>ItemList</code> of the posts, generated alongside the cards in <span class="id">T2-A</span>'s prerender step. Generating it client-side is possible but pointless: if JavaScript has to run to produce your schema, the crawlers that most need the schema will not see it.</p>
+<p>The <code>BreadcrumbList</code> also gives you the breadcrumb display in search results, and this page already has the visual breadcrumb to match it — <code>&lt;p class="eyebrow"&gt;&lt;a href="/"&gt;← Home&lt;/a&gt;&lt;/p&gt;</code>.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T17</span> How deep does the feed actually reach? <span class="badge b-me">Medium</span></h3>
+<p><code>loadFromSubstack()</code> requests <code>count=50</code> from rss2json, which is generous. But the ceiling is not rss2json — it is Substack's own RSS feed, which typically serves only a recent window (commonly the last ~20 posts) regardless of what you ask for.</p>
+<p>If that is the case here, then "Every essay and dispatch, newest first" is not true: essays older than the feed window are silently absent, with nothing on the page to say so.</p>
+<span class="lbl">Verify</span>
+<p><i>I could not test this — <code>api.rss2json.com</code> is blocked by this environment's egress policy.</i> Count the cards on the live archive and compare against your Substack archive page. If they differ, you have a content gap.</p>
+<span class="lbl">Fix if confirmed</span>
+<p>The prerender pipeline (<span class="id">T2-A</span>) solves it permanently: fetch on a schedule and <b>accumulate</b> into a local JSON file rather than replacing it, so posts that fall out of the feed window stay in your archive. This is another reason to move the fetch to build time.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T19</span> No RSS link on the page where it belongs most <span class="badge b-lo">Low</span></h3>
+<p><code>index.html</code> now carries <code>&lt;link rel="alternate" type="application/rss+xml"&gt;</code> <span class="tick">✓</span>. <code>articles.html</code> does not — and the archive is exactly where a reader or a feed reader looks for it.</p>
+<pre>&lt;link rel="alternate" type="application/rss+xml"
+      title="Blake Cody on Substack" href="https://bccody.substack.com/feed" /&gt;</pre>
+<p>Add it to every page, or at minimum to this one. Consider a visible "Subscribe by RSS" link next to the pager too — the audience for a personal essay archive skews toward people who still use feed readers.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T20</span> <code>og-image.png</code> now returns 404 <span class="badge b-lo">Low</span></h3>
+<p>Verified live: <code>og-image.jpg</code> → 200 (46 KB) <span class="tick">✓</span>, <code>og-image.png</code> → <b>404</b>.</p>
+<p>The meta tags were all updated correctly, so new shares are fine. But any previously shared link whose preview was cached against the old PNG, and any external page referencing it, now points at a missing file.</p>
+<span class="lbl">Fix</span>
+<p>GitHub Pages cannot issue a redirect for a static file, so the fix is simply to leave a copy: keep <code>og-image.png</code> in the repo alongside the JPEG. It costs 46 KB of repository space and nothing at runtime, since no page references it any more.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T21</span> <code>CONFIG.maxPosts</code> is now dead config <span class="badge b-lo">Low</span></h3>
+<p><code>maxPosts: 12</code> is read only by <code>postLimit()</code>, which applies when a list has no <code>data-limit</code>. The homepage sets <code>data-limit="3"</code>; this page uses <code>data-page-size="9"</code> and paginates the full array. So <code>maxPosts</code> currently affects nothing.</p>
+<p>Harmless today, misleading later — someone editing this file will reasonably assume changing it does something. Either delete it, or wire it to <code>count=</code> in <code>loadFromSubstack()</code> where a post cap actually belongs.</p>
+</div>
+
+<h2>B. Content &amp; text</h2>
+
+<div class="f hi">
+<h3><span class="id">C13</span> The title is 21 characters and says nothing <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;title&gt;Articles — Blake Cody&lt;/title&gt;     <span class="c">21 characters of roughly 60</span></pre>
+<p>"Articles" is a navigation label, not a search term. Nobody types it, and it tells Google nothing about what these articles are about.</p>
+<span class="lbl">Change to</span>
+<pre>All Essays by Blake Cody — Discipline, Love &amp; Intentional Living   <span class="c">63 chars</span></pre>
+<p>Or, if you would rather lead with the topic than the name:</p>
+<pre>Essays on Discipline, Love &amp; Living with Intention | Blake Cody    <span class="c">62 chars</span></pre>
+<p>Either version gives this page a chance at non-brand queries, which the homepage cannot compete for and should not try to (see <span class="id">C11</span>).</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C15</span> The H1 is one word <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;h1 class="archive-title"&gt;Articles&lt;/h1&gt;
+&lt;p class="archive-sub"&gt;Every essay and dispatch, newest first.&lt;/p&gt;</pre>
+<p>The homepage H1 was fixed well — it now reads "Lead with Love, Live with Intention" instead of just the name. This page has the same problem the homepage had, and the same fix applies.</p>
+<span class="lbl">Change to</span>
+<pre>&lt;h1 class="archive-title"&gt;Essays on discipline, love and living with intention&lt;/h1&gt;
+&lt;p class="archive-sub"&gt;Everything I've written, newest first — free to read.&lt;/p&gt;</pre>
+<p>If that is too long for the design at this type size, <code>"Every essay, newest first"</code> is still a large improvement over <code>"Articles"</code>: it is a phrase rather than a label.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C14</span> The meta description uses 87 of ~155 characters <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<pre>Every essay and dispatch from Blake Cody on discipline, love and living
+with intention.                                              <span class="c">87 chars</span></pre>
+<p>Better than it was — the topics are in there now. But it stops before giving anyone a reason to click, and it wastes 68 characters of pixel budget.</p>
+<span class="lbl">Change to</span>
+<pre>Every essay Blake Cody has written on discipline, love and living with
+intention — free to read, newest first. New writing most weeks.  <span class="c">137 chars</span></pre>
+<p>"Free to read" and "new writing most weeks" are the two facts that make an archive worth clicking rather than bookmarking-for-later. If you know the count, use it: <code>"All 24 essays…"</code> is stronger than "every essay", because a number is a promise of substance.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C16</span> The heading order skips a level, then goes backwards <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured in the rendered DOM</span>
+<pre>H1  Articles
+H3  Essay number 1 …        <span class="c">&lt;- H1 jumps straight to H3, no H2</span>
+H3  Essay number 2 …
+…   (nine of them)
+H2  Stay up to date in your inbox    <span class="c">&lt;- an H2 arriving after nine H3s</span></pre>
+<p>The <span class="id">C5</span> fix (post titles from <code>h2</code> to <code>h3</code>) was right and fixed the homepage properly, where a "Latest articles" H2 sits above the list. This page has no such H2, so lowering the titles to H3 left a gap.</p>
+<span class="lbl">Change to</span>
+<p>Give the list the H2 it is missing. The subtitle is already there and already says the right thing — just promote it:</p>
+<pre>&lt;h1 class="archive-title"&gt;Essays on discipline, love and living with intention&lt;/h1&gt;
+&lt;h2 class="archive-sub"&gt;Everything I've written, newest first&lt;/h2&gt;
+  &lt;h3&gt; … each post … &lt;/h3&gt;</pre>
+<p>Style <code>.archive-sub</code> however you like — the visual weight does not have to follow the tag. That gives a clean H1 → H2 → H3 tree, with the subscribe H2 as a sibling of the list H2, which is correct.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C18</span> No topic grouping — and you already have the taxonomy <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p>The archive is a single reverse-chronological list. There are no categories, no tags, no topic pages. For search, that means there is no page on the site targeting any specific subject — the archive is one URL competing for everything at once, which in practice means it competes for nothing.</p>
+<span class="lbl">The thing you already built</span>
+<p><code>reflect.html</code> has topic chips — <code>.cat</code> elements with <code>data-cat</code> attributes — that let a reader pick a subject before writing to you. That taxonomy already reflects how you think about your own subject matter. It is the obvious grouping for the essays too.</p>
+<span class="lbl">Change to</span>
+<ul>
+  <li><b>Short term:</b> add filter chips to the archive using the same categories, matched against post titles/tags from the feed. Client-side filtering, no new URLs — useful for readers, neutral for SEO.</li>
+  <li><b>Real version (needs <span class="id">C4</span>):</b> once essays live on your domain, each topic becomes a page — <code>/topics/discipline</code>, <code>/topics/intention</code> — with an intro paragraph and the essays beneath it. <b>These are the pages that would actually rank for non-brand queries.</b> The homepage never will; the archive alone probably will not; topic hubs are the standard answer and they work.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">C19</span> One sentence of body copy on the whole page <span class="badge b-me">Medium</span></h3>
+<p>"Every essay and dispatch, newest first." is the entire prose content of the archive. Nothing frames what the essays cover, who they are for, or why someone should start reading.</p>
+<span class="lbl">Change to</span>
+<p>60–100 words between the H1 and the list. Not keyword filler — a real short introduction: what you write about, roughly how often, what a new reader should start with. Link two or three specific essays by name inside that paragraph. That gives you internal links with descriptive anchor text, which the card grid currently does not provide, and it gives Google a passage that describes the collection.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C17</span> A page called "Articles" that contains no articles <span class="badge b-hi">High</span> <span style="font-size:8.5pt;color:#6b625d">→ site-wide <span class="id">C4</span></span></h3>
+<p>Every card still links to <code>bccody.substack.com</code> with <code>target="_blank"</code>. Verified on a rendered card:</p>
+<pre>https://bccody.substack.com/p/post-1
+  ?utm_source=blakecody.com&amp;utm_medium=referral
+  &amp;utm_campaign=articles&amp;utm_content=card</pre>
+<p>The UTM tagging (<span class="id">K3</span>) is correctly implemented and means you can now <i>measure</i> the traffic you export. It does not change that you are exporting it.</p>
+<p>This is the same finding as <span class="id">C4</span> on the homepage, and I am repeating it here only because this is the page where it is most visible: the archive is the single strongest argument for hosting the essays on your own domain. It already has the layout, the pagination and the design. It is a fully built index pointing at someone else's website.</p>
+<p><b>See the P2 note above:</b> doing this dissolves <span class="id">T16</span>, <span class="id">T2-A</span>, half of <span class="id">C18</span> and this finding, all at once.</p>
+</div>
+
+<h2>C. Tracking &amp; measurement</h2>
+
+<div class="f me">
+<h3><span class="id">K10</span> Pagination clicks are not tracked — you cannot tell if page 2 is ever reached <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p><code>renderPage()</code> and the pagination click handler contain no <code>track()</code> call. The <span class="id">K1</span> implementation covers outbound clicks, chapter requests, reflections and feed errors — all correct — but not this.</p>
+<span class="lbl">Why it matters</span>
+<p>This is the number that decides <span class="id">T16</span>. If nobody ever clicks past page 1, pagination is pure cost — it hides content from crawlers and buys nothing — and you should set <code>data-page-size="0"</code> and be done. If people do page through, that tells you the archive is being browsed rather than bounced from, which is worth knowing on its own.</p>
+<span class="lbl">Fix</span>
+<pre><span class="c">// inside the pagination click handler, after parsing p</span>
+track("archive-page-" + p, "Archive page " + p);</pre>
+<p>One line. Give it two weeks and the answer to <span class="id">T16</span> is a fact rather than a judgement call.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">K11</span> Card clicks do not record which card <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<pre>const where = a.id ? a.id : a.closest(".post") ? "card" : "other";
+track("click-substack-" + where, "Substack click");</pre>
+<p>Every one of the nine cards on every page fires the identical <code>click-substack-card</code> event. You can see that the archive sends traffic to Substack; you cannot see whether readers click the newest post, scan to something further down, or hunt for a specific title.</p>
+<span class="lbl">Fix</span>
+<pre>const card = a.closest(".post");
+if (card) {
+  const idx = [...card.parentElement.children].indexOf(card) + 1;
+  track("click-substack-card-" + idx, "Substack click, position " + idx);
+}</pre>
+<p>If clicks cluster on position 1, the archive is functioning as "show me the latest" and the homepage's three-post list is doing the same job — consider whether you need both. If they spread down the list, readers are genuinely browsing, which argues for <span class="id">C18</span>'s topic grouping and against pagination.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">K12</span> Search Console follow-ups specific to this page <span class="badge b-lo">Low</span></h3>
+<ul>
+  <li>Run <b>URL Inspection → Test live URL → View rendered HTML</b> on <code>/articles.html</code> and count the post cards. That confirms whether Google's renderer sees 9 cards, and it will not see more — which is <span class="id">T16</span> demonstrated rather than argued.</li>
+  <li>Filter the Performance report to <code>/articles.html</code> and look at the query list. If it is entirely brand terms, that is <span class="id">C13</span> and <span class="id">C18</span> quantified.</li>
+  <li>Re-submit the sitemap now that <code>lastmod</code> is accurate — the values changed on 4 September and Google will not have re-read it on its own yet.</li>
+</ul>
+</div>
+
+<div class="f ok">
+<h3><span class="id">K13</span> Verified working on this page — leave alone <span class="badge b-ok">Pass</span></h3>
+<ul>
+  <li>Outbound Substack clicks fire <code>click-substack-card</code> <span class="tick">✓</span></li>
+  <li>UTM tagging is correct and page-specific (<code>utm_campaign=articles</code>) <span class="tick">✓</span></li>
+  <li><code>feed-error</code> fires on a failed feed and the visible state is honest <span class="tick">✓</span></li>
+  <li>Entry context (landing page, referrer, query) is captured to <code>sessionStorage</code> <span class="tick">✓</span></li>
+  <li>GoatCounter loads over HTTPS <span class="tick">✓</span></li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:34%">Check</th><th>Result</th></tr>
+  <tr><td>Repo vs live</td><td>Byte-identical after merging <code>origin/main 88fdcd1</code> — this audit reflects what is deployed</td></tr>
+  <tr><td><code>curl -I http://…/articles.html</code></td><td><b>301</b> → <code>https://blakecody.com/articles.html</code> — <span class="id">T1</span> confirmed fixed</td></tr>
+  <tr><td>Static text in <code>&lt;body&gt;</code></td><td><b>50 words</b> · rendered after JS: 296 words, 9 cards</td></tr>
+  <tr><td>Title / description</td><td>21 chars / 87 chars</td></tr>
+  <tr><td>Headings (rendered)</td><td>H1 → H3 ×9 → H2 — level skipped, then reversed</td></tr>
+  <tr><td>Pagination (23-post feed)</td><td>5 <code>&lt;button&gt;</code> elements, <code>href: null</code> on all · after clicking page 2: URL, search, hash all unchanged; <code>history.length</code> unchanged at 2</td></tr>
+  <tr><td>Card href (rendered)</td><td><code>…/p/post-1?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=articles&amp;utm_content=card</code></td></tr>
+  <tr><td>Thumbnail alt (rendered)</td><td>= the post title, with <code>width="480" height="320"</code> — <span class="id">C8</span> confirmed fixed</td></tr>
+  <tr><td>JSON-LD</td><td><code>index.html</code>: 1 block, 5 nodes · <code>articles.html</code>: <b>0</b></td></tr>
+  <tr><td>Feed request</td><td><code>count=50</code> to rss2json; real ceiling is Substack's own feed window</td></tr>
+  <tr><td>Assets</td><td>logo.png 4 KB @ 60×60 · og-image.jpg 46 KB (200) · og-image.png <b>404</b> · cover.jpg 207 KB · hero-bg.jpg 79 KB</td></tr>
+  <tr><td>Not verifiable here</td><td><code>api.rss2json.com</code> blocked by egress policy — <span class="id">T17</span> feed depth needs manual confirmation</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 02 of 6 complete.</b> Remaining: <code>book.html</code> · <code>reflect.html</code> · <code>about.html</code> · <code>404.html</code> · plus the new <code>privacy.html</code>, which did not exist when this audit was scoped.</p>
+  <p>Site-wide findings raised on page 01 and still open — <span class="id">T2</span> (client-side rendering), <span class="id">C4</span> (articles hosted off-domain), <span class="id">T5</span> (schema on pages other than the homepage), <span class="id">T13</span> (10-minute cache ceiling) — are cross-referenced rather than repeated. Everything else from page 01 is verified fixed; see the table at the top.</p>
+  <p>Companion document: <code>ui/changelog-02-articles.pdf</code> — visual design findings for the same page (pending).</p>
+  <p>blakecody.com SEO change log · generated 6 September 2026</p>
+</div>
+
+</body>
+</html>
