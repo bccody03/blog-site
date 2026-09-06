@@ -6,7 +6,6 @@
    ============================================================ */
 const CONFIG = {
   substackUrl: "https://bccody.substack.com", // <-- your Substack URL goes here
-  maxPosts: 12,
   // Free rss2json.com API key. Substack blocks bots/proxies, so rss2json is the
   // one relay that reliably reaches your feed. Without a key it's capped at ~10
   // posts; paste a free key here to load your whole feed.
@@ -87,8 +86,15 @@ document.addEventListener("click", (e) => {
   const a = e.target.closest("a");
   if (!a || !a.href) return;
   if (a.href.includes("substack.com")) {
-    const where = a.id ? a.id : a.closest(".post") ? "card" : "other";
-    track("click-substack-" + where, "Substack click");
+    const card = a.closest(".post");
+    if (card) {
+      // Which card, by position — tells us whether readers grab the newest
+      // post or actually browse down the list.
+      const idx = [...card.parentElement.children].indexOf(card) + 1;
+      track("click-substack-card-" + idx, "Substack click, card " + idx);
+    } else {
+      track("click-substack-" + (a.id || "other"), "Substack click");
+    }
   } else if (a.href.includes("apps.apple.com")) {
     track("click-appstore", "App Store click");
   }
@@ -451,12 +457,10 @@ function imgKey(u) {
   return m ? m[1] : s;
 }
 
-// How many posts to show: from the list's data-limit ("0" = all),
-// falling back to CONFIG.maxPosts. Lets one app.js serve home + archive.
+// How many posts to show, from the list's data-limit ("0" or missing = all).
+// Lets one app.js serve home (latest 3) + the full archive.
 function postLimit() {
-  const dl = els.list && els.list.getAttribute("data-limit");
-  if (dl === null || dl === undefined) return CONFIG.maxPosts;
-  const n = parseInt(dl, 10);
+  const n = parseInt((els.list && els.list.getAttribute("data-limit")) || "0", 10);
   return n > 0 ? n : Infinity;
 }
 
@@ -467,7 +471,8 @@ function postCard(p) {
   const thumb = img
     ? `<div class="post-thumb"><img src="${img}" alt="${title}" loading="lazy" width="480" height="320" /></div>`
     : "";
-  const href = withUtm(p.link, els.list && els.list.getAttribute("data-page-size") ? "articles" : "home-latest", "card");
+  const campaign = (els.list && els.list.getAttribute("data-campaign")) || "home-latest";
+  const href = withUtm(p.link, campaign, "card");
   return `
       <a class="post${img ? " has-thumb" : ""}" href="${href}" target="_blank" rel="noopener">
         ${thumb}
@@ -482,46 +487,30 @@ function postCard(p) {
 
 let allPosts = [];
 
-// Posts per page when the list opts into pagination (data-page-size="7").
-// Returns 0 when pagination is off (e.g. the home page's "latest 3").
-function pageSize() {
-  const ps = els.list && els.list.getAttribute("data-page-size");
-  const n = ps ? parseInt(ps, 10) : 0;
-  return n > 0 ? n : 0;
+function renderList(posts) {
+  els.list.innerHTML = posts.slice(0, postLimit()).map(postCard).join("");
 }
 
-function renderPage(page) {
-  const size = pageSize();
-  const total = Math.max(1, Math.ceil(allPosts.length / size));
-  const cur = Math.min(Math.max(1, page), total);
-  const start = (cur - 1) * size;
-  els.list.innerHTML = allPosts.slice(start, start + size).map(postCard).join("");
-  renderPagination(total, cur);
-  if (page !== 1) {
-    const top = els.list.getBoundingClientRect().top + window.scrollY - 90;
-    window.scrollTo({ top, behavior: "smooth" });
-  }
-}
-
-function renderPagination(total, cur) {
-  const nav = document.getElementById("pagination");
-  if (!nav) return;
-  if (total <= 1) { nav.innerHTML = ""; return; }
-  let html = `<button class="page-btn page-prev" ${cur === 1 ? "disabled" : ""} data-page="${cur - 1}" aria-label="Previous page">←</button>`;
-  for (let i = 1; i <= total; i++) {
-    html += `<button class="page-btn page-num${i === cur ? " active" : ""}" data-page="${i}" aria-label="Page ${i}"${i === cur ? ' aria-current="page"' : ""}>${i}</button>`;
-  }
-  html += `<button class="page-btn page-next" ${cur === total ? "disabled" : ""} data-page="${cur + 1}" aria-label="Next page">→</button>`;
-  nav.innerHTML = html;
-}
-
-const paginationEl = document.getElementById("pagination");
-if (paginationEl) {
-  paginationEl.addEventListener("click", (e) => {
-    const btn = e.target.closest(".page-btn");
-    if (!btn || btn.disabled) return;
-    const p = parseInt(btn.getAttribute("data-page"), 10);
-    if (!Number.isNaN(p)) renderPage(p);
+/* Topic chips on the archive. Built from whatever categories the posts carry
+   in the feed; if they carry none, the row stays empty and hidden. Filtering
+   is client-side only — it changes what's shown, not the URL. */
+function renderFilters(posts) {
+  const box = document.getElementById("post-filters");
+  if (!box) return;
+  const counts = new Map();
+  posts.forEach((p) => (p.categories || []).forEach((c) => counts.set(c, (counts.get(c) || 0) + 1)));
+  const cats = [...counts.keys()].sort((a, b) => counts.get(b) - counts.get(a));
+  if (cats.length < 2) { box.innerHTML = ""; return; }
+  box.innerHTML =
+    `<button type="button" class="cat active" data-cat="">All</button>` +
+    cats.map((c) => `<button type="button" class="cat" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("");
+  box.addEventListener("click", (e) => {
+    const chip = e.target.closest(".cat");
+    if (!chip) return;
+    box.querySelectorAll(".cat").forEach((c) => c.classList.toggle("active", c === chip));
+    const cat = chip.dataset.cat;
+    renderList(cat ? allPosts.filter((p) => (p.categories || []).includes(cat)) : allPosts);
+    track("archive-filter-" + (cat || "all"), "Archive filter: " + (cat || "all"));
   });
 }
 
@@ -533,11 +522,8 @@ function render(posts) {
   }
   els.state.classList.add("hidden");
   allPosts = posts;
-  if (pageSize() > 0) {
-    renderPage(1);
-  } else {
-    els.list.innerHTML = posts.slice(0, postLimit()).map(postCard).join("");
-  }
+  renderFilters(posts);
+  renderList(posts);
 }
 
 function setState(msg, isError = false) {
@@ -578,6 +564,7 @@ function parseFeedXml(xmlText) {
       description: text("description"),
       content,
       image,
+      categories: Array.from(item.querySelectorAll("category")).map((c) => c.textContent.trim()).filter(Boolean),
     };
   });
   return { image: chImg ? chImg.textContent.trim() : "", posts: items };
@@ -618,6 +605,7 @@ function mapRss2json(data) {
         content: it.content,
         description: it.description,
         image,
+        categories: Array.isArray(it.categories) ? it.categories.filter(Boolean) : [],
       };
     }),
   };
@@ -668,6 +656,7 @@ const SAMPLE_POSTS = [
     title: "Why I Started Writing in Public",
     link: "#",
     pubDate: "2026-06-10",
+    categories: ["Intention"],
     description:
       "I kept a private notebook for years. Here's what changed when I started putting the messy drafts out where people could actually read them — and why it made the thinking sharper.",
   },
@@ -675,6 +664,7 @@ const SAMPLE_POSTS = [
     title: "The Case for Doing Less, Better",
     link: "#",
     pubDate: "2026-05-22",
+    categories: ["Life", "Intention"],
     description:
       "Most of my best work came from the weeks I said no to almost everything. A short argument for narrowing your focus until it almost feels uncomfortable.",
   },
@@ -682,6 +672,7 @@ const SAMPLE_POSTS = [
     title: "Notes on Building Small Things",
     link: "#",
     pubDate: "2026-05-01",
+    categories: ["Life"],
     description:
       "A scaffold you can actually look at beats a perfect plan you never ship. Some scattered thoughts on starting tiny and letting the shape reveal itself.",
   },
