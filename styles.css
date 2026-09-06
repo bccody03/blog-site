@@ -372,13 +372,26 @@ body {
   letter-spacing: -0.01em;
   margin: 10px 0 16px;
 }
+/* The subtitle sits inside the H1 (so the heading carries the full title)
+   but keeps its own, smaller look. */
 .book-subtitle {
+  display: block;
   font-family: var(--serif);
   font-style: italic;
+  font-weight: 400;
   font-size: 1.25rem;
+  line-height: 1.4;
+  letter-spacing: 0;
   color: var(--accent);
-  margin: -6px 0 18px;
+  margin: 6px 0 0;
 }
+.book-links {
+  margin: 28px 0 0;
+  color: var(--ink-soft);
+  max-width: 36em;
+}
+.book-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.book-links a:hover { text-decoration: underline; }
 .book-blurb {
   font-size: 1.12rem;
   color: var(--ink-soft);
@@ -386,10 +399,12 @@ body {
   margin: 0 0 24px;
 }
 .excerpt-chapter {
-  font-family: var(--serif) !important;
+  font-family: var(--serif);
   font-weight: 600;
-  font-size: 1.25rem !important;
-  margin-bottom: 22px !important;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 22px;
 }
 .book-status { color: var(--accent); }
 .book-cta {
@@ -410,6 +425,7 @@ body {
   box-shadow: var(--shadow);
 }
 .excerpt-label {
+  font-family: var(--sans);
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -439,7 +455,7 @@ body {
   text-align: center;
   padding: 8px 4px 28px;
 }
-.gate-card h3 {
+.gate-card h2 {
   font-family: var(--serif);
   font-size: 1.5rem;
   font-weight: 600;
@@ -512,7 +528,7 @@ body {
 .chapter-submit:disabled { opacity: 0.6; cursor: default; }
 .chapter-note { font-size: 0.85rem; color: var(--ink-soft); margin: 14px 0 0; }
 .chapter-done { text-align: center; padding: 8px 4px 16px; animation: fadeIn 0.5s ease; }
-.chapter-done h3 { font-family: var(--serif); font-size: 1.5rem; margin: 0 0 8px; }
+.chapter-done h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin: 0 0 8px; }
 .chapter-done p { color: var(--ink-soft); max-width: 30em; margin: 0 auto; }
 .chapter-done a { color: var(--accent); font-weight: 600; }
 @media (max-width: 560px) { .chapter-form { flex-direction: column; } }

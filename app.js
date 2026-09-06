@@ -23,6 +23,9 @@ const CONFIG = {
   // from the Reflect inbox and from the Substack newsletter. Create a second
   // form at formspree.io and paste its URL here, e.g. "https://formspree.io/f/abcdwxyz".
   chapterWebhook: "https://formspree.io/f/mqevkrpa",
+  // The chapter PDF lives at an unguessable path that robots.txt disallows,
+  // and nothing in the HTML links to it — the form hands it over on success.
+  chapterPdf: "c/7d3f9a2e1b/aligned-chapter-1.pdf",
 };
 
 /* ------------------------------------------------------------
@@ -303,14 +306,16 @@ if (chapterForm) {
       track("chapter-request", "Chapter 1 requested");
       const gate = document.getElementById("excerpt-gate");
       const done = document.getElementById("chapter-done");
+      const dl = document.getElementById("chapter-dl");
       if (gate) gate.hidden = true;
+      if (dl) dl.href = CONFIG.chapterPdf;
       if (done) {
         done.hidden = false;
         done.scrollIntoView({ behavior: "smooth", block: "center" });
       }
       // Hand them the PDF straight away
       const a = document.createElement("a");
-      a.href = "chapter-1.pdf";
+      a.href = CONFIG.chapterPdf;
       a.download = "Aligned-Chapter-1.pdf";
       document.body.appendChild(a);
       a.click();
@@ -322,6 +327,26 @@ if (chapterForm) {
       alert("Something went wrong sending that. Mind trying again in a moment?");
     }
   });
+
+  // The manual fallback link counts too — otherwise chapter-request is a
+  // floor, not a total.
+  const chapterDl = document.getElementById("chapter-dl");
+  if (chapterDl) {
+    chapterDl.addEventListener("click", () => track("chapter-download-manual", "Chapter PDF, manual link"));
+  }
+
+  // Count readers who actually reach the gate, so chapter-request has a
+  // denominator: requests / gate-viewed is the number that means something.
+  const gateEl = document.getElementById("excerpt-gate");
+  if (gateEl && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((en) => en.isIntersecting)) {
+        track("gate-viewed", "Chapter gate seen");
+        io.disconnect();
+      }
+    }, { threshold: 0.5 });
+    io.observe(gateEl);
+  }
 }
 
 /* "Reflect with me" — send the reader's answer to Blake. In production
