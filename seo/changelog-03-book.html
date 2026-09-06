@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SEO Change Log — 03 The Book (book.html) — blakecody.com</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font: 10.5pt/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1c1a19; margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 4px; letter-spacing: -.4px; }
+  h2 { font-size: 14pt; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #9a3b27; color: #9a3b27; page-break-after: avoid; }
+  h3 { font-size: 11pt; margin: 0 0 6px; page-break-after: avoid; }
+  p { margin: 0 0 8px; }
+  .sub { color: #6b625d; font-size: 9.5pt; margin: 0 0 2px; }
+  .meta { margin: 14px 0 0; padding: 10px 12px; background: #faf7f4; border-left: 3px solid #9a3b27; font-size: 9.5pt; }
+  .meta div { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6ded8; vertical-align: top; }
+  th { background: #f5efea; font-weight: 600; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; }
+  code { font-size: 9pt; background: #f2ece8; padding: 1px 4px; border-radius: 3px; }
+  pre { font-size: 8.4pt; line-height: 1.45; background: #1f1c1a; color: #f0e9e3; padding: 9px 11px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+  pre .c { color: #9aa39a; }
+  .f { page-break-inside: avoid; margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e6ded8; border-radius: 5px; background: #fffdfc; }
+  .f.cr { border-left: 4px solid #7a1410; }
+  .f.hi { border-left: 4px solid #b3261e; }
+  .f.me { border-left: 4px solid #c47f18; }
+  .f.lo { border-left: 4px solid #5c7a5c; }
+  .f.ok { border-left: 4px solid #4a7a4a; background: #f6faf6; }
+  .f.fix { border-left: 4px solid #3a5f8a; background: #f5f8fc; }
+  .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; vertical-align: 2px; margin-left: 6px; }
+  .b-cr { background: #7a1410; color: #fff; }
+  .b-hi { background: #b3261e; color: #fff; }
+  .b-me { background: #c47f18; color: #fff; }
+  .b-lo { background: #5c7a5c; color: #fff; }
+  .b-ok { background: #4a7a4a; color: #fff; }
+  .b-fix { background: #3a5f8a; color: #fff; }
+  .id { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt; color: #9a3b27; font-weight: 700; }
+  .lbl { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .4px; color: #6b625d; display: block; margin: 8px 0 2px; }
+  ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #e6ded8; font-size: 9pt; color: #6b625d; }
+  .kpi { display: flex; gap: 8px; margin: 12px 0 0; }
+  .kpi div { flex: 1; padding: 8px; background: #f5efea; border-radius: 4px; text-align: center; }
+  .kpi b { display: block; font-size: 17pt; line-height: 1.1; }
+  .kpi span { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #6b625d; }
+  .win { background: #f6faf6; border: 1px solid #cfe2cf; border-left: 4px solid #4a7a4a; border-radius: 5px; padding: 11px 13px; margin: 10px 0 16px; page-break-inside: avoid; }
+  .win h3 { color: #2f5c2f; }
+  .tick { color: #4a7a4a; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<p class="sub">blakecody.com — SEO audit &amp; change log</p>
+<h1>Page 03 — The Book <code style="font-size:12pt">/book.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 6 September 2026 · repository <code>bccody03/blog-site</code> @ <code>main c0a998a</code> (merged into the audit branch)</div>
+  <div><b>Live URL:</b> https://blakecody.com/book.html — HTTP 200. <i>Live currently serves the previous deploy (<code>Last-Modified: 2026-09-04</code>); this audit reflects <code>main</code>, which is ahead.</i></div>
+  <div><b>Method:</b> static HTML parse · headless Chromium render · direct probe and binary inspection of <code>chapter-1.pdf</code> · <code>robots.txt</code> and sitemap check · read of the chapter-gate path in <code>app.js</code></div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>. Every entry is a proposed change with the exact edit.</div>
+</div>
+
+<div class="kpi">
+  <div><b>12</b><span>changes proposed</span></div>
+  <div><b>1</b><span>critical</span></div>
+  <div><b>4</b><span>high</span></div>
+  <div><b>7</b><span>medium / low</span></div>
+  <div><b>11</b><span>page-02 fixes verified</span></div>
+</div>
+
+<div class="win">
+<h3>Page 02 is essentially closed <span class="badge b-ok">Verified</span></h3>
+<p><code>main</code> moved again (commit <code>c0a998a</code>, "SEO audit pass 2"). Re-checked against the code:</p>
+<table>
+  <tr><th style="width:10%">ID</th><th style="width:42%">Fix</th><th>Verification</th></tr>
+  <tr><td><span class="id">T16</span></td><td>Pagination URLs</td><td><span class="tick">✓</span> <b>Pagination removed entirely</b> — no <code>page-btn</code> anywhere. Every essay now sits on one crawlable URL. This was the recommended option, and it is the right one.</td></tr>
+  <tr><td><span class="id">T18</span></td><td>Archive schema</td><td><span class="tick">✓</span> <code>CollectionPage</code> + <code>BreadcrumbList</code>, with <code>@id</code> references back to the homepage graph</td></tr>
+  <tr><td><span class="id">T19</span></td><td>RSS link</td><td><span class="tick">✓</span> now on every page, this one included</td></tr>
+  <tr><td><span class="id">T20</span></td><td><code>og-image.png</code> 404</td><td><span class="tick">✓</span> file restored (91 KB) alongside the JPEG</td></tr>
+  <tr><td><span class="id">T21</span></td><td>Dead <code>maxPosts</code> config</td><td><span class="tick">✓</span> removed</td></tr>
+  <tr><td><span class="id">C13</span></td><td>Archive title</td><td><span class="tick">✓</span> "Essays on Discipline, Love &amp; Living with Intention | Blake Cody"</td></tr>
+  <tr><td><span class="id">C14</span></td><td>Archive description</td><td><span class="tick">✓</span> 149 chars, with "free to read" and cadence</td></tr>
+  <tr><td><span class="id">C15</span></td><td>Archive H1</td><td><span class="tick">✓</span> "Essays on discipline, love and living with intention"</td></tr>
+  <tr><td><span class="id">C16</span></td><td>Heading order</td><td><span class="tick">✓</span> now H1 → H2 → H2, no skip</td></tr>
+  <tr><td><span class="id">C19</span></td><td>Archive intro copy</td><td><span class="tick">✓</span> static words 50 → <b>159</b></td></tr>
+  <tr><td><span class="id">K11</span></td><td>Card position tracking</td><td><span class="tick">✓</span> <code>track("click-substack-card-" + idx, …)</code></td></tr>
+  <tr><td><span class="id">K10</span></td><td>Pagination click tracking</td><td><b>Obsolete</b> — the measurement existed only to decide <span class="id">T16</span>, and <span class="id">T16</span> was solved by deleting pagination. Correctly not implemented.</td></tr>
+</table>
+<p>Also verified on this page: <code>entryContext()</code> is spread into <b>both</b> Formspree payloads (chapter and reflect) <span class="tick">✓</span> — <span class="id">K6</span> is fully done, not half done.</p>
+</div>
+
+<div class="f fix">
+<h3>Correction to the page-01 UI report <span class="badge b-fix">Correction</span></h3>
+<p>In <code>ui/changelog-01-index.pdf</code> I raised finding <span class="id">V7</span>: "You own a beautiful book cover and never show it," pointing at <code>cover.jpg</code> (1350×1800, portrait).</p>
+<p><b>That was wrong.</b> <code>cover.jpg</code> is a photograph of you at the 2025 U.S. Open — it is now used on <code>about.html</code> with exactly that alt text. I inferred "book cover" from the filename and the portrait aspect ratio without checking where it was used.</p>
+<p>The corrected finding is <span class="id">T24</span> below, and it points the other way: <b>there is no book cover image anywhere on the site</b>, so this is an asset to create rather than one to display. That changes the work from "add an <code>&lt;img&gt;</code>" to "commission or design a cover", which is worth knowing before you go looking for a file that does not exist.</p>
+<p>The related finding <span class="id">V8</span> ("no photograph of Blake anywhere") has since been fixed — <code>blake.jpg</code> now appears on the homepage and in the <code>Person</code> schema. <span class="tick">✓</span></p>
+</div>
+
+<h2>Do these in this order</h2>
+<p><b>P0 — this week</b></p>
+<ol>
+  <li><span class="id">T22</span> Decide what the chapter PDF is for, then close the gap. It is currently a public, indexable, text-extractable file linked from your own HTML.</li>
+  <li><span class="id">C20 C21</span> Title and H1 — the phrase "Lead with Love, Live with Intention" appears in neither.</li>
+  <li><span class="id">T23</span> Add <code>Book</code> schema on the page that is about the book.</li>
+</ol>
+<p><b>P1 — this month</b></p>
+<ol start="4">
+  <li><span class="id">C22</span> Meta description — the page's own copy is better than its snippet</li>
+  <li><span class="id">T25</span> Heading structure (H1 → H3 → H3, no H2)</li>
+  <li><span class="id">K15</span> Track that the gate was <i>seen</i>, not just submitted — without the denominator the number is unreadable</li>
+  <li><span class="id">C24</span> Extend the free excerpt; 108 words is too short for the cut to hurt</li>
+  <li><span class="id">T24</span> Commission a cover image — schema, social and the page all need one</li>
+</ol>
+
+<h2>A. Technical</h2>
+
+<div class="f cr">
+<h3><span class="id">T22</span> The "gated" chapter is a public, crawlable, indexable PDF <span class="badge b-cr">Critical</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>$ curl -I https://blakecody.com/chapter-1.pdf
+  200 · 61,389 bytes · application/pdf
+
+PDF internals: producer "ReportLab PDF Library", /Font present,
+               embedded IBM Plex Serif, real text operators
+               -&gt; the full chapter text is machine-extractable
+
+robots.txt:    User-agent: *
+               Allow: /                <span class="c">nothing excludes it</span>
+
+book.html:     &lt;div class="chapter-done" id="chapter-done" hidden&gt;
+                 &lt;a id="chapter-dl" href="chapter-1.pdf" download=…&gt;
+               <span class="c">a plain crawlable link, no rel="nofollow".</span>
+               <span class="c">`hidden` hides it from readers, not from crawlers.</span></pre>
+<span class="lbl">Why it matters</span>
+<ol>
+  <li><b>The gate does not gate anything.</b> The URL is guessable, publicly served, and linked from your own markup. Anyone who wants the chapter without giving an email already can — and the email is the entire purpose of the gate.</li>
+  <li><b>The PDF competes with this page in search.</b> Google indexes PDFs as standalone results. A query matching the chapter's opening — and that opening is distinctive, emotional prose that could match real queries — can return <code>chapter-1.pdf</code> instead of <code>book.html</code>. You would be outranked by your own lead magnet, on the one page that carries the signup form.</li>
+  <li><b>You cannot fix it with <code>noindex</code>.</b> Meta robots tags do not exist in a PDF, and the <code>X-Robots-Tag</code> HTTP header is not settable on GitHub Pages. The usual answer is unavailable to you.</li>
+</ol>
+<span class="lbl">Fix — decide what you actually want first</span>
+<p><b>Option A — the email matters most.</b> Keep the gate and make it hold:</p>
+<pre><span class="c">1. Move and rename the file to something unguessable</span>
+   /c/8f3a2b1c4d/aligned-chapter-1.pdf
+
+<span class="c">2. Remove the static href; set it only after a successful submit</span>
+   &lt;a id="chapter-dl" href="#" download="Aligned-Chapter-1.pdf"&gt;…&lt;/a&gt;
+   dl.href = CHAPTER_PATH;   <span class="c">// in the submit success branch</span>
+
+<span class="c">3. robots.txt</span>
+   Disallow: /c/</pre>
+<p>This is not airtight — nothing served from a static host can be — but it closes the search-result leak and the guessable filename, which are the two ways this actually fails in practice.</p>
+<p><b>Option B — reach matters more than the email.</b> Publish the chapter as HTML on this page. Then:</p>
+<ul>
+  <li>The content is indexable, on your domain, in your design, and it is <i>yours</i> — not a PDF result with no navigation and no signup form.</li>
+  <li>Given <span class="id">C4</span> (nothing on this domain ranks because almost nothing is on it), <b>a full chapter of real prose in HTML would be the single strongest piece of indexable content on blakecody.com.</b> It is around 3,000 words of distinctive first-person writing on a subject people search for.</li>
+  <li>The signup moves below the chapter as a soft ask — "if this was useful, here's where the rest lives" — which converts worse per-visitor and better per-reader.</li>
+</ul>
+<p><b>Minimum, today, whichever you choose later:</b> add <code>Disallow: /chapter-1.pdf</code> to <code>robots.txt</code> and remove the static <code>href</code>. That is ten minutes and stops the bleeding.</p>
+<p><i>My read: you are early enough that reach is worth more than a list. Option B, and revisit when the traffic exists to trade.</i></p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">T23</span> No structured data, on the one page where <code>Book</code> schema belongs <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p>Measured: <b>0</b> JSON-LD blocks on <code>book.html</code>. Meanwhile <code>index.html</code> declares a <code>Book</code> node for <i>Aligned</i> whose <code>url</code> points here, and <code>articles.html</code> now has <code>CollectionPage</code> + <code>BreadcrumbList</code>. The book page is the only content page left with nothing.</p>
+<p><code>og:type</code> is correctly set to <code>book</code> <span class="tick">✓</span> — but none of the <code>book:</code> Open Graph properties are present.</p>
+<span class="lbl">Fix</span>
+<p>Reuse the <code>@id</code> the homepage already defines, so the two declarations reconcile into one entity rather than describing two different books:</p>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Book",
+      "@id": "https://blakecody.com/#aligned",       <span class="c">// same id as the homepage</span>
+      "name": "Aligned",
+      "alternateName": "Aligned: Lead with Love, Live with Intention",
+      "author": { "@id": "https://blakecody.com/#person" },
+      "inLanguage": "en",
+      "abstract": "A field guide for anyone rebuilding after heartbreak — three
+                   parts: decoding love, building yourself, living with intention.",
+      "url": "https://blakecody.com/book.html",
+      "image": "https://blakecody.com/book-cover.jpg"   <span class="c">// see T24</span>
+    },
+    { "@type": "WebPage",
+      "@id": "https://blakecody.com/book.html#webpage",
+      "url": "https://blakecody.com/book.html",
+      "isPartOf": { "@id": "https://blakecody.com/#website" },
+      "about":    { "@id": "https://blakecody.com/#aligned" } },
+    { "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",
+          "item": "https://blakecody.com/" },
+        { "@type": "ListItem", "position": 2, "name": "The Book" } ] }
+  ]
+}
+&lt;/script&gt;</pre>
+<p>Plus the OG properties for a book:</p>
+<pre>&lt;meta property="book:author" content="https://blakecody.com/" /&gt;
+&lt;meta property="book:tag" content="relationships" /&gt;
+&lt;meta property="book:tag" content="personal growth" /&gt;</pre>
+<span class="lbl">One caution</span>
+<p><b>Do not add <code>offers</code>, an <code>isbn</code>, a <code>datePublished</code> or an <code>aggregateRating</code>.</b> The book is unpublished — your own copy says "I'm in the process of becoming an author" — and fabricating those is both a structured-data violation and exactly the kind of thing that costs you the trust this page is built on. If you want the status in the graph, <code>"bookEdition"</code> can be omitted and the <code>abstract</code> can say it plainly. Add <code>offers</code> the day there is something to buy.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T24</span> There is no image on the page — and no book cover anywhere on the site <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>images on book.html:  [ "logo.png" ]     <span class="c">the 30×30 header mark, and nothing else</span></pre>
+<p>Site-wide image inventory:</p>
+<table>
+  <tr><th>File</th><th>What it actually is</th><th>Used on</th></tr>
+  <tr><td><code>blake.jpg</code></td><td>author portrait</td><td>homepage + <code>Person</code> schema <span class="tick">✓</span></td></tr>
+  <tr><td><code>cover.jpg</code></td><td>photograph of Blake at the 2025 U.S. Open</td><td><code>about.html</code></td></tr>
+  <tr><td><code>hero-bg.jpg</code></td><td>abstract topographic background</td><td>homepage hero</td></tr>
+  <tr><td><code>og-image.jpg</code></td><td>generic social card</td><td>every page</td></tr>
+  <tr><td><b>book cover art</b></td><td colspan="2"><b>does not exist</b></td></tr>
+</table>
+<span class="lbl">Why it matters</span>
+<ul>
+  <li>The <code>Book</code> schema in <span class="id">T23</span> wants an <code>image</code>. Without one the entity is thinner than it needs to be.</li>
+  <li>Shares of this page fall back to the generic site card, so a link to your book looks identical to a link to your privacy policy.</li>
+  <li>Image search returns nothing for the book.</li>
+  <li>A book page with no picture of the book asks a stranger to take it on faith.</li>
+</ul>
+<span class="lbl">Fix</span>
+<p>You need cover art. It does not have to be a finished publisher's jacket — a typographic treatment in Fraunces on your existing cream-and-rust palette, rendered at 1400×2100, would do everything required here and cost an afternoon. Export a 1200×630 variant for <code>og:image</code> on this page specifically, so a shared book link shows the book.</p>
+<p>Until that exists, the honest interim is a pull-quote block from the excerpt set in large Fraunces — something for the eye to land on that is not a stock photograph.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T25</span> Heading structure runs H1 → H3 → H3, with no H2 <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured in the rendered DOM</span>
+<pre>H1  Aligned
+H3  Keep reading — get the full chapter.     <span class="c">the gate card</span>
+H3  It's on the way 📩                        <span class="c">the success card (hidden)</span></pre>
+<p>Both H3s are interface chrome. Nothing in the document structure marks the excerpt, and the actual chapter title — <b>"Grieving a Ghost — The Person You're Mourning Never Existed"</b>, which is the most distinctive, most searchable line on the page — sits in a <code>&lt;p class="excerpt-chapter"&gt;</code>.</p>
+<span class="lbl">Fix</span>
+<pre>&lt;h1 class="book-title"&gt;Aligned&lt;/h1&gt;
+  &lt;h2 class="excerpt-label"&gt;Read the opening of Chapter 1 — free&lt;/h2&gt;
+    &lt;h3 class="excerpt-chapter"&gt;Grieving a Ghost — The Person You're
+        Mourning Never Existed&lt;/h3&gt;
+  &lt;h2 class="gate-heading"&gt;Keep reading — get the full chapter.&lt;/h2&gt;</pre>
+<p>Styling does not have to follow the tag — keep the current visual weights and change only the elements. That gives a clean H1 → H2 → H3 tree and promotes a genuinely strong line into a heading, where it can earn its own search visibility.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T26</span> The PDF is not in the sitemap <span class="badge b-lo">Low</span></h3>
+<p>Correct as it stands, given <span class="id">T22</span> — you do not want to invite indexing of a file you are trying to gate. Noted only so the decision is deliberate: if you take Option B and publish the chapter as HTML, the PDF stays out of the sitemap; if you take Option A, it stays out and gets a <code>Disallow</code> as well.</p>
+</div>
+
+<h2>B. Content &amp; text</h2>
+
+<div class="f hi">
+<h3><span class="id">C20</span> The title buries the book's actual title <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;title&gt;The Book — Aligned — Blake Cody&lt;/title&gt;    <span class="c">31 chars, three em-dash segments</span></pre>
+<p>It leads with "The Book", which is a navigation label. And the subtitle — <b>Lead with Love, Live with Intention</b>, the phrase that is your book's subtitle, your homepage H1, and the line most likely to be searched by someone who half-remembers it — does not appear at all.</p>
+<span class="lbl">Change to</span>
+<pre>Aligned: Lead with Love, Live with Intention — Blake Cody     <span class="c">56 chars</span></pre>
+<p>Or, to catch the free-chapter intent that this page is built to serve:</p>
+<pre>Aligned by Blake Cody — Read Chapter 1 Free                   <span class="c">43 chars</span></pre>
+<p>The first is better for the long game (owning your own book title); the second converts better from a results page. If you can only pick one, pick the first — the second is a description job, and <span class="id">C22</span> handles it.</p>
+</div>
+
+<div class="f hi">
+<h3><span class="id">C21</span> The H1 is one word <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;h1 class="book-title"&gt;Aligned&lt;/h1&gt;
+&lt;p class="book-subtitle"&gt;Lead with Love, Live with Intention&lt;/p&gt;</pre>
+<p>Third page in a row with this exact shape — the homepage and the archive both had it, and both are now fixed. Same fix here.</p>
+<span class="lbl">Change to</span>
+<pre>&lt;h1 class="book-title"&gt;Aligned<span class="c">&lt;!-- keep the display size --&gt;</span>
+  &lt;span class="book-subtitle"&gt;Lead with Love, Live with Intention&lt;/span&gt;
+&lt;/h1&gt;</pre>
+<p>Move <code>.book-subtitle</code>'s existing styles onto the span and set it <code>display:block</code>. The page looks identical; the H1 gains the full title.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C22</span> The description is weaker than the page's own copy <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<pre>Aligned: Lead with Love, Live with Intention — read the free opening
+of Chapter 1.                                                 <span class="c">82 chars of ~155</span></pre>
+<p>The best sentence on this page is already written, in your second paragraph: <i>"a field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of."</i> That is the search intent — people look for help after a breakup, not for a book called Aligned — and it is missing from the snippet entirely.</p>
+<span class="lbl">Change to</span>
+<pre>Aligned by Blake Cody — a field guide for rebuilding after heartbreak:
+decoding love, building yourself, living with intention. Read Chapter 1
+free.                                                        <span class="c">148 chars</span></pre>
+</div>
+
+<div class="f me">
+<h3><span class="id">C24</span> The free excerpt is 108 words <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>.excerpt-free:  3 paragraphs, 108 words
+hidden remainder in the DOM:  none    <span class="c">(verified — see the pass below)</span></pre>
+<p>The excerpt cuts mid-sentence — <i>"The person we are imagining a future with, ready to walk through life with…"</i> — which is the right instinct. But 108 words is not enough for the cut to hurt. A reader has not yet invested anything, so the gate arrives before the desire it is supposed to convert.</p>
+<p>It is also the only chapter prose indexable on the domain, which for a page whose subject <i>is</i> that chapter is very thin.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li><b>If you keep the gate (<span class="id">T22</span> Option A):</b> extend the free portion to 400–600 words — far enough in that stopping is genuinely annoying. That is the mechanism a content gate runs on.</li>
+  <li><b>If you publish (<span class="id">T22</span> Option B):</b> the whole chapter, and this finding disappears.</li>
+</ul>
+</div>
+
+<div class="f lo">
+<h3><span class="id">C25</span> No internal links out of the page body <span class="badge b-lo">Low</span></h3>
+<p>Apart from the header nav, the footer and the "← Home" eyebrow, the page body links nowhere. A reader who finishes the excerpt and decides not to hand over an email hits a dead end.</p>
+<p>Add two sentences after the gate linking to the archive and to Reflect, with descriptive anchor text — "the essays these ideas came out of" and "write to me about yours". That gives the page internal links with real anchor text, which it currently has none of.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">C23</span> This is the best-written page on the site <span class="badge b-ok">Keep</span></h3>
+<p>Measured: <b>371 static words</b> of genuine first-person prose — more than the homepage and the archive combined before their rewrites. Nothing in this report asks you to change the voice.</p>
+<p>One structural note, offered as a suggestion rather than a finding. The page opens with <i>"I'm in the process of becoming an author — and honestly, it still feels surreal to write that."</i> That is disarming and it works on a reader who already trusts you. But the strongest sentence on the page — <i>"Aligned is that book. It's a field guide for anyone rebuilding after heartbreak…"</i> — is 90 words down, below the fold for a stranger arriving from a search result.</p>
+<p>Consider opening with what the book <i>is</i> and moving the origin story to the second paragraph. You lose nothing — the person who wants the human version reads on and gets it — and you gain the visitor who is deciding in five seconds whether this is for them.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">C26</span> The gate is honest — verified, and worth protecting <span class="badge b-ok">Pass</span></h3>
+<p>I checked specifically for cloaking, because email gates are a common way sites drift into it. Measured:</p>
+<pre>document.getElementById('excerpt-more')  →  null
+hidden chapter text in the DOM           →  none</pre>
+<p>What Google receives is exactly what a reader receives: three paragraphs and a form. There is no hidden remainder served to crawlers and withheld from people. That is the correct implementation and it should stay that way if you extend the excerpt under <span class="id">C24</span> — add real visible words, never a hidden block revealed by script.</p>
+<p>Also correct on this page: <code>type="email"</code>, <code>autocomplete="email"</code>, <code>required</code>, a real <code>&lt;button type="submit"&gt;</code>, and a visible success state. The form itself is well built.</p>
+</div>
+
+<h2>C. Tracking &amp; measurement</h2>
+
+<div class="f hi">
+<h3><span class="id">K14</span> Chapter downloads are undercounted, and you cannot tell by how much <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<p><code>track("chapter-request", "Chapter 1 requested")</code> fires on successful form submit <span class="tick">✓</span> — correctly implemented in pass 1. But it is measuring one of three paths:</p>
+<table>
+  <tr><th>Path to the chapter</th><th>Tracked?</th></tr>
+  <tr><td>Form submit → auto-download</td><td><span class="tick">✓</span> yes</td></tr>
+  <tr><td>The fallback link ("tap here to download the PDF") after a failed auto-download</td><td>✗ no</td></tr>
+  <tr><td>Direct hit on <code>chapter-1.pdf</code> — from search, a shared link, or a guess (<span class="id">T22</span>)</td><td>✗ <b>invisible</b> — never touches your JS at all</td></tr>
+</table>
+<span class="lbl">Why it matters</span>
+<p>Whatever number GoatCounter shows you for <code>chapter-request</code> is a <b>floor, not a total</b>, and the size of the gap is exactly the size of the <span class="id">T22</span> leak. If you read that number as "chapter reads" you will underestimate demand and over-estimate the gate's value at the same time.</p>
+<span class="lbl">Fix</span>
+<pre><span class="c">// the manual fallback link</span>
+document.getElementById("chapter-dl")?.addEventListener("click", () =&gt;
+  track("chapter-download-manual", "Chapter PDF, manual link"));</pre>
+<p>Direct PDF hits cannot be measured by client-side analytics at all. Under <span class="id">T22</span> Option A, routing through <code>/chapter?t=…</code> gives you a measurement point and a gate in the same move. Under Option B the question dissolves, because the chapter becomes a page with a pageview.</p>
+<p>Until then: when you read <code>chapter-request</code>, read it as a floor.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">K15</span> You track the submit but not the impression, so the rate is unreadable <span class="badge b-me">Medium</span></h3>
+<p>There is no event for a reader <i>reaching</i> the gate. Without that denominator, "12 chapter requests this month" could mean a 60% conversion rate on a page nobody finds, or 2% on a page that works. Those two situations call for opposite responses — one says promote the page, the other says fix the gate — and you currently cannot tell them apart.</p>
+<span class="lbl">Fix</span>
+<pre>const gate = document.getElementById("excerpt-gate");
+if (gate &amp;&amp; "IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) =&gt; {
+    if (entries.some((e) =&gt; e.isIntersecting)) {
+      track("gate-viewed", "Chapter gate seen");
+      io.disconnect();                <span class="c">// once per pageview</span>
+    }
+  }, { threshold: 0.5 });
+  io.observe(gate);
+}</pre>
+<p>Two events, one ratio. That ratio is what tells you whether <span class="id">C24</span>'s longer excerpt actually helped, which is otherwise a guess.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">K17</span> Verified working on this page — leave alone <span class="badge b-ok">Pass</span></h3>
+<ul>
+  <li><code>chapter-request</code> event fires on submit <span class="tick">✓</span></li>
+  <li><code>entryContext()</code> — landing page, referrer and query — is spread into the chapter Formspree payload <b>and</b> the reflect one <span class="tick">✓</span> (<span class="id">K6</span> fully closed)</li>
+  <li>The chapter form posts to a dedicated Formspree, separate from the newsletter and from Reflect <span class="tick">✓</span> — the right separation, and it means the chapter list can be mailed independently</li>
+  <li>The note "this won't subscribe you to anything" is accurate to the implementation <span class="tick">✓</span> — worth keeping true</li>
+  <li>GoatCounter over HTTPS, outbound Substack clicks tagged and tracked <span class="tick">✓</span></li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:34%">Check</th><th>Result</th></tr>
+  <tr><td>Repo vs live</td><td>Audited <code>main c0a998a</code>; live still serves the 2026-09-04 deploy. Findings are against current code.</td></tr>
+  <tr><td>Static text in <code>&lt;body&gt;</code></td><td><b>371 words</b> — the highest on the site · rendered: 346 (the hidden success card accounts for the difference)</td></tr>
+  <tr><td>Title / description</td><td>31 chars / 82 chars</td></tr>
+  <tr><td>Headings</td><td>H1 → H3 → H3, no H2</td></tr>
+  <tr><td>JSON-LD</td><td><b>0</b> blocks (<code>index.html</code>: 5 nodes · <code>articles.html</code>: 2 nodes)</td></tr>
+  <tr><td>Images</td><td><code>logo.png</code> only. No book cover exists anywhere in the repository.</td></tr>
+  <tr><td><code>chapter-1.pdf</code></td><td>200 · 61,389 bytes · <code>application/pdf</code> · ReportLab, embedded fonts, extractable text · linked from static HTML with no <code>rel="nofollow"</code> · no <code>robots.txt</code> exclusion</td></tr>
+  <tr><td>Cloaking check</td><td><code>#excerpt-more</code> absent; no hidden chapter text in the DOM — <b>clean</b></td></tr>
+  <tr><td>Excerpt</td><td>3 paragraphs, 108 words, cuts mid-sentence</td></tr>
+  <tr><td>Form</td><td><code>type="email"</code> · <code>autocomplete="email"</code> · <code>required</code> · real submit button · <code>entryContext()</code> in the payload</td></tr>
+  <tr><td>Tracking</td><td><code>chapter-request</code> on submit ✓ · no event on the fallback link · direct PDF hits unmeasurable</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 03 of 7 complete.</b> Remaining: <code>reflect.html</code> · <code>about.html</code> · <code>404.html</code> · <code>privacy.html</code>.</p>
+  <p>Site-wide findings still open and cross-referenced rather than repeated: <span class="id">T2</span> (client-side rendering), <span class="id">C4</span> (articles hosted off-domain — see <span class="id">T22</span> Option B, which is the same argument arriving from a different direction), <span class="id">T13</span> (10-minute cache ceiling, a GitHub Pages limit).</p>
+  <p>The UI track is one page behind: <code>ui/changelog-02-articles.pdf</code> is still pending.</p>
+  <p>blakecody.com SEO change log · generated 6 September 2026</p>
+</div>
+
+</body>
+</html>

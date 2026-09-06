@@ -7,8 +7,8 @@ One page per pass. Each pass produces a change log PDF in this folder covering
 |---|------|--------|--------|--------------------|
 | 01 | `index.html` — Homepage `/` | ✅ Done — 2026-09-03 | [changelog-01-index.pdf](changelog-01-index.pdf) | — / 11 / 21 |
 | 02 | `articles.html` — Articles archive | ✅ Done — 2026-09-06 | [changelog-02-articles.pdf](changelog-02-articles.pdf) | 1 / 6 / 9 |
-| 03 | `book.html` — The Book | ⬜ Next | — | — |
-| 04 | `reflect.html` — Reflect with me | ⬜ Pending | — | — |
+| 03 | `book.html` — The Book | ✅ Done — 2026-09-06 | [changelog-03-book.pdf](changelog-03-book.pdf) | 1 / 4 / 7 |
+| 04 | `reflect.html` — Reflect with me | ⬜ Next | — | — |
 | 05 | `about.html` — About | ⬜ Pending | — | — |
 | 06 | `404.html` — Not found | ⬜ Pending | — | — |
 | 07 | `privacy.html` — Privacy | ⬜ Pending (new — added 2026-09-04) | — | — |
@@ -49,14 +49,31 @@ report. Each was re-verified against the **live site** during the page-02 pass.
 | C4 | Every article lives on Substack; domain has nothing to rank | the strategic one — dissolves T16, T2-A, C17 and half of C18 |
 | T13 | 10-minute cache ceiling | GitHub Pages limitation, not fixable without a CDN |
 
-## Page-02 findings carried forward
+## Page-02 findings — closed
+
+`main c0a998a` ("SEO audit pass 2") implemented these; verified during the
+page-03 pass.
+
+| ID | Outcome |
+|----|---------|
+| T16 | ✅ Pagination removed entirely — one crawlable URL for every essay |
+| T18 | ✅ `CollectionPage` + `BreadcrumbList` added |
+| T19 | ✅ RSS `<link rel=alternate>` now on every page |
+| T20 | ✅ `og-image.png` restored |
+| T21 | ✅ dead `maxPosts` config removed |
+| C13 C14 C15 C16 C19 | ✅ title, description, H1, heading order, intro copy — static words 50 → 159 |
+| K11 | ✅ card-position tracking |
+| K10 | ⊘ Obsolete — existed only to decide T16, which was solved by deleting pagination |
+| T17 | ⬜ Still open — feed depth needs manual verification (rss2json blocked here) |
+
+## Page-03 findings carried forward
 
 | ID | Finding | Severity |
 |----|---------|----------|
-| T16 | Pagination is `<button>`-driven — no URLs, no history, posts 10+ uncrawlable | Critical |
-| T17 | Feed depth capped by Substack's RSS window; older essays silently absent | Medium — needs manual verification |
-| T20 | `og-image.png` now 404s; old cached shares break | Low |
-| T21 | `CONFIG.maxPosts` is dead config | Low |
+| T22 | `chapter-1.pdf` is public, crawlable, text-extractable and linked from static HTML — the gate does not gate, and the PDF competes with `book.html` in search | Critical |
+| T23 | No `Book` schema on the book page | High |
+| T24 | No book cover image exists anywhere on the site | Medium |
+| K14 | Chapter downloads undercounted; direct PDF hits unmeasurable | High |
 
 ## Not verifiable from the audit environment
 

@@ -31,6 +31,15 @@ These live in `styles.css` or shared markup — fix once, fixes every page.
 | R5 | 6-second intro splash before content is visible on first load of a session | Medium |
 | R6 | No `prefers-color-scheme` support | Low |
 
+## Corrections
+
+- **V7 (page 01) was wrong.** It claimed `cover.jpg` was unused book cover art.
+  It is a photograph of Blake at the 2025 U.S. Open, now used on `about.html`.
+  There is **no book cover image anywhere on the site** — see `seo/changelog-03-book.pdf`
+  finding T24. The work is to create one, not to display one.
+- **V8 (page 01) is fixed.** `blake.jpg` now appears on the homepage and in the
+  `Person` schema.
+
 ## Method
 
 Reproducible from the repo:
