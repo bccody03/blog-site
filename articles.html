@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Articles — Blake Cody</title>
-  <meta name="description" content="Every essay and dispatch from Blake Cody on discipline, love and living with intention." />
+  <title>Essays on Discipline, Love &amp; Living with Intention | Blake Cody</title>
+  <meta name="description" content="Every essay Blake Cody has written on discipline, love and living with intention — free to read, newest first. New writing most weeks." />
+  <link rel="canonical" href="https://blakecody.com/articles.html" />
+  <link rel="alternate" type="application/rss+xml" title="Blake Cody on Substack" href="https://bccody.substack.com/feed" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
@@ -13,23 +15,51 @@
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#9a3b27" />
-  <link rel="canonical" href="https://blakecody.com/articles.html" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Blake Cody" />
-  <meta property="og:title" content="Articles — Blake Cody" />
-  <meta property="og:description" content="Every essay and dispatch from Blake Cody on discipline, love and living with intention." />
+  <meta property="og:title" content="Essays on Discipline, Love &amp; Living with Intention | Blake Cody" />
+  <meta property="og:description" content="Every essay Blake Cody has written on discipline, love and living with intention — free to read, newest first. New writing most weeks." />
   <meta property="og:url" content="https://blakecody.com/articles.html" />
   <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Blake Cody — Lead with Love, Live with Intention" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Articles — Blake Cody" />
-  <meta name="twitter:description" content="Every essay and dispatch from Blake Cody on discipline, love and living with intention." />
+  <meta name="twitter:title" content="Essays on Discipline, Love &amp; Living with Intention | Blake Cody" />
+  <meta name="twitter:description" content="Every essay Blake Cody has written on discipline, love and living with intention — free to read, newest first. New writing most weeks." />
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
-  <link rel="stylesheet" href="styles.css?v=24" />
-  <script src="app.js?v=24" defer></script>
+
+  <!-- Structured data: this is the archive, and where it sits in the site.
+       The @id references point at the nodes the homepage already defines. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://blakecody.com/articles.html#webpage",
+        "url": "https://blakecody.com/articles.html",
+        "name": "Essays on Discipline, Love & Living with Intention",
+        "description": "Every essay Blake Cody has written on discipline, love and living with intention — free to read, newest first.",
+        "isPartOf": { "@id": "https://blakecody.com/#website" },
+        "about": { "@id": "https://blakecody.com/#person" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://blakecody.com/articles.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blakecody.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Articles" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=25" />
+  <script src="app.js?v=25" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -51,11 +81,21 @@
     <div class="wrap">
       <section class="archive">
         <p class="eyebrow"><a href="/">← Home</a></p>
-        <h1 class="archive-title">Articles</h1>
-        <p class="archive-sub">Every essay and dispatch, newest first.</p>
+        <h1 class="archive-title">Essays on discipline, love and living with intention</h1>
+        <h2 class="archive-sub">Everything I've written, newest first — free to read.</h2>
+
+        <div class="archive-intro">
+          <p>Everything I've written lives here: essays on discipline, love, and building a life with intention, written from inside the work rather than after it. Some are about relationships and rebuilding after a hard season. Some are about the small daily habits that quietly turn things around. A few are just honest notes on where I am right now.</p>
+          <p>I publish most weeks. Start with the newest, or scan down for whatever you're carrying at the moment — every piece is free, and each one links straight through to the full essay.</p>
+        </div>
+
+        <!-- Topic chips are filled in from the feed's post categories; the row
+             stays empty (and hidden) if the posts don't carry any. -->
+        <div class="post-filters" id="post-filters" role="group" aria-label="Filter by topic"></div>
+
         <div class="state" id="state">Loading…</div>
-        <div class="post-list" id="post-list" data-page-size="9"></div>
-        <nav class="pagination" id="pagination" aria-label="Article pages"></nav>
+        <div class="post-list" id="post-list" data-limit="0" data-campaign="articles"></div>
+        <p class="archive-rss"><a href="https://bccody.substack.com/feed" target="_blank" rel="noopener">Subscribe by RSS</a> · <a class="js-substack" href="https://bccody.substack.com" target="_blank" rel="noopener">Read on Substack ↗</a></p>
       </section>
     </div>
 
