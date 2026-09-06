@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# The chapter PDF is delivered by the form on /book.html, not for search results.
+Disallow: /c/
+Disallow: /chapter-1.pdf
 
 Sitemap: https://blakecody.com/sitemap.xml

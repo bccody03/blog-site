@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Book — Aligned — Blake Cody</title>
-  <meta name="description" content="Aligned: Lead with Love, Live with Intention — read the free opening of Chapter 1." />
+  <title>Aligned: Lead with Love, Live with Intention — Blake Cody</title>
+  <meta name="description" content="Aligned by Blake Cody — a field guide for rebuilding after heartbreak: decoding love, building yourself, living with intention. Read Chapter 1 free." />
+  <link rel="canonical" href="https://blakecody.com/book.html" />
   <link rel="alternate" type="application/rss+xml" title="Blake Cody on Substack" href="https://bccody.substack.com/feed" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,23 +15,65 @@
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#9a3b27" />
-  <link rel="canonical" href="https://blakecody.com/book.html" />
   <meta property="og:type" content="book" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Blake Cody" />
-  <meta property="og:title" content="Aligned — Blake Cody" />
-  <meta property="og:description" content="Read the free opening chapter of Aligned: Lead with Love, Live with Intention." />
+  <meta property="og:title" content="Aligned: Lead with Love, Live with Intention — Blake Cody" />
+  <meta property="og:description" content="Aligned by Blake Cody — a field guide for rebuilding after heartbreak: decoding love, building yourself, living with intention. Read Chapter 1 free." />
   <meta property="og:url" content="https://blakecody.com/book.html" />
   <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Blake Cody — Lead with Love, Live with Intention" />
+  <meta property="book:author" content="https://blakecody.com/" />
+  <meta property="book:tag" content="relationships" />
+  <meta property="book:tag" content="heartbreak" />
+  <meta property="book:tag" content="personal growth" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Aligned — Blake Cody" />
-  <meta name="twitter:description" content="Read the free opening chapter of Aligned: Lead with Love, Live with Intention." />
+  <meta name="twitter:title" content="Aligned: Lead with Love, Live with Intention — Blake Cody" />
+  <meta name="twitter:description" content="Aligned by Blake Cody — a field guide for rebuilding after heartbreak: decoding love, building yourself, living with intention. Read Chapter 1 free." />
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
-  <link rel="stylesheet" href="styles.css?v=25" />
-  <script src="app.js?v=25" defer></script>
+
+  <!-- Structured data: the book itself (same @id the homepage declares, so
+       it's one entity), this page, and where it sits. Deliberately no
+       offers/isbn/datePublished — the book isn't published yet. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Book",
+        "@id": "https://blakecody.com/#aligned",
+        "name": "Aligned",
+        "alternateName": "Aligned: Lead with Love, Live with Intention",
+        "author": { "@id": "https://blakecody.com/#person" },
+        "inLanguage": "en-US",
+        "abstract": "A field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of — three parts: decoding love, building yourself, and living with intention. Currently being written; the opening chapter is free to read.",
+        "url": "https://blakecody.com/book.html"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://blakecody.com/book.html#webpage",
+        "url": "https://blakecody.com/book.html",
+        "name": "Aligned: Lead with Love, Live with Intention — Blake Cody",
+        "isPartOf": { "@id": "https://blakecody.com/#website" },
+        "about": { "@id": "https://blakecody.com/#aligned" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://blakecody.com/book.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blakecody.com/" },
+          { "@type": "ListItem", "position": 2, "name": "The Book" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=26" />
+  <script src="app.js?v=26" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -53,24 +96,27 @@
       <section id="book" class="book book-page">
         <p class="eyebrow"><a href="/">← Home</a></p>
         <p class="eyebrow">The book</p>
-        <h1 class="book-title">Aligned</h1>
-        <p class="book-subtitle">Lead with Love, Live with Intention</p>
-        <p class="book-blurb">I'm in the process of becoming an author — and honestly, it still feels surreal to write that. Publishing a book has recently become a dream of mine. Not for my name on a cover, but because I want to put something into the world that genuinely helps people with their relationships and the way they live their lives.</p>
-        <p class="book-blurb"><em>Aligned</em> is that book. It's a field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of — three parts: decoding love, building yourself, and living with intention. Written straight from inside the work. No guru act. No fluff.</p>
+        <h1 class="book-title">Aligned <span class="book-subtitle">Lead with Love, Live with Intention</span></h1>
+        <p class="book-blurb"><em>Aligned</em> is a field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of — three parts: decoding love, building yourself, and living with intention. Written straight from inside the work. No guru act. No fluff.</p>
+        <p class="book-blurb">I'm in the process of becoming an author — and honestly, it still feels surreal to write that. Publishing a book has recently become a dream of mine. Not for my name on a cover, but because I want to put something into the world that genuinely helps people with their relationships and the way they live their lives. This is that book.</p>
         <p class="book-blurb">The first chapter is available to read right here, for free. If it reaches just one person — if it helps one of you become more confident in your own life and step into becoming a new person — then every word of it was worth writing.</p>
 
         <!-- ============================================================
              SNEAK PEEK — the lead magnet.
              .excerpt-free shows the opening to everyone. The gate below
-             collects an email and then delivers chapter-1.pdf (see app.js).
+             collects an email and then delivers the chapter PDF (see app.js).
              ============================================================ -->
         <div class="excerpt">
-          <p class="excerpt-label">Read the opening of Chapter 1 — free</p>
+          <h2 class="excerpt-label">Read the opening of Chapter 1 — free</h2>
 
           <div class="excerpt-free">
-            <p class="excerpt-chapter">Grieving a Ghost — The Person You're Mourning Never Existed</p>
+            <h3 class="excerpt-chapter">Grieving a Ghost — The Person You're Mourning Never Existed</h3>
             <p>You hear the dreaded words, your stomach falls through the floor. Your chest starts to tighten, you stop listening, trying to process what is actually happening. Everything in your body becomes hollow and you feel the tears rushing to exit your eyes. While the tears fall, everything loses energy, and it feels like the world just came crashing down right on top of you.</p>
-            <p>The hardest part of a relationship. When we get into them, we never think about the inevitable until it arrives. The person we are imagining a future with, ready to walk through life with…</p>
+            <p>The hardest part of a relationship. When we get into them, we never think about the inevitable until it arrives. The person you are imagining a future with and ready to walk through life with has just slipped through your fingers. The heartbreak is terrible, and it's not a bad thing if you have to grieve to heal yourself back up into the person you were the day before the breakup. Healing is a good part of heartbreak because it gives you many lessons throughout your life, and everything happens for a reason.</p>
+            <p>Some people are heartbroken over someone whom they only met for a month, or never even made a move. Whether it was on a dating app, and you thought the date was going smoothly. Then one day, out of nowhere, you never hear a text back from them. We can be heartbroken when someone we like gets into another relationship, but in reality, if they get into a relationship with someone else in your fingertips, they were not looking at you as an option or not the right one in the moment. So we grieve. Through lonely nights, where you sit alone, playing back all the memories that you once had with them. If it were someone you had been talking to for one month, maybe you are playing your future repeatedly in a what-if scenario.</p>
+            <p>Heartbreak is hard to control because emotions can take over, and the text that you shouldn't have sent is now in their phone. Having the mindset of "I don't care anymore about this person," but if you're texting them, then you are casting your last hook for attention.</p>
+            <p>I can't just type this page and say that heartbreak is not something you should cry over. The void is now just sitting in your life, and your life has just been completely flipped upside down. Imagine you are running a race, and then suddenly you roll your ankle and you can't run anymore. Like relationships, you are running through life with this person, and one step later, they are not even there anymore. You cannot continue the race until you heal your ankle. With one foot, you can slowly proceed to completing the race, which is what people with heartbreak do; they make it through long days even if they have little to give, until they heal again. When we think of heartbreak, what do we normally think about?</p>
+            <p>I want you to think about that question for a minute. Heartbreak and grieving over the loss of someone is what we normally think of. When we grieve over the heartbreak, we are actually grieving over the thing that we thought it was…</p>
           </div>
 
           <!-- The gate: its own form — delivers the chapter PDF and records
@@ -78,7 +124,7 @@
           <div class="excerpt-gate" id="excerpt-gate">
             <div class="gate-fade"></div>
             <div class="gate-card">
-              <h3>Keep reading — get the full chapter.</h3>
+              <h2 class="gate-heading">Keep reading — get the full chapter.</h2>
               <p>Pop in your email and your copy of the full first chapter downloads right away as a PDF. Free — and this won't subscribe you to anything.</p>
               <form class="chapter-form" id="chapter-form">
                 <input type="email" id="chapter-email" name="email" placeholder="Your email address" autocomplete="email" required />
@@ -88,12 +134,15 @@
             </div>
           </div>
 
-          <!-- Shown after they submit: deliver the PDF -->
+          <!-- Shown after they submit: deliver the PDF. The link's href is
+               filled in by app.js on success so the file isn't in the markup. -->
           <div class="chapter-done" id="chapter-done" hidden>
-            <h3>It's on the way 📩</h3>
-            <p>Your copy of Chapter 1 is downloading now. If it doesn't start automatically, <a id="chapter-dl" href="chapter-1.pdf" download="Aligned-Chapter-1.pdf">tap here to download the PDF</a>.</p>
+            <h2>It's on the way 📩</h2>
+            <p>Your copy of Chapter 1 is downloading now. If it doesn't start automatically, <a id="chapter-dl" href="#" download="Aligned-Chapter-1.pdf">tap here to download the PDF</a>.</p>
           </div>
         </div>
+
+        <p class="book-links">Not ready to hand over an email? That's fine. <a href="articles.html">The essays these ideas came out of</a> are all free to read — and if something in this chapter hit close to home, you can <a href="reflect.html">write to me about yours</a>. I read and answer every one.</p>
       </section>
     </div>
 
