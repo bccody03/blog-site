@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page not found — Blake Cody</title>
   <meta name="robots" content="noindex" />
+  <meta name="description" content="That page isn't here. Head back to blakecody.com, or start with something recent." />
   <link rel="alternate" type="application/rss+xml" title="Blake Cody on Substack" href="https://bccody.substack.com/feed" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,8 +15,16 @@
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#9a3b27" />
-  <link rel="stylesheet" href="styles.css?v=26" />
-  <script src="app.js?v=26" defer></script>
+  <!-- Minimal social card, so a pasted broken link still looks like the site
+       rather than a dead domain. No canonical, on purpose: this is a 404. -->
+  <meta property="og:site_name" content="Blake Cody" />
+  <meta property="og:title" content="Page not found — Blake Cody" />
+  <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Page not found — Blake Cody" />
+  <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
+  <link rel="stylesheet" href="styles.css?v=27" />
+  <script src="app.js?v=27" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -43,6 +52,15 @@
           <a class="substack-btn" href="/">← Back home</a>
           <a class="see-all" href="articles.html" style="margin-left:18px;">Read the articles →</a>
         </p>
+
+        <!-- The latest three essays, using the same feed machinery as the
+             homepage. Stays hidden until posts actually arrive, so a feed
+             hiccup never leaves an empty heading here. -->
+        <div class="notfound-recent" data-reveal hidden>
+          <h2 class="section-label">Or start with something recent</h2>
+          <div class="state" id="state" hidden></div>
+          <div class="post-list" id="post-list" data-limit="3" data-campaign="404"></div>
+        </div>
       </section>
     </div>
 

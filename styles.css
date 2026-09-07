@@ -893,12 +893,68 @@ body {
   animation: fadeIn 0.5s ease;
 }
 .reflect-thanks[hidden] { display: none; }
-.reflect-thanks h3 {
+.reflect-thanks h2 {
   font-family: var(--serif);
   font-size: 1.6rem;
+  font-weight: 600;
   margin: 0 0 10px;
 }
 .reflect-thanks p { color: var(--ink-soft); max-width: 30em; margin: 0 auto; }
+
+/* Visually hidden, still read by screen readers (form labels) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* "What this usually looks like" — the illustrative exchange on Reflect */
+.reflect-example { margin-top: 40px; }
+.reflect-example h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.reflect-example-note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+.reflect-example blockquote {
+  margin: 0 0 14px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--accent-soft);
+  background: var(--bg-card);
+  border-radius: 0 12px 12px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.reflect-example > p { color: var(--ink-soft); max-width: 38em; margin: 0 0 12px; }
+.reflect-links {
+  margin: 28px 0 0;
+  color: var(--ink-soft);
+  max-width: 36em;
+}
+.reflect-links a,
+.reflect-note a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.reflect-links a:hover,
+.reflect-note a:hover { text-decoration: underline; }
+
+/* Privacy page "last updated" line */
+.policy-updated { font-size: 0.85rem; color: var(--ink-soft); margin: 24px 0 0; }
+
+/* 404: the "start with something recent" list */
+.notfound-recent { margin-top: 40px; }
 
 /* About */
 .about {
@@ -916,6 +972,9 @@ body {
 }
 .about p { color: var(--ink-soft); max-width: 34em; margin: 0; }
 .about-text { flex: 1; }
+.about-text p + p { margin-top: 12px; }
+.about-text a:not(.substack-btn) { color: var(--accent); font-weight: 600; text-decoration: none; }
+.about-text a:not(.substack-btn):hover { text-decoration: underline; }
 
 .about-photo {
   flex: 0 0 auto;

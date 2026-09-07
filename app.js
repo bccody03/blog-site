@@ -363,14 +363,32 @@ if (reflectCats) {
     const chip = e.target.closest(".cat");
     if (!chip) return;
     const isActive = chip.classList.contains("active");
-    reflectCats.querySelectorAll(".cat").forEach((c) => c.classList.remove("active"));
+    reflectCats.querySelectorAll(".cat").forEach((c) => {
+      c.classList.remove("active");
+      c.setAttribute("aria-pressed", "false");
+    });
     if (!isActive) {
       chip.classList.add("active");
+      chip.setAttribute("aria-pressed", "true");
       reflectCatInput.value = chip.dataset.cat;
+      track("reflect-topic-" + chip.dataset.cat, "Topic chosen");
     } else {
       reflectCatInput.value = "";
     }
   });
+}
+
+// Attempts, not just completions: fires once on the first keystroke, so
+// reflect-start vs reflect-submit-* shows how many people abandon the form.
+const reflectAnswer = document.getElementById("reflect-answer");
+if (reflectAnswer) {
+  reflectAnswer.addEventListener("input", () => track("reflect-start", "Started writing"), { once: true });
+}
+
+// A miss becomes one grouped event per requested path, so broken inbound
+// links stand out instead of hiding among real pageviews.
+if (document.querySelector(".notfound")) {
+  track("404" + location.pathname, "404: " + location.pathname);
 }
 
 if (reflectForm) {
@@ -549,6 +567,9 @@ function render(posts) {
   allPosts = posts;
   renderFilters(posts);
   renderList(posts);
+  // Lists that opt in stay hidden until there is something to show.
+  const reveal = els.list.closest("[data-reveal]");
+  if (reveal) reveal.hidden = false;
 }
 
 function setState(msg, isError = false) {
