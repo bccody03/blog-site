@@ -1100,7 +1100,7 @@ body.plain { background: var(--bg); }
 }
 
 /* Quick Substack link button (About page) */
-.about-actions { margin: 18px 0 0; }
+.about-actions { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
 .substack-btn {
   display: inline-block;
   background: var(--accent);
