@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=28" />
+  <link rel="stylesheet" href="styles.css?v=29" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
@@ -95,14 +95,14 @@
         "isPartOf": { "@id": "https://blakecody.com/#website" },
         "about": { "@id": "https://blakecody.com/#person" },
         "primaryImageOfPage": "https://blakecody.com/og-image.jpg",
-        "dateModified": "2026-09-04"
+        "dateModified": "2026-09-07"
       }
     ]
   }
   </script>
 
   <!-- Scripts start downloading now and run once the page is parsed. -->
-  <script src="app.js?v=28" defer></script>
+  <script src="app.js?v=29" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -116,7 +116,8 @@
   <header class="site-header" id="site-header">
     <div class="wrap">
       <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
-      <nav class="nav">
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <nav class="nav" id="site-nav" aria-label="Site">
         <a href="/" class="active">Home</a>
         <a href="articles.html">Articles</a>
         <a href="book.html">Book</a>
@@ -130,12 +131,18 @@
   <!-- Full-screen cover. The name keeps its visual weight; the H1 carries
        the line that actually describes the site. -->
   <section class="cover" id="top">
-    <div class="cover-inner" id="cover-inner">
-      <p class="cover-title">Blake Cody</p>
-      <h1 class="cover-lede">Lead with Love, Live with Intention</h1>
-      <p class="cover-sub">Essays on discipline, mindset and direction — written from inside the work, not after it.</p>
-      <a class="scroll-cue" href="#intro-copy" aria-label="Scroll to read"><span></span></a>
+    <div class="wrap">
+      <div class="cover-inner" id="cover-inner">
+        <p class="cover-title">Blake Cody</p>
+        <h1 class="cover-lede">Lead with Love, Live with Intention</h1>
+        <p class="cover-sub">Essays on discipline, love and living with intention — for anyone rebuilding after a hard season. Written from inside the work, not after it.</p>
+        <p class="cover-actions">
+          <a class="btn btn-ghost" href="book.html" data-track="cta-hero-chapter">Read Chapter 1 free →</a>
+          <a class="cover-link" href="#latest">Or start with the latest essays ↓</a>
+        </p>
+      </div>
     </div>
+    <a class="scroll-cue" href="#intro-copy" aria-label="Scroll down to read"><span></span></a>
   </section>
 
   <!-- Everything below scrolls up over the cover image -->
@@ -155,57 +162,85 @@
           <a class="see-all" href="articles.html">See all articles →</a>
         </div>
         <div class="state" id="state">Loading the latest…</div>
-        <div class="post-list" id="post-list" data-limit="3"></div>
-        <a class="see-all-foot" href="articles.html">Read every post →</a>
+        <div class="post-list post-list-home" id="post-list" data-limit="3"></div>
+
+        <!-- Compact capture right after the reading: intent is highest here.
+             Same ask as the band at the bottom, counted separately. -->
+        <div class="inline-sub">
+          <p class="inline-sub-text"><strong>New essays, straight to your inbox.</strong> Free, most weeks, no spam.</p>
+          <form class="sub-form sub-form-inline" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+            <label class="sr-only" for="sub-email-inline">Email address</label>
+            <input type="email" id="sub-email-inline" name="email" placeholder="Your email address" autocomplete="email" required />
+            <input type="hidden" name="utm_source" value="blakecody.com" />
+            <input type="hidden" name="utm_medium" value="referral" />
+            <input type="hidden" name="utm_campaign" value="subscribe" />
+            <input type="hidden" name="utm_content" value="home-inline" />
+            <button type="submit" class="btn sub-submit">Subscribe →</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- The book gets the visual weight: a typographic cover (there's no
+           cover art yet), the big type tier, and the free-chapter offer. -->
+      <section class="feature book-feature" id="book-feature">
+        <a class="book-cover" href="book.html" aria-hidden="true" tabindex="-1">
+          <span class="book-cover-inner">
+            <span class="book-cover-kicker">A field guide</span>
+            <span class="book-cover-title">Aligned</span>
+            <span class="book-cover-sub">Lead with Love,<br />Live with Intention</span>
+            <span class="book-cover-author">Blake Cody</span>
+          </span>
+        </a>
+        <div class="feature-body">
+          <p class="eyebrow">The book · Chapter 1 is free</p>
+          <h2 class="feature-title">Aligned: Lead with Love, Live with Intention</h2>
+          <p class="feature-lede">A field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of — decoding love, building yourself, and living with intention. I'm writing it now, and the opening chapter is yours to read.</p>
+          <p class="feature-actions">
+            <a class="btn btn-outline" href="book.html" data-track="cta-book-feature">Read the opening chapter →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- The most distinctive offer on the site gets its own block. -->
+      <section class="feature reflect-feature">
+        <div class="feature-body">
+          <p class="eyebrow">Reflect with me · Free</p>
+          <h2 class="feature-title">Write what's on your mind. I'll reply personally.</h2>
+          <p class="feature-lede">A relationship, a decision, something you're stuck on. Write it down and I'll read it myself and write back by email — usually within a few days, and only to you.</p>
+          <p class="feature-actions">
+            <a class="btn btn-outline" href="reflect.html" data-track="cta-reflect-feature">Start writing →</a>
+          </p>
+        </div>
+        <img class="reflect-feature-photo" src="blake.jpg" alt="Blake Cody" width="240" height="320" loading="lazy" />
       </section>
 
       <!-- Little ways to branch off into the rest of the site -->
       <section class="explore">
         <h2 class="section-label">Explore</h2>
-        <p class="explore-intro">Everything here is free. Read the essays, open the first chapter of the book, or write to me directly — I read every message and reply personally.</p>
         <div class="explore-grid">
           <a class="explore-card" href="articles.html">
             <h3>Articles</h3>
-            <p>Every essay on discipline, love and intentional living, newest first.</p>
+            <p>Every essay on discipline, love and intentional living, newest first. All free.</p>
             <span class="explore-go">Read all →</span>
-          </a>
-          <a class="explore-card" href="book.html">
-            <h3>The Book</h3>
-            <p>Read the free opening chapter of <em>Aligned</em>.</p>
-            <span class="explore-go">Open the book →</span>
-          </a>
-          <a class="explore-card" href="reflect.html">
-            <h3>Reflect with me</h3>
-            <p>Write what's on your mind — I'll reply personally. Free.</p>
-            <span class="explore-go">Start writing →</span>
           </a>
           <a class="explore-card" href="about.html">
             <h3>About</h3>
-            <p>Who I am and why I'm writing all this in public.</p>
+            <p>Who I am, what I'm working toward, and why I'm writing all this in public.</p>
             <span class="explore-go">More about me →</span>
           </a>
-        </div>
-      </section>
-
-      <!-- App promo: advertises My JRNL, the iOS journaling app. -->
-      <section class="app-promo">
-        <div class="app-card">
-          <img class="app-card-icon" src="app-icon.png?v=2" alt="My JRNL app icon" width="192" height="192" />
-          <div class="app-card-body">
-            <span class="section-label">Now on iOS</span>
-            <h2 class="app-card-title">Download my mobile app</h2>
-            <p class="app-card-sub"><strong>My JRNL</strong> — journal your thoughts, build the habit. A simple space to write daily and keep track of it, right on your phone.</p>
-            <a class="appstore-badge" href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">
-              <img src="appstore-badge.svg" alt="Download My JRNL on the App Store" width="156" height="52" />
-            </a>
-          </div>
+          <a class="explore-card explore-card-app" href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">
+            <img class="explore-app-icon" src="app-icon.png?v=2" alt="" width="192" height="192" />
+            <h3>My JRNL <span class="explore-tag">iOS app</span></h3>
+            <p>The journaling habit that kept me steady, built into a simple app. Free on the App Store.</p>
+            <span class="explore-go">Download the app ↗</span>
+          </a>
         </div>
       </section>
     </div>
 
     <section class="subscribe-cta">
       <div class="wrap">
-        <h2 class="subscribe-title">Stay up to date in your inbox</h2>
+        <h2 class="subscribe-title feature-title">Stay up to date in your inbox</h2>
         <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
         <!-- Our own form, posting to Substack's subscribe page: matches the site
              and lets us count signups per page (the embed iframe couldn't). -->

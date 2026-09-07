@@ -151,6 +151,77 @@ body {
   margin: 0 auto;
   padding: 0 24px;
 }
+/* The content column grows with the screen (it used to stop at 720px, which
+   left half of a 1440px display empty). Reading pages opt out with
+   .wrap-reading so long prose keeps a comfortable measure. */
+@media (min-width: 1024px) { .wrap { max-width: 920px; } }
+@media (min-width: 1280px) { .wrap { max-width: 1100px; } }
+.wrap-reading { max-width: 760px; }
+
+/* Keyboard focus: one visible ring everywhere (the browser default was a 1px
+   near-black line, invisible on the dark hero). Inputs keep their own glow. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.site-header:not(.scrolled):not(.menu-open) :focus-visible,
+.cover :focus-visible,
+.gate-card :focus-visible { outline-color: #fff; }
+
+/* Buttons. One solid, one outlined, one ghost (for the dark hero). Use the
+   solid one sparingly — at most twice on a page — so it stays the thing the
+   eye lands on. */
+.btn,
+.substack-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.btn:hover,
+.substack-btn:hover { background: #832f1f; border-color: #832f1f; transform: translateY(-1px); }
+.btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+}
+.btn-outline:hover { background: var(--accent); color: #fff; }
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.8);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+.btn-ghost:hover { background: #fff; border-color: #fff; color: var(--ink); }
+
+/* Inline form errors (replaces the old alert() popups) */
+.form-error {
+  flex-basis: 100%;
+  margin: 10px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(154, 59, 39, 0.1);
+  border: 1px solid rgba(154, 59, 39, 0.3);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+}
+.form-error[hidden] { display: none; }
 
 /* Fixed cover image — sits behind the whole page and shows through the
    cover section, then the content scrolls up over it. */
@@ -194,6 +265,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 9px;
+  min-height: 44px;
   font-family: var(--serif);
   font-weight: 600;
   font-size: 1.4rem;
@@ -209,9 +281,13 @@ body {
 }
 .nav {
   display: flex;
-  gap: 22px;
+  gap: 10px;
 }
 .nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;      /* comfortable tap target; the header is 64px tall */
+  padding: 0 6px;
   color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   font-size: 0.92rem;
@@ -221,29 +297,91 @@ body {
 .nav a:hover { color: #fff; }
 .nav a.active { color: #fff; font-weight: 600; }
 
-/* Header switches to solid once you scroll past the cover */
-.site-header.scrolled {
+/* Menu button — only shown on narrow screens (see the media query below) */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nav-toggle-bars { position: relative; }
+.nav-toggle-bars::before,
+.nav-toggle-bars::after { content: ""; position: absolute; left: 0; }
+.nav-toggle-bars::before { top: -7px; }
+.nav-toggle-bars::after { top: 7px; }
+.site-header.menu-open .nav-toggle-bars { background: transparent; }
+.site-header.menu-open .nav-toggle-bars::before { transform: translateY(7px) rotate(45deg); }
+.site-header.menu-open .nav-toggle-bars::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Header switches to solid once you scroll past the cover (and whenever the
+   mobile menu is open, so the panel never floats over the hero photo). */
+.site-header.scrolled,
+.site-header.menu-open {
   background: rgba(247, 241, 230, 0.9);
   backdrop-filter: blur(8px);
   border-bottom-color: var(--line);
 }
-.site-header.scrolled .brand { color: var(--ink); }
-.site-header.scrolled .nav a { color: var(--ink-soft); }
-.site-header.scrolled .nav a:hover { color: var(--accent); }
-.site-header.scrolled .nav a.active { color: var(--accent); }
+.site-header.scrolled .brand,
+.site-header.menu-open .brand,
+.site-header.scrolled .nav-toggle,
+.site-header.menu-open .nav-toggle { color: var(--ink); }
+.site-header.scrolled .nav a,
+.site-header.menu-open .nav a { color: var(--ink-soft); }
+.site-header.scrolled .nav a:hover,
+.site-header.menu-open .nav a:hover { color: var(--accent); }
+.site-header.scrolled .nav a.active,
+.site-header.menu-open .nav a.active { color: var(--accent); }
 
-/* Cover */
+/* Cover — about three-quarters of the viewport, so the edge of the cream
+   page shows below the fold and invites the scroll. Shares .wrap with the
+   header so the name and the brand mark sit on the same left edge. */
 .cover {
-  height: 100vh;
-  min-height: 540px;
+  position: relative;
+  height: 74vh;
+  min-height: 520px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
   text-align: left;
   color: #fff;
-  padding: 0 clamp(24px, 6vw, 84px) 13vh;
+  padding: 0 0 9vh;
 }
+.cover .wrap { width: 100%; }
 .cover-inner { max-width: 760px; margin: 0; }
+.cover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin: 26px 0 0;
+}
+.cover-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 10px 0;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+}
+.cover-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .cover-title {
   font-family: var(--serif);
   font-size: clamp(3.6rem, 13vw, 7rem);
@@ -272,14 +410,25 @@ body {
   margin: 14px 0 0;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
 }
+/* Scroll cue: centred at the bottom of the cover, 44px hit area */
 .scroll-cue {
-  display: inline-block;
-  margin-top: 48px;
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 44px;
+  height: 52px;
+  margin-left: -22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 0.85;
+}
+.scroll-cue::before {
+  content: "";
   width: 26px;
   height: 42px;
-  border: 2px solid rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.75);
   border-radius: 14px;
-  position: relative;
 }
 .scroll-cue span {
   position: absolute;
@@ -292,6 +441,7 @@ body {
   border-radius: 2px;
   animation: cue 1.6s ease-in-out infinite;
 }
+.scroll-cue:hover { opacity: 1; }
 @keyframes cue {
   0% { opacity: 0; transform: translateY(0); }
   40% { opacity: 1; }
@@ -307,12 +457,12 @@ body {
   .cover-title,
   .cover-lede,
   .cover-sub,
-  .scroll-cue {
+  .cover-actions {
     animation: coverRise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
   .cover-lede { animation-delay: 0.16s; }
   .cover-sub { animation-delay: 0.26s; }
-  .scroll-cue { animation-delay: 0.38s; }
+  .cover-actions { animation-delay: 0.38s; }
 }
 
 /* Intro copy — the plain-words "what this is" block under the cover */
@@ -346,17 +496,134 @@ body {
 }
 .page .wrap { padding-top: 8px; padding-bottom: 8px; }
 
+/* Labels use --accent, not --accent-soft: the lighter rust measured 3.4:1 on
+   the cream (AA needs 4.5). --accent is 6.2:1 and already the link colour. */
 .section-label,
 .eyebrow {
   font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent-soft);
+  color: var(--accent);
   font-weight: 600;
 }
 .section-label {
   font-family: var(--sans);
   margin: 8px 0 4px;
+}
+
+/* Feature blocks (home): the big type tier the page was missing between the
+   112px hero and the 34px headlines. Used for the book, Reflect and subscribe. */
+.feature-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 8px 0 14px;
+}
+.feature-lede {
+  color: var(--ink-soft);
+  font-size: 1.08rem;
+  max-width: 34em;
+  margin: 0 0 22px;
+}
+.feature-actions { margin: 0; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+.feature-body { flex: 1 1 auto; min-width: 0; }
+
+.book-feature {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 5vw, 56px);
+  padding: 48px 0 24px;
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+}
+/* A typographic cover: title set in the brand type on the brand gradient,
+   with a spine and a soft shadow. Swap in real cover art when there is some. */
+.book-cover {
+  flex: 0 0 auto;
+  display: block;
+  width: clamp(168px, 20vw, 232px);
+  aspect-ratio: 2 / 3;
+  border-radius: 6px 14px 14px 6px;
+  background: linear-gradient(160deg, #2a201a 0%, #5d3f2c 55%, #9a3b27 100%);
+  box-shadow: 0 24px 40px -18px rgba(42, 32, 26, 0.55), 0 8px 18px rgba(42, 32, 26, 0.18);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  transform: rotate(-2deg);
+  transition: transform 0.25s ease;
+}
+.book-feature:hover .book-cover { transform: rotate(0deg) translateY(-4px); }
+.book-cover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.25);
+}
+.book-cover-inner {
+  position: absolute;
+  inset: 0;
+  padding: 12% 12% 12% 16%;
+  display: flex;
+  flex-direction: column;
+  color: var(--bg);
+  font-family: var(--serif);
+}
+.book-cover-kicker {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 14%;
+}
+.book-cover-title {
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.book-cover-sub {
+  font-style: italic;
+  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+  line-height: 1.35;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+.book-cover-author {
+  margin-top: auto;
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.reflect-feature {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  margin-top: 32px;
+  padding: clamp(28px, 4vw, 44px);
+  background: #efe4d0;
+  border: 1px solid #e0d2ba;
+  border-radius: 20px;
+}
+.reflect-feature .feature-title { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+.reflect-feature .feature-lede { margin-bottom: 20px; }
+.reflect-feature-photo {
+  flex: 0 0 auto;
+  width: clamp(120px, 16vw, 180px);
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
 }
 
 /* Book section */
@@ -398,6 +665,68 @@ body {
   max-width: 34em;
   margin: 0 0 24px;
 }
+/* The three parts, as labelled items with a hairline between them */
+.book-parts {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  max-width: 40em;
+}
+.book-parts li {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  grid-template-areas: "num name" "num desc";
+  column-gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.book-part-num {
+  grid-area: num;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-top: 5px;
+}
+.book-part-name {
+  grid-area: name;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.book-part-desc {
+  grid-area: desc;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+/* Pull quote from the chapter — carries the visual weight a cover would */
+.book-pull {
+  margin: 8px 0 12px;
+  padding: 8px 0 8px 24px;
+  border-left: 3px solid var(--accent);
+  max-width: 30em;
+}
+.book-pull p {
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.book-pull footer {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.book-pull cite { font-style: normal; }
 .excerpt-chapter {
   font-family: var(--serif);
   font-weight: 600;
@@ -429,7 +758,7 @@ body {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent-soft);
+  color: var(--accent);
   font-weight: 700;
   margin: 0 0 16px;
 }
@@ -445,27 +774,38 @@ body {
 /* The gate */
 .excerpt-gate { position: relative; }
 .gate-fade {
-  height: 90px;
-  margin-top: -90px;
+  height: 150px;
+  margin-top: -150px;
   position: relative;
-  background: linear-gradient(180deg, rgba(255, 250, 242, 0) 0%, var(--bg-card) 85%);
+  background: linear-gradient(180deg, rgba(255, 250, 242, 0) 0%, rgba(255, 250, 242, 0.85) 45%, var(--bg-card) 80%);
   pointer-events: none;
 }
+/* The gate itself is a dark card: the one place on the page that should
+   unmistakably read as "stop here and act". */
 .gate-card {
   text-align: center;
-  padding: 8px 4px 28px;
+  margin: 0 0 24px;
+  padding: 32px clamp(20px, 4vw, 36px) 28px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2a201a 0%, #5d3f2c 55%, #9a3b27 100%);
+  color: #fff;
+  box-shadow: var(--shadow);
 }
 .gate-card h2 {
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
   font-weight: 600;
   margin: 0 0 8px;
+  color: #fff;
 }
 .gate-card p {
-  color: var(--ink-soft);
+  color: rgba(255, 255, 255, 0.82);
   max-width: 30em;
   margin: 0 auto 20px;
 }
+.gate-card .chapter-note { color: rgba(255, 255, 255, 0.7); margin: 14px auto 0; }
+.gate-card .chapter-note a { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.gate-card .form-error { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.35); color: #fff; }
 /* Newsletter form (site-styled; posts to Substack's subscribe page) */
 .sub-form {
   display: flex;
@@ -490,6 +830,7 @@ body {
   box-shadow: 0 0 0 3px rgba(154, 59, 39, 0.12);
 }
 .sub-submit {
+  min-height: 44px;
   background: var(--accent);
   color: #fff;
   border: 0;
@@ -505,6 +846,27 @@ body {
 .sub-submit:hover { background: #832f1f; }
 .sub-note { font-size: 0.85rem; color: var(--ink-soft); margin: 12px 0 0; }
 @media (max-width: 560px) { .sub-form { flex-direction: column; } }
+
+/* Compact capture under the article row on the home page */
+.inline-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+  margin-top: 32px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-card);
+}
+.inline-sub-text { margin: 0; color: var(--ink-soft); font-size: 0.97rem; }
+.inline-sub-text strong { color: var(--ink); }
+.sub-form-inline { margin: 0; flex: 1 1 320px; max-width: 420px; }
+@media (max-width: 560px) {
+  .inline-sub { padding: 18px; }
+  .sub-form-inline { max-width: none; }
+}
 .reveal-btn {
   margin-top: 8px;
   background: none;
@@ -522,8 +884,9 @@ body {
 /* Book lead magnet: email -> chapter PDF */
 .chapter-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  max-width: 420px;
+  max-width: 440px;
   margin: 0 auto;
 }
 .chapter-form input {
@@ -540,23 +903,9 @@ body {
 .chapter-form input:focus {
   outline: none;
   border-color: var(--accent-soft);
-  box-shadow: 0 0 0 3px rgba(154, 59, 39, 0.12);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
-.chapter-submit {
-  background: var(--accent);
-  color: #fff;
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 18px;
-  font-family: var(--sans);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s ease;
-}
-.chapter-submit:hover { background: #832f1f; }
-.chapter-submit:disabled { opacity: 0.6; cursor: default; }
+.chapter-submit { font-size: 1rem; padding: 12px 18px; }
 .chapter-note { font-size: 0.85rem; color: var(--ink-soft); margin: 14px 0 0; }
 .chapter-done { text-align: center; padding: 8px 4px 16px; animation: fadeIn 0.5s ease; }
 .chapter-done h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin: 0 0 8px; }
@@ -585,20 +934,17 @@ body {
   justify-content: space-between;
   gap: 16px;
 }
-.see-all,
-.see-all-foot {
+.see-all {
+  display: inline-block;
   color: var(--accent);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.92rem;
   white-space: nowrap;
+  padding: 10px 0;      /* 44px tall hit area without moving the layout */
+  margin: -10px 0;
 }
-.see-all:hover,
-.see-all-foot:hover { text-decoration: underline; }
-.see-all-foot {
-  display: inline-block;
-  margin-top: 24px;
-}
+.see-all:hover { text-decoration: underline; }
 .state {
   color: var(--ink-soft);
   font-style: italic;
@@ -612,10 +958,27 @@ body {
 
 .post-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 30px 26px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 34px 28px;
   margin-top: 8px;
 }
+/* Home always shows exactly three, so give it three equal columns */
+@media (min-width: 700px) {
+  .post-list-home { grid-template-columns: repeat(3, 1fr); }
+}
+/* Archive: a year marker whenever the list crosses into an older year */
+.post-year {
+  grid-column: 1 / -1;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  padding-top: 8px;
+  margin-bottom: -14px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.post-year:first-child { border-top: 0; padding-top: 0; }
 
 .post {
   display: flex;
@@ -629,6 +992,7 @@ body {
 .post:hover .post-thumb img { transform: scale(1.05); }
 
 .post-thumb {
+  position: relative;
   width: 100%;
   aspect-ratio: 3 / 2;
   border-radius: 12px;
@@ -642,15 +1006,30 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: saturate(0.85);
   transition: transform 0.4s ease;
 }
-.post-body { display: flex; flex-direction: column; }
+/* Cover art comes from whatever each post happens to have. A faint rust
+   multiply pulls every image toward the palette so the row reads as one. */
+.post-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  mix-blend-mode: multiply;
+  opacity: 0.16;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.post:hover .post-thumb::after { opacity: 0.05; }
+/* Body fills the card so the "read" line sits on one baseline across a row */
+.post-body { display: flex; flex-direction: column; flex: 1 1 auto; }
 
 .post-meta {
   font-size: 0.76rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--accent-soft);
+  color: var(--accent);
   margin-bottom: 6px;
   font-weight: 600;
 }
@@ -673,93 +1052,87 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+/* The per-card line is deliberately quiet — the whole card is the link, and
+   the one accent-coloured arrow in the section is "See all articles". It
+   sits on the card's bottom edge (margin-top: auto) so a row lines up. */
 .post-more {
   display: inline-block;
-  margin-top: 10px;
-  color: var(--accent);
-  font-size: 0.85rem;
-  font-weight: 600;
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
 }
+.post:hover .post-more { color: var(--accent); }
 
-/* Explore cards — the "branch off" grid on the home page */
+/* Explore — the "branch off" row on the home page. Quiet, borderless cards
+   in the same language as the post cards: a hairline, type, and space. */
 .explore {
   padding: 40px 0 8px;
   border-top: 1px solid var(--line);
-  margin-top: 8px;
+  margin-top: 36px;
 }
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 24px 28px;
   margin-top: 16px;
 }
+@media (min-width: 700px) { .explore-grid { grid-template-columns: repeat(3, 1fr); } }
 .explore-card {
   display: flex;
   flex-direction: column;
-  background: var(--bg-card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 22px 22px 20px;
+  border-top: 2px solid var(--line);
+  padding: 18px 0 8px;
   text-decoration: none;
   color: inherit;
-  box-shadow: var(--shadow);
-  transition: transform 0.18s ease, border-color 0.18s ease;
+  transition: border-color 0.18s ease;
 }
-.explore-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-soft);
-}
+.explore-card:hover { border-top-color: var(--accent); }
+.explore-card:hover h3 { color: var(--accent); }
 .explore-card h3 {
   font-family: var(--serif);
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0 0 8px;
+  transition: color 0.15s ease;
 }
 .explore-card p {
   color: var(--ink-soft);
   font-size: 0.96rem;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   flex: 1;
 }
 .explore-go {
+  display: inline-block;
   color: var(--accent);
   font-weight: 600;
   font-size: 0.9rem;
+  padding: 8px 0;
+  margin: -8px 0;
 }
-
-/* App promo — advertises the mobile app on the home page, right under Explore */
-.app-promo { padding: 32px 0 8px; }
-.app-card {
-  background: linear-gradient(135deg, #2a201a 0%, #6b4a32 55%, #9a3b27 100%);
-  border-radius: 20px;
-  padding: 36px clamp(24px, 5vw, 44px);
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: clamp(24px, 4vw, 40px);
+.explore-app-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 3px 8px rgba(60, 45, 30, 0.18);
 }
-.app-card-icon {
-  flex: 0 0 auto;
-  width: clamp(96px, 14vw, 132px);
-  height: auto;
-  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+.explore-tag {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 8px;
 }
-.app-card-body { max-width: 40em; }
-.app-card-body .section-label { color: rgba(255, 255, 255, 0.75); }
-.app-card-title {
-  font-family: var(--serif);
-  font-size: clamp(1.6rem, 4vw, 2.1rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #fff;
-  margin: 4px 0 10px;
-}
-.app-card-sub {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 1.02rem;
-  margin: 0 0 22px;
-}
-.app-card-sub strong { color: #fff; }
 
 /* App Store badge (Apple's official artwork) — reused on Home and About */
 .appstore-badge {
@@ -777,7 +1150,15 @@ body {
 .about-page .about-stack { margin-top: 16px; }
 .archive .eyebrow a,
 .book-page .eyebrow a,
-.coaching-page .eyebrow a { color: var(--accent); text-decoration: none; }
+.coaching-page .eyebrow a,
+.privacy .eyebrow a,
+.notfound .eyebrow a {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 12px 0;      /* 44px tall "← Home" link, same visual position */
+  margin: -12px 0;
+}
 .archive .eyebrow a:hover,
 .book-page .eyebrow a:hover,
 .coaching-page .eyebrow a:hover { text-decoration: underline; }
@@ -799,7 +1180,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 18px 0 4px;
+  margin: 18px 0 12px;
 }
 .post-filters:empty { display: none; }
 .archive-rss {
@@ -807,7 +1188,7 @@ body {
   font-size: 0.9rem;
   color: var(--ink-soft);
 }
-.archive-rss a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.archive-rss a { display: inline-block; color: var(--accent); text-decoration: none; font-weight: 600; padding: 12px 0; margin: -12px 0; }
 .archive-rss a:hover { text-decoration: underline; }
 
 /* Coaching / Reflect with me */
@@ -852,19 +1233,25 @@ body {
   gap: 10px;
   margin-bottom: 16px;
 }
+/* Topic chips (Reflect + archive filters): 44px tall, a visible resting fill */
 .cat {
-  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 72px;
+  background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   font-family: var(--sans);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--ink);
   cursor: pointer;
   transition: all 0.15s ease;
 }
-.cat:hover { border-color: var(--accent-soft); color: var(--accent); }
+.cat:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
 .cat.active {
   background: var(--accent);
   color: #fff;
@@ -875,6 +1262,7 @@ body {
   width: 100%;
   font-family: var(--sans);
   font-size: 1rem;
+  line-height: 1.5;
   color: var(--ink);
   background: #fff;
   border: 1px solid var(--line);
@@ -882,6 +1270,7 @@ body {
   padding: 12px 14px;
   resize: vertical;
 }
+.reflect-form textarea { min-height: 160px; }
 .reflect-form textarea:focus,
 .reflect-form input:focus {
   outline: none;
@@ -896,19 +1285,9 @@ body {
 .reflect-row input { flex: 1; min-width: 0; }
 .reflect-submit {
   margin-top: 16px;
-  background: var(--accent);
-  color: #fff;
-  border: 0;
-  border-radius: 10px;
-  padding: 13px 24px;
-  font-family: var(--sans);
   font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
+  padding: 13px 24px;
 }
-.reflect-submit:hover { background: #832f1f; transform: translateY(-1px); }
-.reflect-submit:disabled { opacity: 0.6; cursor: default; transform: none; }
 .reflect-note {
   font-size: 0.85rem;
   color: var(--ink-soft);
@@ -1009,7 +1388,7 @@ body {
 
 .about-photo {
   flex: 0 0 auto;
-  width: 280px;
+  width: clamp(240px, 34%, 380px);
   height: auto;
   max-width: 100%;
   aspect-ratio: 3 / 4;
@@ -1017,41 +1396,55 @@ body {
   border-radius: 16px;
   box-shadow: var(--shadow);
 }
+.about-page .about { gap: clamp(28px, 5vw, 56px); }
 
 /* What I've built — showcase on the About page, starting with the app */
 .built { padding: 40px 0 8px; border-top: 1px solid var(--line); margin-top: 24px; }
+.built-title {
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 3vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 6px 0 0;
+}
 .built-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: 1fr;
   gap: 18px;
-  margin-top: 16px;
+  margin-top: 20px;
 }
 .built-card {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(20px, 3vw, 32px);
   background: var(--bg-card);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 26px 26px 24px;
+  padding: clamp(22px, 3vw, 30px);
   box-shadow: var(--shadow);
 }
 .built-card-icon {
-  width: 76px;
+  flex: 0 0 auto;
+  width: clamp(96px, 14vw, 128px);
   height: auto;
-  filter: drop-shadow(0 4px 10px rgba(60, 45, 30, 0.2));
-  margin-bottom: 16px;
+  filter: drop-shadow(0 6px 14px rgba(60, 45, 30, 0.22));
 }
+.built-card-body { flex: 1 1 auto; min-width: 0; }
 .built-card-title {
   font-family: var(--serif);
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 4px;
 }
 .built-card-sub {
-  color: var(--accent-soft);
+  color: var(--accent);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
 .built-card-body p:not(.built-card-sub) {
   color: var(--ink-soft);
@@ -1099,29 +1492,20 @@ body.plain { background: var(--bg); }
   margin: 0 0 8px;
 }
 
-/* Quick Substack link button (About page) */
+/* Action row under the About copy (button + LinkedIn link) */
 .about-actions { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
-.substack-btn {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.98rem;
-  padding: 12px 22px;
-  border-radius: 10px;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-.substack-btn:hover { background: #832f1f; transform: translateY(-1px); }
+.about-text a.btn { color: #fff; }
 
-/* Subscribe band — newsletter signup in the footer of every page */
+/* Subscribe band — newsletter signup in the footer of every page. Set as a
+   card on the cream so it reads as a destination, not the page running out. */
 .subscribe-cta {
   border-top: 1px solid var(--line);
   background: var(--bg-card);
-  padding: 48px 0 40px;
+  padding: 56px 0 48px;
   text-align: center;
 }
-.subscribe-cta .wrap { max-width: 560px; }
+.subscribe-cta .wrap { max-width: 600px; }
+.subscribe-cta .feature-title { font-size: clamp(1.8rem, 3.4vw, 2.5rem); margin: 0 0 10px; }
 .subscribe-title {
   font-family: var(--serif);
   font-size: clamp(1.5rem, 4vw, 2rem);
@@ -1159,8 +1543,8 @@ body.plain { background: var(--bg); }
   margin: 0 0 6px;
 }
 .author-text p { color: var(--ink-soft); margin: 0; max-width: 36em; font-size: 0.97rem; }
-.author-links { margin-top: 10px !important; display: flex; flex-wrap: wrap; gap: 6px 16px; }
-.author-links a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+.author-links { margin-top: 4px !important; display: flex; flex-wrap: wrap; gap: 0 16px; }
+.author-links a { display: inline-block; color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 11px 0; }
 .author-links a:hover { text-decoration: underline; }
 
 /* Privacy page */
@@ -1181,29 +1565,81 @@ body.plain { background: var(--bg); }
   font-size: 0.88rem;
   color: var(--ink-soft);
 }
-.site-footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.site-footer a {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 0;
+  margin: -10px 0;
+}
+.site-footer .wrap > span a { padding: 10px 2px; }
+
+/* ---- Narrow screens: the menu button ---------------------------------
+   Six links never fit beside the brand on a phone; the old version scrolled
+   them sideways with no scrollbar, so half the site was invisible. Below
+   this width the nav becomes a panel under the header, opened by the button. */
+@media (max-width: 700px) {
+  .nav-toggle { display: inline-flex; margin-left: auto; }
+  .nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 6px 24px 14px;
+    background: rgba(247, 241, 230, 0.98);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 16px 32px rgba(42, 32, 26, 0.12);
+  }
+  .site-header.menu-open .nav { display: flex; }
+  /* Solid while open: no blur, no see-through, whatever sits underneath */
+  .site-header.menu-open { background: var(--bg); backdrop-filter: none; }
+  .site-header.menu-open .nav { background: var(--bg); }
+  .nav a,
+  .site-header.scrolled .nav a,
+  .site-header.menu-open .nav a {
+    min-height: 50px;
+    padding: 0 4px;
+    border-top: 1px solid var(--line);
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .nav a:first-child { border-top: 0; }
+  .site-header.menu-open .nav a.active { color: var(--accent); }
+}
 
 @media (max-width: 560px) {
   .hero { padding: 48px 0 32px; }
-  .app-card { flex-direction: column; align-items: flex-start; }
+  .cover { height: 72vh; min-height: 480px; padding-bottom: 12vh; }
+  .cover-title { font-size: clamp(3rem, 15vw, 4rem); }
+  .cover-actions .btn { width: 100%; }
   .site-footer .wrap { flex-direction: column; gap: 10px; }
   .author-block .wrap { flex-direction: column; align-items: flex-start; }
   .post-list { gap: 24px 18px; }
+  .post-thumb { aspect-ratio: 2 / 1; }
   .about { flex-direction: column; align-items: center; text-align: center; }
   .about p { margin: 0 auto; }
+  .about-photo { width: min(280px, 80%); }
+  .about-actions { justify-content: center; }
   .reflect-row { flex-direction: column; }
+  .book-feature { flex-direction: column; align-items: flex-start; padding-top: 36px; }
+  .book-cover { width: 150px; transform: rotate(0); }
+  .reflect-feature { flex-direction: column-reverse; align-items: flex-start; }
+  .reflect-feature-photo { width: 96px; }
+  .built-card { flex-direction: column; }
+  .book-parts li { grid-template-columns: 1fr; grid-template-areas: "num" "name" "desc"; row-gap: 2px; }
+  .book-part-num { padding-top: 0; }
 
-  /* Keep the brand pinned left and let the tabs scroll sideways so all
-     six fit on a narrow phone without wrapping or shrinking the header. */
-  .site-header .wrap { justify-content: flex-start; gap: 14px; }
-  .brand { flex: 0 0 auto; }
-  .nav {
-    flex: 1 1 auto;
-    gap: 16px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+  /* Archive on a phone: compact rows instead of a stack of tall image cards */
+  .plain .post-list:not(.post-list-home) { gap: 0; }
+  .plain .post-list:not(.post-list-home) .post {
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
   }
-  .nav::-webkit-scrollbar { display: none; }
-  .nav a { white-space: nowrap; }
+  .plain .post-list:not(.post-list-home) .post:hover { transform: none; }
+  .plain .post-list:not(.post-list-home) .post-thumb { display: none; }
+  .plain .post-list:not(.post-list-home) .post-year { margin-bottom: 0; padding-top: 24px; border-top: 0; }
 }

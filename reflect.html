@@ -70,15 +70,16 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=28" />
-  <script src="app.js?v=28" defer></script>
+  <link rel="stylesheet" href="styles.css?v=29" />
+  <script src="app.js?v=29" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
   <header class="site-header scrolled" id="site-header">
     <div class="wrap">
       <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
-      <nav class="nav">
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <nav class="nav" id="site-nav" aria-label="Site">
         <a href="/">Home</a>
         <a href="articles.html">Articles</a>
         <a href="book.html">Book</a>
@@ -90,7 +91,7 @@
   </header>
 
   <main class="plain-main">
-    <div class="wrap">
+    <div class="wrap wrap-reading">
       <section id="coaching" class="coaching coaching-page">
         <p class="eyebrow"><a href="/">← Home</a></p>
         <p class="eyebrow">Reflect with me · <span class="coaching-free">Free for now</span></p>
@@ -113,7 +114,8 @@
             <label class="sr-only" for="reflect-email">Your email, so I can reply</label>
             <input type="email" id="reflect-email" name="email" placeholder="Your email (so I can reply)" autocomplete="email" required />
           </div>
-          <button type="submit" class="reflect-submit">Send it to Blake →</button>
+          <button type="submit" class="btn reflect-submit">Send it to Blake →</button>
+          <p class="form-error" id="reflect-error" role="alert" hidden></p>
           <p class="reflect-note">Private. I read every one. I'll reply by email — usually within a few days. <a href="privacy.html">What I do with your message</a>.</p>
         </form>
 

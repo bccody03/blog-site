@@ -76,15 +76,16 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=28" />
-  <script src="app.js?v=28" defer></script>
+  <link rel="stylesheet" href="styles.css?v=29" />
+  <script src="app.js?v=29" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
   <header class="site-header scrolled" id="site-header">
     <div class="wrap">
       <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
-      <nav class="nav">
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <nav class="nav" id="site-nav" aria-label="Site">
         <a href="/">Home</a>
         <a href="articles.html">Articles</a>
         <a href="book.html">Book</a>
@@ -107,9 +108,9 @@
             <p>Alongside the essays I'm writing my first book, <em>Aligned: Lead with Love, Live with Intention</em> — a field guide for rebuilding after heartbreak. <a href="book.html">The opening chapter is free to read</a>. I'm figuring all of this out in real time and writing down what's working and what isn't as I go.</p>
             <p>I also built <a href="#built">My JRNL</a>, a journaling and habits app that's live on the App Store. It started as the daily habit that kept me steady, and I made it because I wanted something simpler than what was out there.</p>
             <p>One day I want to be an author and a coach for life and relationships: someone who helps people work through what they're carrying and build a life that actually feels like their own. That's already started, in a small way — if something's on your mind, you can <a href="reflect.html">write to me and I'll reply personally</a>.</p>
-            <p>I publish on Substack, and everything I write shows up here too. Subscribe there and it lands in your inbox.</p>
+            <p>Everything I write is free to read here, and if you'd like it in your inbox, the newsletter signup is at the bottom of this page.</p>
             <p class="about-actions">
-              <a class="substack-btn js-substack" id="about-cta" href="https://bccody.substack.com" target="_blank" rel="noopener me">Read &amp; subscribe on Substack ↗</a>
+              <a class="btn" href="articles.html" data-track="cta-about-essays">Read the essays →</a>
               <a class="see-all about-linkedin" href="https://www.linkedin.com/in/blake-cody-63a48a266/" target="_blank" rel="noopener me">Find me on LinkedIn ↗</a>
             </p>
           </div>
@@ -118,14 +119,15 @@
 
       <!-- What I've built: showcase for side projects, starting with the app. -->
       <section class="built" id="built">
-        <h2 class="section-label">What I've built</h2>
+        <p class="eyebrow">Side projects</p>
+        <h2 class="built-title">What I've built</h2>
         <div class="built-grid">
           <div class="built-card">
             <img class="built-card-icon" src="app-icon.png?v=2" alt="My JRNL app icon" width="192" height="192" />
             <div class="built-card-body">
               <h3 class="built-card-title">My JRNL</h3>
-              <p class="built-card-sub">Journal &amp; Habits · iOS</p>
-              <p>My first app — a simple space to journal your thoughts and build the habits that stick.</p>
+              <p class="built-card-sub">Journal &amp; Habits · iOS · Free</p>
+              <p>My first app — a simple space to journal your thoughts and build the habits that stick. Made for a few honest minutes a day, nothing more.</p>
               <a class="appstore-badge" href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">
                 <img src="appstore-badge.svg" alt="Download My JRNL on the App Store" width="156" height="52" />
               </a>
