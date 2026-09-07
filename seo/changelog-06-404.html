@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>SEO Change Log — 06 Not Found (404.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — SEO audit &amp; change log</p>
+<h1>Page 06 — Not found <code style="font-size:12pt">/404.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · repository <code>bccody03/blog-site</code> @ <code>main c0a998a</code></div>
+  <div><b>Live behaviour:</b> <code>https://blakecody.com/nope-xyz</code> → <b>HTTP 404</b> with this page rendered — verified</div>
+  <div><b>Method:</b> static HTML parse · live status-code probe · sitemap and robots cross-check · review of what the analytics setup records for a miss</div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>.</div>
+</div>
+
+<div class="kpi">
+  <div><b>3</b><span>changes proposed</span></div>
+  <div><b>0</b><span>high</span></div>
+  <div><b>1</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+  <div><b>7</b><span>things already right</span></div>
+</div>
+
+<div class="win">
+<h3>This page is almost entirely correct already <span class="badge b-ok">Verified</span></h3>
+<p>404 pages are where sites quietly go wrong — soft 404s returning HTTP 200, error pages that get indexed, dead ends with no way back. None of that is happening here. Verified:</p>
+<table>
+  <tr><th style="width:44%">Check</th><th>Result</th></tr>
+  <tr><td>Returns a real HTTP 404, not a soft 200</td><td><span class="tick">✓</span> confirmed live on <code>/nope-xyz</code></td></tr>
+  <tr><td><code>&lt;meta name="robots" content="noindex"&gt;</code></td><td><span class="tick">✓</span> present</td></tr>
+  <tr><td>No <code>rel="canonical"</code></td><td><span class="tick">✓</span> <b>correct</b> — a 404 must not claim to be a canonical URL, and a surprising number of sites get this wrong by copying the head from another page</td></tr>
+  <tr><td>Excluded from <code>sitemap.xml</code></td><td><span class="tick">✓</span></td></tr>
+  <tr><td>H1 is human, not a status code</td><td><span class="tick">✓</span> "This page wandered off."</td></tr>
+  <tr><td>Offers a way back</td><td><span class="tick">✓</span> a real button home plus a link to the articles</td></tr>
+  <tr><td>Keeps the site's design, nav and footer</td><td><span class="tick">✓</span> the reader does not feel ejected from the site</td></tr>
+</table>
+<p>The three items below are improvements, not corrections. There is nothing broken on this page.</p>
+</div>
+
+<h2>A. Tracking</h2>
+
+<div class="f me">
+<h3><span class="id">T36</span> Every 404 is recorded, but buried among real pageviews <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<p>GoatCounter loads on this page, so a miss <i>is</i> counted — and, usefully, it is counted against <b>the path that was requested</b>, not against <code>/404.html</code>. So a broken inbound link to <code>/artcles.html</code> shows up in your pageview list as <code>/artcles.html</code>.</p>
+<p>That is genuinely the right behaviour and it means the data you need already exists. The problem is that it is indistinguishable from a real page: to find your 404s you have to read down the pageview list and recognise which paths do not exist. On a quiet site that is tedious; as traffic grows it becomes impossible.</p>
+<span class="lbl">Why it matters</span>
+<p>Broken inbound links are <b>free traffic and free link equity you are currently dropping on the floor.</b> Someone mistypes your URL in a newsletter, or links to a page you renamed, and every visitor who follows it lands here and leaves. You cannot fix a link you do not know about, and right now you would only find it by chance.</p>
+<span class="lbl">Fix</span>
+<pre><span class="c">// app.js — this page is identifiable by its .notfound section</span>
+if (document.querySelector(".notfound")) {
+  track("404" + location.pathname, "404: " + location.pathname);
+}</pre>
+<p>Every miss then becomes one grouped row in GoatCounter's event list, showing the exact URL and how often it is hit. Check it monthly. A path that appears repeatedly is either a broken link somebody else controls — worth an email asking them to fix it — or a page you moved, worth a redirect.</p>
+<p><i>Note on redirects: GitHub Pages cannot issue server-side 301s. If a genuinely valuable URL turns up in that list, the workaround is a small HTML file at that path with a <code>&lt;link rel="canonical"&gt;</code> and a JS redirect. Not elegant, but it recovers the traffic.</i></p>
+</div>
+
+<h2>B. Content</h2>
+
+<div class="f lo">
+<h3><span class="id">C38</span> Two exits, when the site's whole content is a list you could show <span class="badge b-lo">Low</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>static words: 49
+exits offered: "← Back home" (button) · "Read the articles →" (text link)</pre>
+<p>Both are sensible. But someone who lands here arrived wanting <i>something specific</i>, and a link to an archive asks them to go looking again. Showing them three actual essays converts more of them than pointing at a page that lists essays.</p>
+<span class="lbl">Fix — using machinery you already have</span>
+<p><code>app.js</code> already fetches the feed and renders cards, and <code>postCard()</code> already exists. The homepage does exactly this with <code>data-limit="3"</code>. Adding it here is markup only, no new JavaScript:</p>
+<pre>&lt;h2 class="section-label"&gt;Or start with something recent&lt;/h2&gt;
+&lt;div class="state" id="state" hidden&gt;&lt;/div&gt;
+&lt;div class="post-list" id="post-list" data-limit="3"&gt;&lt;/div&gt;</pre>
+<p><code>init()</code> already keys off the presence of <code>#post-list</code>, so it will populate itself. A dead end becomes the site's second-best entry point.</p>
+<p><i>One consideration: this page is <code>noindex</code>, so the client-side rendering objection from <span class="id">T2</span> does not apply here — there is no crawler to serve. This is one of the few places on the site where fetching content in the browser is straightforwardly the right call.</i></p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T37</span> No Open Graph tags <span class="badge b-lo">Low</span></h3>
+<p>Measured: no <code>og:</code> or <code>twitter:</code> tags at all, and no meta description.</p>
+<p><b>This is defensible and I am not recommending a change</b> — the page is <code>noindex</code>, so a description does nothing, and nobody deliberately shares a 404.</p>
+<p>The one scenario where it matters: somebody pastes a <i>broken</i> link to your site into a chat or a social post. The preview then renders with no title card, which looks like your domain is dead rather than like the specific URL was wrong. If you want to cover that, a minimal <code>og:title</code> and <code>og:image</code> costs four lines and reuses the assets already on every other page.</p>
+<p>Noted so the current state is a decision rather than an oversight.</p>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Live status</td><td><code>/nope-xyz</code> → <b>404</b>, this page rendered — no soft 404</td></tr>
+  <tr><td>Static text</td><td>49 words</td></tr>
+  <tr><td>Title</td><td>"Page not found — Blake Cody" (27 chars) · no meta description</td></tr>
+  <tr><td>Headings</td><td>H1 "This page wandered off." — single heading, correct</td></tr>
+  <tr><td>Robots</td><td><code>noindex</code> <span class="tick">✓</span></td></tr>
+  <tr><td>Canonical</td><td>none <span class="tick">✓</span> correct for a 404</td></tr>
+  <tr><td>Sitemap</td><td>excluded <span class="tick">✓</span></td></tr>
+  <tr><td>JSON-LD</td><td>0 — correct, nothing to declare</td></tr>
+  <tr><td>Analytics</td><td>GoatCounter loads and records the <i>requested</i> path; no distinct 404 event</td></tr>
+  <tr><td>Exits</td><td>2 (home button, articles link) · nav and footer intact</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 06 of 7 complete.</b> Remaining: <code>privacy.html</code>.</p>
+  <p>Open from earlier passes: <span class="id">T22</span> (public chapter PDF — the only Critical outstanding), plus the page-03, -04 and -05 findings and site-wide <span class="id">T2</span> <span class="id">C4</span> <span class="id">T13</span>.</p>
+  <p>blakecody.com SEO change log · generated 7 September 2026</p>
+</div>
+</body></html>

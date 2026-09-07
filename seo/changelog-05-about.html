@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>SEO Change Log — 05 About (about.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — SEO audit &amp; change log</p>
+<h1>Page 05 — About <code style="font-size:12pt">/about.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · repository <code>bccody03/blog-site</code> @ <code>main c0a998a</code></div>
+  <div><b>Live URL:</b> https://blakecody.com/about.html — HTTP 200</div>
+  <div><b>Method:</b> static HTML parse · metadata and heading extraction · entity/schema cross-check against the homepage graph · outbound link and <code>rel="me"</code> inventory</div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>. <code>main</code> is unchanged since <code>c0a998a</code>, so the page-03 and page-04 findings remain open.</div>
+</div>
+
+<div class="kpi">
+  <div><b>9</b><span>changes proposed</span></div>
+  <div><b>2</b><span>high</span></div>
+  <div><b>4</b><span>medium</span></div>
+  <div><b>3</b><span>low</span></div>
+</div>
+
+<div class="note">
+<h3>Why this page matters more than its traffic suggests</h3>
+<p>An About page is rarely a big traffic source, and this one probably never will be. It matters for a different reason: it is the page Google uses to decide <b>who Blake Cody is</b> as an entity, and it is the page a reader opens after an essay lands, when they are deciding whether to trust the person who wrote it.</p>
+<p>Both of those jobs are currently done by a page whose title, H1 and schema say nothing. Everything below is about that.</p>
+</div>
+
+<h2>A. Technical</h2>
+
+<div class="f hi">
+<h3><span class="id">T32</span> No <code>ProfilePage</code> or <code>Person</code> schema on the page that is about the person <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>about.html   JSON-LD blocks: 0
+index.html   declares Person (@id …/#person) with sameAs and image  ✓
+og:type      "profile"     ✓ correct — and a good instinct
+profile:first_name / profile:last_name / profile:username   absent</pre>
+<p>The homepage asserts who Blake Cody is. The page actually <i>about</i> Blake Cody asserts nothing. For entity resolution that is backwards — search engines look to the About page to corroborate what the rest of the site claims.</p>
+<span class="lbl">Fix</span>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "ProfilePage",
+      "@id": "https://blakecody.com/about.html#webpage",
+      "url": "https://blakecody.com/about.html",
+      "isPartOf":   { "@id": "https://blakecody.com/#website" },
+      "mainEntity": { "@id": "https://blakecody.com/#person" } },
+    { "@type": "Person",
+      "@id": "https://blakecody.com/#person",     <span class="c">// same id as the homepage —</span>
+      "name": "Blake Cody",                        <span class="c">// this corroborates, it does not duplicate</span>
+      "homeLocation": { "@type": "Place", "name": "Michigan, USA" },
+      "knowsAbout": ["relationships", "personal growth", "intentional living"],
+      "sameAs": [ <span class="c">/* see T33 — every profile you actually control */</span> ] },
+    { "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",
+          "item": "https://blakecody.com/" },
+        { "@type": "ListItem", "position": 2, "name": "About" } ] }
+  ]
+}
+&lt;/script&gt;</pre>
+<p>Plus the two OG profile properties you already half-declared:</p>
+<pre>&lt;meta property="profile:first_name" content="Blake" /&gt;
+&lt;meta property="profile:last_name"  content="Cody" /&gt;</pre>
+<p>Note the <code>@id</code> is deliberately identical to the homepage's. Two nodes sharing an <code>@id</code> merge into one richer entity; two nodes with different ids describe two different people who happen to share a name.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T33</span> <code>sameAs</code> lists two profiles, and this is the page that should list them all <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>rel="me" links on this page: 3   <span class="c">Substack ×2, App Store — correctly marked ✓</span>
+Person.sameAs (homepage):    2   <span class="c">Substack, App Store</span></pre>
+<p>Marking those <code>rel="me"</code> was the right call and it is already done. The gap is breadth: two corroborating profiles is thin for entity consolidation, and "Blake Cody" is a common enough name that Google needs help telling you apart from everyone else with it.</p>
+<span class="lbl">Fix</span>
+<p>List <b>every</b> profile you genuinely control, in the homepage <code>Person.sameAs</code> and as <code>rel="me"</code> links here: Instagram, X, TikTok, YouTube, LinkedIn, Threads — and, once <i>Aligned</i> ships, Goodreads and an Amazon author page, which are unusually strong signals for an author entity.</p>
+<p><b>Only include profiles you actually own.</b> A <code>sameAs</code> pointing at an account you do not control is worse than an empty list: it either fails to corroborate or corroborates the wrong person.</p>
+<p><i>I cannot see which accounts exist — this one needs you. It is ten minutes of copying URLs and it is the highest-value ten minutes available for entity SEO.</i></p>
+</div>
+
+<div class="f me">
+<h3><span class="id">T34</span> A hardcoded age, in three places, that goes wrong on a birthday <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<table>
+  <tr><th>Location</th><th>Text</th></tr>
+  <tr><td>body copy</td><td>"I'm Blake Cody — <b>22 years old</b>, living in Michigan."</td></tr>
+  <tr><td><code>og:description</code></td><td>"I'm Blake Cody — <b>22</b>, from Michigan…"</td></tr>
+  <tr><td><code>twitter:description</code></td><td>"I'm Blake Cody — <b>22</b>, from Michigan…"</td></tr>
+</table>
+<p>Same shape as <span class="id">T28</span> on the Reflect page ("Free for now"): a true statement with an expiry date and nothing to catch it. Search engines and social previews cache descriptions for a long time, so a stale age can outlive the edit by months.</p>
+<span class="lbl">Fix</span>
+<p>Drop the number. "Living in Michigan" or "in my early twenties" carries the same signal — young, early, figuring it out — without needing maintenance. The age is not what makes this page persuasive; the honesty is, and that survives the edit.</p>
+<p>If you want to keep it precise, put it in one place (the body copy) and leave it out of the two meta descriptions, which are the ones that go stale invisibly.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">T35</span> Your best copy is in the field Google does not show <span class="badge b-lo">Low</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>meta description  (90):  "About Blake Cody, and the book he's writing,
+                          Aligned: Lead with Love, Live with Intention."
+og:description   (104):  "I'm Blake Cody — 22, from Michigan. An aspiring
+                          author and life &amp; relationship coach, writing in public."</pre>
+<p>The OG version is specific, first-person and human. The meta description is generic third-person boilerplate. Google shows the second one and ignores the first.</p>
+<span class="lbl">Change to</span>
+<pre>I'm Blake Cody — a writer in Michigan, working toward being an author and a
+coach. I'm writing Aligned, and writing about the process in public.  <span class="c">147 chars</span></pre>
+<p>(Age removed per <span class="id">T34</span>.) Use the same line for all three description fields so search and social finally agree — the same consistency fix as <span class="id">C7</span> on the homepage.</p>
+</div>
+
+<h2>B. Content &amp; text</h2>
+
+<div class="f hi">
+<h3><span class="id">C34</span> Title and H1 are both the word "About" <span class="badge b-hi">High</span></h3>
+<span class="lbl">Now</span>
+<pre>&lt;title&gt;About — Blake Cody&lt;/title&gt;              <span class="c">18 chars of ~60</span>
+&lt;h1 class="archive-title"&gt;About&lt;/h1&gt;           <span class="c">one word</span></pre>
+<p>Fifth page with this shape. The homepage and archive are fixed; <span class="id">C21</span> (book) and <span class="id">C28</span> (reflect) are still open. It is the site's most consistent pattern and its most consistent missed opportunity.</p>
+<span class="lbl">Change to</span>
+<pre>&lt;title&gt;About Blake Cody — Writer, and Author of Aligned&lt;/title&gt;    <span class="c">53 chars</span>
+
+&lt;h1 class="archive-title"&gt;I'm Blake Cody — writing my way through it
+    in public&lt;/h1&gt;</pre>
+<p>The title serves the person searching your name and wanting to know who you are. The H1 serves the reader who just finished an essay and clicked "About" to find out whether to trust it. They are different jobs and both are currently unserved.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C35</span> The page leads with aspiration and buries the evidence <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now — measured</span>
+<pre>static words: 195</pre>
+<p>The copy is honest and likeable and I would not change its voice. But look at the order. It opens with what you want to be:</p>
+<blockquote style="margin:6px 0;padding-left:12px;border-left:3px solid #e6ded8;color:#4a423c"><i>"One day I want to be an author and a coach for life and relationships…"</i></blockquote>
+<p>Meanwhile the things you have actually <b>done</b> are further down or below the fold:</p>
+<ul>
+  <li>You write publicly, consistently, under your own name.</li>
+  <li>You are writing a book with a real first chapter someone can read right now.</li>
+  <li><b>You shipped an iOS app.</b> It is live on the App Store. That is a genuinely hard thing that most people who say "one day I want to…" never do — and it is sitting in a card below the fold under a small grey label reading "What I've built".</li>
+</ul>
+<span class="lbl">Why it matters</span>
+<p>Aspiration stated <i>before</i> evidence reads as inexperience. The same sentence stated <i>after</i> evidence reads as humility. It is the identical claim doing opposite work depending on where it sits, and this page currently has it in the weaker position.</p>
+<span class="lbl">Fix</span>
+<p>Reorder, do not rewrite. Lead with what you are doing — writing publicly, writing the book, shipping the app — then the paragraph about where it is heading. Bring "What I've built" above the subscribe block, or fold the app into the main copy where a first-time reader will see it. Target 350–450 static words.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">C36</span> "This site mirrors my Substack" <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Now</span>
+<blockquote style="margin:6px 0;padding-left:12px;border-left:3px solid #e6ded8;color:#4a423c"><i>"This site mirrors my Substack — subscribe there to get every piece in your inbox."</i></blockquote>
+<p>This is <span class="id">C4</span> — the strategic finding running through every report — stated in your own words, on your own About page. It tells a reader that this domain is a copy, and it tells a search engine the same thing. "Mirror" is a word with a specific and unhelpful meaning in this context.</p>
+<span class="lbl">Fix</span>
+<p><b>Now, at minimum:</b> drop "mirrors". "I write on Substack, and everything I publish shows up here too" says the same thing without describing your own site as a duplicate.</p>
+<p><b>After <span class="id">C4</span>:</b> the sentence inverts, and that inversion is the point of the whole strategy — <i>"Everything I write lives here. Subscribe and it comes to your inbox too."</i> Same offer, and the domain stops volunteering that it is the secondary copy.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">C37</span> No internal links into the writing <span class="badge b-lo">Low</span></h3>
+<p>The body links to Substack (twice) and the App Store. It does not link to a single essay, to the archive, to the book page, or to Reflect — all of which are one click away in the nav but get no contextual link with real anchor text.</p>
+<p>Someone reading this page is at peak curiosity about you. Give them somewhere to go: name two essays you would want a new reader to start with, and link them inline. That is also the descriptive-anchor internal linking the site has almost none of.</p>
+</div>
+
+<h2>C. Tracking &amp; measurement</h2>
+
+<div class="f me">
+<h3><span class="id">K21</span> The newsletter signup is unmeasurable, everywhere on the site <span class="badge b-me">Medium</span></h3>
+<p>Raising it here because About is a likely search landing page for your name, and "read about him, then subscribed" is the exact journey you would most want to see.</p>
+<span class="lbl">Now</span>
+<p>The subscribe block on this page — and on the homepage, the archive and Reflect — is <code>&lt;iframe class="sub-frame"&gt;</code> pointing at <code>bccody.substack.com/embed</code>. It is a <b>cross-origin iframe</b>, so nothing inside it is observable from your page: not a focus, not a keystroke, not a submit. Same-origin policy, no workaround.</p>
+<p>So: you can measure clicks on links <i>to</i> Substack (<span class="id">K3</span>, working well), but the signups that happen in the embedded form — your primary conversion — produce no event on your side at all. Substack's own dashboard shows the subscriber; nothing connects it to the page they were on.</p>
+<span class="lbl">Fix</span>
+<p>This is the same change the UI audit proposed for a different reason (<span class="id">X3</span> in <code>ui/changelog-01-index.pdf</code>, where the point was that the iframe imports Substack's visual design into your page). Replace the embed with your own email field and button posting to Substack's subscribe endpoint. Then:</p>
+<pre>track("subscribe-submit-" + location.pathname.replace(/\W+/g, "-"),
+      "Newsletter signup");</pre>
+<p>One change, two audits satisfied: the form finally looks like your site, and you can finally tell which page earns subscribers. Given that the newsletter is the thing this whole site exists to grow, not being able to measure it is the largest remaining blind spot in the tracking setup.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">K22</span> Verified working on this page <span class="badge b-ok">Pass</span></h3>
+<ul>
+  <li>The <code>#about-cta</code> Substack button is caught by the delegated outbound listener and fires <code>click-substack-about-cta</code> <span class="tick">✓</span> — the per-placement <code>utm_content</code> means you can see this specific button's contribution in Substack's stats too</li>
+  <li>The App Store link fires <code>click-appstore</code> <span class="tick">✓</span></li>
+  <li>All three outbound identity links carry <code>rel="me"</code> <span class="tick">✓</span></li>
+  <li>The author photo has real, specific alt text — "Blake Cody at the 2025 U.S. Open" — with <code>width</code> and <code>height</code> <span class="tick">✓</span></li>
+  <li>Canonical, OG, Twitter, RSS link, <code>defer</code>, HTTPS analytics all correct <span class="tick">✓</span></li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Static text in <code>&lt;body&gt;</code></td><td><b>195 words</b></td></tr>
+  <tr><td>Title / description</td><td>18 chars / 90 chars · <code>og:description</code> differs at 104 chars and is better</td></tr>
+  <tr><td>Headings</td><td>H1 "About" → H2 "What I've built" → H3 "My JRNL" → H2 "Stay up to date" — structurally clean <span class="tick">✓</span></td></tr>
+  <tr><td>JSON-LD</td><td><b>0</b> blocks · <code>og:type="profile"</code> ✓ but no <code>profile:</code> properties</td></tr>
+  <tr><td><code>rel="me"</code></td><td>3 links (Substack ×2, App Store)</td></tr>
+  <tr><td>Images</td><td><code>logo.png</code>, <code>cover.jpg</code> (900×1200, real alt), <code>app-icon.png</code>, <code>appstore-badge.svg</code> — all with dimensions <span class="tick">✓</span></td></tr>
+  <tr><td>Outbound hosts</td><td><code>bccody.substack.com</code>, <code>apps.apple.com</code>, fonts</td></tr>
+  <tr><td>Live status</td><td>200 · in sitemap · canonical self-referential</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>Page 05 of 7 complete.</b> Remaining: <code>404.html</code> · <code>privacy.html</code>.</p>
+  <p>Open from earlier passes: <span class="id">T22</span> (public chapter PDF — the only Critical outstanding), <span class="id">T23</span> <span class="id">C20</span> <span class="id">C21</span> (page 03), <span class="id">C27</span> <span class="id">C28</span> <span class="id">T29</span> (page 04), and site-wide <span class="id">T2</span> <span class="id">C4</span> <span class="id">T13</span>.</p>
+  <p>blakecody.com SEO change log · generated 7 September 2026</p>
+</div>
+</body></html>
