@@ -133,6 +133,15 @@
 @keyframes crackFade { to { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   .intro { display: none; }
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
@@ -351,7 +360,8 @@ body {
   font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent-soft);
+  /* --accent (6.17:1) not --accent-soft (3.38:1) — small uppercase text needs AA */
+  color: var(--accent);
   font-weight: 600;
 }
 .section-label {
@@ -650,7 +660,8 @@ body {
   font-size: 0.76rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--accent-soft);
+  /* --accent (6.17:1) not --accent-soft (3.38:1) — 12px text needs AA */
+  color: var(--accent);
   margin-bottom: 6px;
   font-weight: 600;
 }
@@ -1206,4 +1217,179 @@ body.plain { background: var(--bg); }
   }
   .nav::-webkit-scrollbar { display: none; }
   .nav a { white-space: nowrap; }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   Focus visibility, skip link, touch-target sizing, and the
+   mobile navigation menu. See ui/changelog-01-index.pdf
+   (findings R1, R2, R3) for the measurements behind these.
+   ============================================================ */
+
+/* --- Focus visibility (R3) ------------------------------------
+   There was no :focus-visible rule anywhere, so keyboard users
+   got the browser default — a 1px near-black ring, invisible on
+   the dark header and hero. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* On dark surfaces the accent ring disappears; use white instead. */
+.site-header :focus-visible,
+.cover :focus-visible,
+.app-card :focus-visible,
+.nav[data-open="true"] :focus-visible {
+  outline-color: #fff;
+}
+/* ...but the header goes cream once scrolled past the cover. */
+.site-header.scrolled :focus-visible {
+  outline-color: var(--accent);
+}
+
+/* --- Skip link (WCAG 2.4.1 Bypass Blocks) ---------------------
+   Six nav links sit before the content on every page. Off-screen
+   until focused, then it drops into view. */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -120px;
+  z-index: 1200;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 20px;
+  border-radius: 0 0 10px 10px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 0; }
+.skip-link:focus-visible { outline-color: #fff; }
+
+/* --- Touch targets (R2) ---------------------------------------
+   Nav links measured 24px tall and the arrow links 23-24px, both
+   under the 44px comfortable floor. Negative margins keep the
+   layout identical while the hit area roughly doubles.
+   Inline links inside prose are deliberately left alone — WCAG
+   2.5.8 exempts them. */
+.nav a {
+  padding: 11px 4px;
+  margin: -11px 0;
+}
+.see-all,
+.see-all-foot,
+.site-footer a {
+  display: inline-block;
+  padding: 11px 0;
+  margin: -11px 0;
+}
+/* The brand lockup is a link to the homepage, so it needs a target too. */
+.brand {
+  padding: 6px 0;
+  margin: -6px 0;
+}
+/* The global `* { box-sizing: border-box }` means padding would eat into
+   the pill's fixed 26x42 instead of growing the hit area, so this one
+   switches to content-box: the pill stays the same size, the target
+   around it reaches 44x50. */
+.scroll-cue {
+  box-sizing: content-box;
+  padding: 4px 9px;
+  margin-left: -9px;
+}
+
+/* --- "Now on iOS" sits on the dark app card -------------------
+   .section-label is now --accent for contrast on cream, which is
+   too dark against the app card's gradient. */
+.app-card .section-label { color: rgba(255, 246, 238, 0.92); }
+
+/* --- Mobile navigation (R1) -----------------------------------
+   Below 560px the inline nav clipped: Reflect, About and Substack
+   rendered off-screen (clientWidth 170, scrollWidth 385) with no
+   hamburger and no visible scrollbar, so half the navigation was
+   effectively unreachable. */
+.nav-toggle { display: none; }
+
+@media (max-width: 560px) {
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    /* The header row is flex-start, so push the button to the edge. */
+    margin-left: auto;
+    margin-right: -8px;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 10px;
+    color: inherit;
+    cursor: pointer;
+    z-index: 1101;
+  }
+  .nav-toggle-bars,
+  .nav-toggle-bars::before,
+  .nav-toggle-bars::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.2s ease, opacity 0.15s ease;
+  }
+  .nav-toggle-bars::before,
+  .nav-toggle-bars::after {
+    content: "";
+    position: absolute;
+  }
+  .nav-toggle-bars::before { transform: translateY(-7px); }
+  .nav-toggle-bars::after { transform: translateY(7px); }
+
+  /* Open, the button sits on the dark panel — the inherited ink colour
+     would leave a near-invisible close icon. */
+  .nav-toggle[aria-expanded="true"] { color: #fff; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars { background: transparent; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { transform: rotate(-45deg); }
+
+  .site-header .nav {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 0 clamp(24px, 8vw, 48px);
+    background: linear-gradient(135deg, #2a201a 0%, #6b4a32 60%, #9a3b27 100%);
+    /* Hidden from pointer, keyboard and assistive tech until opened.
+       `visibility` is what keeps the links out of the tab order. */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .site-header .nav[data-open="true"] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease, visibility 0s;
+  }
+  /* Panel links are big targets on a dark ground, regardless of
+     whether the header itself is in its scrolled state. */
+  .site-header .nav a,
+  .site-header.scrolled .nav a {
+    color: rgba(255, 255, 255, 0.92);
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    font-weight: 600;
+    padding: 14px 0;
+    margin: 0;
+    width: 100%;
+  }
+  .site-header .nav a.active,
+  .site-header.scrolled .nav a.active { color: #fff; }
+
+  body.nav-open { overflow: hidden; }
 }

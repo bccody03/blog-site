@@ -106,6 +106,8 @@
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <!-- Intro splash: name pops in, random cracks race across, then it disintegrates.
        The shards + crack lines are generated in app.js. -->
   <div class="intro" id="intro" aria-hidden="true"></div>
@@ -116,7 +118,11 @@
   <header class="site-header" id="site-header">
     <div class="wrap">
       <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
-      <nav class="nav">
+      <button class="nav-toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Main">
         <a href="/" class="active">Home</a>
         <a href="articles.html">Articles</a>
         <a href="book.html">Book</a>
@@ -139,7 +145,7 @@
   </section>
 
   <!-- Everything below scrolls up over the cover image -->
-  <main class="page">
+  <main class="page" id="main" tabindex="-1">
     <div class="wrap">
       <!-- Who this is and what it's about, in plain words. -->
       <section id="intro-copy" class="intro-copy">
@@ -149,12 +155,12 @@
         <p>If you're rebuilding after a hard season, trying to become more disciplined, or just want to live with more intention, you're in the right place. Start with the latest essays below.</p>
       </section>
 
-      <section id="latest" class="posts" aria-live="polite">
+      <section id="latest" class="posts" aria-labelledby="latest-heading">
         <div class="posts-head">
-          <h2 class="section-label">Latest articles</h2>
+          <h2 class="section-label" id="latest-heading">Latest articles</h2>
           <a class="see-all" href="articles.html">See all articles →</a>
         </div>
-        <div class="state" id="state">Loading the latest…</div>
+        <div class="state" id="state" role="status">Loading the latest…</div>
         <div class="post-list" id="post-list" data-limit="3"></div>
         <a class="see-all-foot" href="articles.html">Read every post →</a>
       </section>

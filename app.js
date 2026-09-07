@@ -132,13 +132,23 @@ if (intro) {
   } else {
     try { sessionStorage.setItem("intro-seen", "1"); } catch (e) {}
     intro.classList.add("play");
+    // The overlay covers the page, so anything behind it must not be
+    // focusable — otherwise a keyboard user tabs into content they
+    // cannot see. `inert` is removed when the overlay is.
+    document.querySelectorAll("body > *:not(.intro):not(.skip-link)")
+      .forEach((el) => el.setAttribute("inert", ""));
     try {
       buildIntro(intro);
     } catch (e) {
       console.error("intro failed:", e);
+      releaseInert();
       intro.remove(); // never let a hiccup leave the overlay stuck
     }
   }
+}
+
+function releaseInert() {
+  document.querySelectorAll("[inert]").forEach((el) => el.removeAttribute("inert"));
 }
 
 function buildIntro(intro) {
@@ -258,7 +268,66 @@ function buildIntro(intro) {
   const fontCap = new Promise((res) => setTimeout(res, 400)); // don't stall if fonts hang
   Promise.all([minDelay, Promise.race([fontsReady, fontCap])]).then(start);
 
-  setTimeout(() => intro.remove(), 2100);
+  setTimeout(() => {
+    releaseInert();
+    intro.remove();
+  }, 2100);
+}
+
+/* ------------------------------------------------------------
+   Mobile navigation (accessibility finding R1).
+   Below 560px the inline nav clipped — Reflect, About and the
+   Substack link rendered off-screen with no visible affordance.
+   The button below is hidden by CSS above that width, so desktop
+   behaviour is unchanged.
+   ------------------------------------------------------------ */
+const navToggle = document.getElementById("nav-toggle");
+const siteNav = document.getElementById("site-nav");
+if (navToggle && siteNav) {
+  const setNav = (open) => {
+    navToggle.setAttribute("aria-expanded", String(open));
+    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    if (open) siteNav.setAttribute("data-open", "true");
+    else siteNav.removeAttribute("data-open");
+    document.body.classList.toggle("nav-open", open);
+  };
+
+  navToggle.addEventListener("click", () => {
+    const open = navToggle.getAttribute("aria-expanded") !== "true";
+    setNav(open);
+    // Move focus into the panel so a keyboard user lands where the
+    // menu just appeared, and back to the button when it closes.
+    if (open) siteNav.querySelector("a")?.focus();
+    else navToggle.focus();
+  });
+
+  // Escape closes it from anywhere, which is what people expect.
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+      setNav(false);
+      navToggle.focus();
+    }
+  });
+
+  // Keep focus inside the panel while it is open.
+  siteNav.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab" || navToggle.getAttribute("aria-expanded") !== "true") return;
+    const items = [navToggle, ...siteNav.querySelectorAll("a")];
+    const i = items.indexOf(document.activeElement);
+    if (i === -1) return;
+    const next = e.shiftKey ? items[(i - 1 + items.length) % items.length]
+                            : items[(i + 1) % items.length];
+    e.preventDefault();
+    next.focus();
+  });
+
+  // Following a link, or growing past the breakpoint, closes it.
+  siteNav.addEventListener("click", (e) => {
+    if (e.target.closest("a")) setNav(false);
+  });
+  window.matchMedia("(min-width: 561px)").addEventListener("change", (e) => {
+    if (e.matches) setNav(false);
+  });
 }
 
 // Point the Substack links (nav + book CTA) at the configured URL.
