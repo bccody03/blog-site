@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reflect with me — Blake Cody</title>
-  <meta name="description" content="Whatever's on your mind — write it here and I'll read it and reply to you personally. Free for now." />
+  <title>Free Coaching — Write to Me, I'll Reply Personally | Blake Cody</title>
+  <meta name="description" content="Write to Blake Cody about whatever's on your mind — a relationship, a decision, something you're stuck on — and get a personal reply by email. Free for now." />
+  <link rel="canonical" href="https://blakecody.com/reflect.html" />
   <link rel="alternate" type="application/rss+xml" title="Blake Cody on Substack" href="https://bccody.substack.com/feed" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,23 +15,63 @@
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#9a3b27" />
-  <link rel="canonical" href="https://blakecody.com/reflect.html" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Blake Cody" />
-  <meta property="og:title" content="Reflect with me — Blake Cody" />
-  <meta property="og:description" content="Whatever's on your mind — write it here and I'll read it and reply to you personally. Free for now." />
+  <meta property="og:title" content="Free Coaching — Write to Me, I'll Reply Personally | Blake Cody" />
+  <meta property="og:description" content="Write to Blake Cody about whatever's on your mind — a relationship, a decision, something you're stuck on — and get a personal reply by email. Free for now." />
   <meta property="og:url" content="https://blakecody.com/reflect.html" />
   <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Blake Cody — Lead with Love, Live with Intention" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Reflect with me — Blake Cody" />
-  <meta name="twitter:description" content="Whatever's on your mind — write it here and I'll read it and reply to you personally. Free for now." />
+  <meta name="twitter:title" content="Free Coaching — Write to Me, I'll Reply Personally | Blake Cody" />
+  <meta name="twitter:description" content="Write to Blake Cody about whatever's on your mind — a relationship, a decision, something you're stuck on — and get a personal reply by email. Free for now." />
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
-  <link rel="stylesheet" href="styles.css?v=25" />
-  <script src="app.js?v=25" defer></script>
+
+  <!-- PRICING: "free" is asserted in 5 places on this page — the meta
+       description, og:description, twitter:description, the eyebrow in the
+       body, and offers.price in the schema below. If this ever becomes paid,
+       update all five. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://blakecody.com/reflect.html#service",
+        "name": "Reflect with me",
+        "serviceType": "Personal reflection and coaching correspondence",
+        "description": "Write in about anything on your mind — a question about your life and where it's headed, something you're stuck on — and get a personal written reply.",
+        "provider": { "@id": "https://blakecody.com/#person" },
+        "areaServed": "Worldwide",
+        "availableChannel": { "@type": "ServiceChannel", "serviceUrl": "https://blakecody.com/reflect.html" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://blakecody.com/reflect.html#webpage",
+        "url": "https://blakecody.com/reflect.html",
+        "name": "Free Coaching — Write to Me, I'll Reply Personally",
+        "isPartOf": { "@id": "https://blakecody.com/#website" },
+        "about": { "@id": "https://blakecody.com/reflect.html#service" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://blakecody.com/reflect.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blakecody.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Reflect with me" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=28" />
+  <script src="app.js?v=28" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -52,32 +93,45 @@
     <div class="wrap">
       <section id="coaching" class="coaching coaching-page">
         <p class="eyebrow"><a href="/">← Home</a></p>
-        <p class="eyebrow">Work with me · <span class="coaching-free">Free for now</span></p>
-        <h1 class="coaching-title">Reflect with me</h1>
+        <p class="eyebrow">Reflect with me · <span class="coaching-free">Free for now</span></p>
+        <h1 class="coaching-title">Write to me about what's on your mind — I'll reply personally</h1>
         <p class="coaching-intro">I'm opening this up while I build my coaching practice. Whatever's on your mind — a question about your life and where it's headed, something you're stuck on, something you just need to say out loud — write it here and I'll read it and respond to you personally. No cost. Pick a topic if it helps, or just start writing.</p>
 
         <form class="reflect-form" id="reflect-form">
-          <p class="reflect-prompt" id="reflect-prompt">What's on your mind?</p>
+          <h2 class="reflect-prompt"><label for="reflect-answer">What's on your mind?</label></h2>
           <div class="reflect-cats" id="reflect-cats" role="group" aria-label="Choose a topic">
-            <button type="button" class="cat" data-cat="Relationships">Relationships</button>
-            <button type="button" class="cat" data-cat="Intention">Intention</button>
-            <button type="button" class="cat" data-cat="Life">Life</button>
-            <button type="button" class="cat" data-cat="Other">Other</button>
+            <button type="button" class="cat" data-cat="Relationships" aria-pressed="false">Relationships</button>
+            <button type="button" class="cat" data-cat="Intention" aria-pressed="false">Intention</button>
+            <button type="button" class="cat" data-cat="Life" aria-pressed="false">Life</button>
+            <button type="button" class="cat" data-cat="Other" aria-pressed="false">Other</button>
           </div>
           <input type="hidden" id="reflect-cat" name="category" value="" />
           <textarea id="reflect-answer" name="answer" rows="6" placeholder="Say whatever's on your mind. The more honest, the more I can help." required></textarea>
           <div class="reflect-row">
+            <label class="sr-only" for="reflect-name">First name (optional)</label>
             <input type="text" id="reflect-name" name="name" placeholder="First name (optional)" autocomplete="given-name" />
+            <label class="sr-only" for="reflect-email">Your email, so I can reply</label>
             <input type="email" id="reflect-email" name="email" placeholder="Your email (so I can reply)" autocomplete="email" required />
           </div>
           <button type="submit" class="reflect-submit">Send it to Blake →</button>
-          <p class="reflect-note">Private. I read every one. I'll reply by email — usually within a few days.</p>
+          <p class="reflect-note">Private. I read every one. I'll reply by email — usually within a few days. <a href="privacy.html">What I do with your message</a>.</p>
         </form>
 
-        <div class="reflect-thanks" id="reflect-thanks" hidden>
-          <h3>Got it. 🙏</h3>
+        <div class="reflect-thanks" id="reflect-thanks" role="status" hidden>
+          <h2>Got it. 🙏</h2>
           <p>Thank you for trusting me with that. I read these myself — keep an eye on your inbox, I'll write back personally.</p>
         </div>
+
+        <!-- Proof of what the exchange looks like. Labelled as an illustration:
+             real messages are never shared. -->
+        <section class="reflect-example">
+          <h2>What this usually looks like</h2>
+          <p class="reflect-example-note">A made-up example, so you can see the shape of it. I never share what people actually send me.</p>
+          <blockquote>"I've been with someone for two years and I think I decided to leave months ago. I keep finding reasons to stay one more week. How do I know if I'm being patient or just scared?"</blockquote>
+          <p>What I'd write back, roughly: that the question already has its answer inside it — you said "decided," not "wondering." Then I'd ask what one more week is actually buying you, and whether the relationship you're staying for is the one that exists right now or the one you keep hoping will come back. No instruction to leave or to stay. Just the questions that make the real answer harder to avoid, and a reminder that you're allowed to choose yourself.</p>
+        </section>
+
+        <p class="reflect-links">Not ready to write? That's okay. Start with <a href="articles.html">the essays</a> — a lot of what I'd say back is already in there — or read <a href="book.html">the free opening chapter of <em>Aligned</em></a>, which is where most of this started.</p>
       </section>
     </div>
 
@@ -85,7 +139,18 @@
       <div class="wrap">
         <h2 class="subscribe-title">Stay up to date in your inbox</h2>
         <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
-        <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no" loading="lazy"></iframe>
+        <!-- Our own form, posting to Substack's subscribe page: matches the site
+             and lets us count signups per page (the embed iframe couldn't). -->
+        <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+          <label class="sr-only" for="sub-email">Email address</label>
+          <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
+          <input type="hidden" name="utm_source" value="blakecody.com" />
+          <input type="hidden" name="utm_medium" value="referral" />
+          <input type="hidden" name="utm_campaign" value="subscribe" />
+          <input type="hidden" name="utm_content" value="reflect" />
+          <button type="submit" class="sub-submit">Subscribe →</button>
+        </form>
+        <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
       </div>
     </section>
 

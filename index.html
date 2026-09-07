@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=28" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
@@ -50,11 +50,13 @@
         "@id": "https://blakecody.com/#person",
         "name": "Blake Cody",
         "url": "https://blakecody.com/",
+        "email": "mailto:bccody910@gmail.com",
         "image": "https://blakecody.com/blake.jpg",
         "description": "Writes essays about discipline, love and intentional living. Working on his first book, Aligned: Lead with Love, Live with Intention, and made the My JRNL journaling app.",
         "knowsAbout": ["discipline", "intentional living", "journaling", "relationships", "personal growth"],
         "sameAs": [
           "https://bccody.substack.com",
+          "https://www.linkedin.com/in/blake-cody-63a48a266/",
           "https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326"
         ]
       },
@@ -100,7 +102,7 @@
   </script>
 
   <!-- Scripts start downloading now and run once the page is parsed. -->
-  <script src="app.js?v=25" defer></script>
+  <script src="app.js?v=28" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -205,7 +207,18 @@
       <div class="wrap">
         <h2 class="subscribe-title">Stay up to date in your inbox</h2>
         <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
-        <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no" loading="lazy"></iframe>
+        <!-- Our own form, posting to Substack's subscribe page: matches the site
+             and lets us count signups per page (the embed iframe couldn't). -->
+        <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+          <label class="sr-only" for="sub-email">Email address</label>
+          <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
+          <input type="hidden" name="utm_source" value="blakecody.com" />
+          <input type="hidden" name="utm_medium" value="referral" />
+          <input type="hidden" name="utm_campaign" value="subscribe" />
+          <input type="hidden" name="utm_content" value="home" />
+          <button type="submit" class="sub-submit">Subscribe →</button>
+        </form>
+        <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
       </div>
     </section>
 
@@ -220,6 +233,7 @@
             <a href="about.html">About me</a>
             <a class="js-substack" href="https://bccody.substack.com" target="_blank" rel="noopener me">Substack</a>
             <a href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">My JRNL on the App Store</a>
+            <a href="https://www.linkedin.com/in/blake-cody-63a48a266/" target="_blank" rel="noopener me">LinkedIn</a>
           </p>
         </div>
       </div>
