@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>UI Change Log — 04 Reflect (reflect.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 04 — Reflect with me <code style="font-size:12pt">/reflect.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · <code>main 32fcad7</code></div>
+  <div><b>Method:</b> headless Chromium at 1440 / 820 / 390 with real webfonts · geometry and computed-style extraction · tap-target measurement · WCAG contrast from measured pairs</div>
+  <div><b>Status:</b> Audit only — no code changes applied.</div>
+</div>
+
+<div class="kpi">
+  <div><b>5</b><span>changes proposed</span></div>
+  <div><b>1</b><span>high</span></div>
+  <div><b>2</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+</div>
+
+<div class="score"><b>72</b>
+<span><b>UX score, out of 100 — the highest on the site.</b> The SEO pass rebuilt this page and it worked. The form is carded, the button is real, the example section answers the objection the page previously ignored, and the honesty of "a made-up example, so you can see the shape of it" is better than what I asked for. What is left is mostly touch targets and the site-wide items.</span></div>
+
+<figure>
+  <img src="assets/reflect-desktop.png" alt="Reflect page at 1440×900" />
+  <figcaption>1440×900. The form now sits in its own card, the submit is a real 184×46 button, and the privacy link is inline at the point of disclosure. All three were open findings last pass.</figcaption>
+</figure>
+
+<div class="note">
+<h3>What changed, and why this page now works</h3>
+<p>Comparing against the page-04 SEO report, implemented in <code>main 32fcad7</code>:</p>
+<ul>
+  <li><b>H1 rewritten</b> — "Write to me about what's on your mind — I'll reply personally" at 44.8px. It states the offer instead of naming it.</li>
+  <li><b>The form is a card.</b> It has a surface, a border and its own space, so it reads as a thing to do rather than as page furniture.</li>
+  <li><b>"What this usually looks like"</b> — an example exchange, with the note <i>"A made-up example, so you can see the shape of it. I never share what people actually send me."</i> I recommended anonymised real exchanges with permission; using a labelled hypothetical instead is the more careful choice and it costs nothing in persuasiveness.</li>
+  <li><b>The privacy link is inline</b> in <code>.reflect-note</code>, at the send button — <span class="id">C31</span> exactly as proposed.</li>
+  <li><b>Internal links added</b> — "Not ready to write? Start with the essays… or read the free opening chapter" — which was <span class="id">C32</span>.</li>
+  <li><b>Heading tree</b> is now H1 → H2 → H2 → H2, no skips.</li>
+  <li><b>Shortest page on the site</b> at 2.21 folds desktop, 3.03 mobile. The ask arrives without a long scroll.</li>
+</ul>
+</div>
+
+<h2>A. Touch targets</h2>
+
+<div class="f hi">
+<h3><span class="id">U14</span> The topic chips are 35px tall, and "Life" is 59px wide <span class="badge b-hi">High</span></h3>
+<span class="lbl">Measured</span>
+<pre>.cat  "Relationships"   126 × <b>35</b>
+.cat  "Intention"         94 × <b>35</b>
+.cat  "Life"            <b>59</b> × <b>35</b>     <span class="c">← smallest interactive element on the site</span>
+.cat  "Other"             73 × <b>35</b>
+
+.reflect-submit         184 × 46   <span class="c">✓ correct</span>
+total elements under 44px on this page: <b>17</b> — the most of any page</pre>
+<p>The chips are the first interaction on the page and the one most likely to be used on a phone, where a person is choosing a topic before typing something personal with their thumbs. At 35px tall they sit below the 44px comfortable floor, and "Life" at 59×35 is small enough to be genuinely fiddly.</p>
+<p>They also sit 8px apart, so the failure mode is not just a miss — it is selecting "Intention" when you meant "Life", on a form where the topic routes what you get back.</p>
+<span class="lbl">Fix</span>
+<pre>.cat {
+  min-height: 44px;          <span class="c">/* 35 → 44 */</span>
+  min-width: 72px;           <span class="c">/* rescues "Life" */</span>
+  padding: 10px 18px;
+}
+.reflect-cats { gap: 10px; }  <span class="c">/* 8 → 10, so a miss lands on nothing */</span></pre>
+<p>The visual change is small — the chips get slightly taller and rounder — and the design reads the same.</p>
+<p><i>A refinement to <span class="id">R2</span> from the page-01 report, which counted every sub-44px element site-wide: WCAG 2.5.8 explicitly exempts links inline in a sentence, so prose links do not need enlarging. The finding applies to standalone controls — these chips, nav links, and arrow CTAs — not to every underlined word. That makes it a smaller and more actionable job than the raw count suggested.</i></p>
+</div>
+
+<h2>B. Visual system</h2>
+
+<div class="f me">
+<h3><span class="id">U15</span> The chips read as inactive at rest <span class="badge b-me">Medium</span></h3>
+<p>Measured: <code>.cat</code> text is <code>--ink-soft #6b5f52</code> at 6.21 contrast — readable — inside a thin outline on the card surface. There is no fill, no icon, and no depth.</p>
+<p>Combined with their small size, the resting state reads closer to a set of tags describing the form than to four buttons inviting a choice. On touch there is no hover to correct that impression, so a phone user may simply not register them as tappable and skip to the textarea — which is exactly the field where they would most benefit from having narrowed the topic first.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Give the resting state a light fill (<code>--bg</code> against the card's <code>--bg-card</code>) so they read as raised rather than outlined.</li>
+  <li>Make the selected state unmistakable: filled with <code>--accent</code>, white text. Currently selection is a border-colour change, which is the weakest available signal and invisible to anyone who cannot distinguish those two browns.</li>
+  <li>Pair that with <code>aria-pressed</code> (<span class="id">T30</span> in the SEO report) so the state is exposed to screen readers as well as visible.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">U16</span> Eyebrow contrast <span class="badge b-me">Medium</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">V2</span></span></h3>
+<p>Measured: <code>.eyebrow</code> "← HOME" at <code>#c46a4f</code>, 13.1px, ratio <b>3.38</b> — fails AA.</p>
+<p>Note the near miss right beside it: <code>.coaching-free</code> ("Free for now") renders <code>#9a3b27</code> at <b>6.17</b> and passes. Two eyebrow-scale labels, adjacent, one readable and one not. The fix is the same token change that closes five pages at once.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U17</span> The failure state is a native <code>alert()</code> <span class="badge b-lo">Low</span></h3>
+<p>Same as <span class="id">U12</span> on the book page. The success path reveals a designed card; the failure path throws an OS dialog on top of a carefully made page — at the moment when somebody has just written something personal and it did not send.</p>
+<p>That is the worst possible moment for the interface to stop feeling like yours. Replace with an inline message inside the form card, using the text already written.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U18</span> The textarea does not grow <span class="badge b-lo">Low</span></h3>
+<p>Measured: <code>rows="6"</code>, fixed height. The placeholder invites depth — <i>"Say whatever's on your mind. The more honest, the more I can help."</i> — and then the box stops at six lines and starts scrolling, so a person writing something long loses sight of their own opening.</p>
+<p>Auto-growing it costs a few lines and quietly signals that a long answer is welcome:</p>
+<pre>const ta = document.getElementById("reflect-answer");
+ta?.addEventListener("input", () => {
+  ta.style.height = "auto";
+  ta.style.height = Math.min(ta.scrollHeight, 480) + "px";
+});</pre>
+</div>
+
+<div class="f ok">
+<h3><span class="id">U19</span> Keep exactly as is <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The form card.</b> Surface, border, spacing, and the submit as the visual terminus. This is how the Explore cards on the homepage should look (<span class="id">V3</span>).</li>
+  <li><b>"A made-up example… I never share what people actually send me."</b> Labelling the hypothetical is more trustworthy than a real anonymised exchange would have been, and on a page whose entire currency is trust that is the right trade.</li>
+  <li><b>The inline privacy link</b> at the send button.</li>
+  <li><b>"Not ready to write? That's okay."</b> — an exit that keeps the reader on the site instead of losing them.</li>
+  <li><b>2.21 folds on desktop.</b> The tightest page on the site. Nothing is padded, nothing is repeated.</li>
+  <li><b>The native subscribe form</b> at the foot — 314px input, 136×46 button, your palette.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Page depth</td><td>1440 → 1,985px (2.21 folds) · 820 → 1,976px (1.67) · 390 → 2,559px (3.03)</td></tr>
+  <tr><td>Headings</td><td>H1 (44.8px) → H2 ×4 — clean</td></tr>
+  <tr><td>Buttons</td><td><code>.reflect-submit</code> 184×46 ✓ · <code>.sub-submit</code> 136×46 ✓ · <code>.cat</code> chips 126/94/<b>59</b>/73 × <b>35</b></td></tr>
+  <tr><td>Elements under 44px</td><td><b>17</b> — highest on the site; the chips are the actionable subset</td></tr>
+  <tr><td>Contrast</td><td>intro 5.52 ✓ · note 5.97 ✓ · chips 6.21 ✓ · "Free for now" 6.17 ✓ · <code>.eyebrow</code> <b>3.38 fail</b></td></tr>
+  <tr><td>Mobile nav</td><td>clientW 170 · scrollW 385 · 3 items off-screen (<span class="id">R1</span>)</td></tr>
+  <tr><td>Content column</td><td><code>.wrap</code> 720px (<span class="id">V1</span>)</td></tr>
+  <tr><td>Focus ring</td><td>browser default (<span class="id">R3</span>)</td></tr>
+</table>
+
+<div class="foot">
+  <p><b>UI page 04 of 7 complete.</b></p>
+  <p>blakecody.com UI change log · generated 7 September 2026</p>
+</div>
+</body></html>

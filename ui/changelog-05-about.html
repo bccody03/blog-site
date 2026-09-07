@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>UI Change Log — 05 About (about.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 05 — About <code style="font-size:12pt">/about.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · <code>main 32fcad7</code></div>
+  <div><b>Method:</b> headless Chromium at 1440 / 820 / 390 with real webfonts · geometry, image-sizing and computed-style extraction · WCAG contrast from measured pairs</div>
+  <div><b>Status:</b> Audit only — no code changes applied.</div>
+</div>
+
+<div class="kpi">
+  <div><b>5</b><span>changes proposed</span></div>
+  <div><b>0</b><span>high</span></div>
+  <div><b>3</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+</div>
+
+<div class="score"><b>68</b>
+<span><b>UX score, out of 100.</b> The H1 rewrite and the photograph both landed, and this is now a page that answers "who is this?" in the first screen. It loses points for burying the one piece of hard evidence it has, and for a section label that fails contrast.</span></div>
+
+<figure>
+  <img src="assets/about-desktop.png" alt="About page at 1440×900" />
+  <figcaption>1440×900. The H1 is now a sentence and the photograph is properly sized at 280×373 from a 900×1200 source. "What I've built" — the shipped iOS app — sits below the fold.</figcaption>
+</figure>
+
+<h2>A. Hierarchy</h2>
+
+<div class="f me">
+<h3><span class="id">U20</span> The strongest evidence on the page is styled as a footnote <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Measured</span>
+<pre>H1  "I'm Blake Cody — writing my way through it in public"   54.4px  ✓
+    about copy                                                16px    ✓
+H2  "WHAT I'VE BUILT"        13.12px  <b>--accent-soft, contrast 3.38</b>
+H3  "My JRNL"                app icon 76×76, App Store badge 156×52</pre>
+<p>You shipped an iOS app. It is live, it is real, and it is the one thing on this page that is not a statement of intent. Its section heading is set at <b>13.12px</b> — the smallest type on the page — in a colour that fails contrast, below the fold, styled identically to a label.</p>
+<p>An H2 at 13.12px is a section label wearing a heading's tag. That is fine for "Latest articles" on a busy homepage; it is the wrong treatment for the single strongest credibility signal on your About page.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>Set "What I've built" at the same weight as the other H2s on the site — roughly 32px Fraunces — with <code>--ink</code>, not <code>--accent-soft</code>. It becomes a section, not a caption.</li>
+  <li>Better still, move it above the subscribe block and consider surfacing the app in the opening copy. The SEO report's <span class="id">C35</span> made the same argument about word order; this is the visual half of it.</li>
+  <li>The app icon renders at 76×76. Give it room — 120px or more — so it reads as a product rather than a favicon.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">U21</span> The photograph is well handled, and it is the only one <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Measured</span>
+<pre>cover.jpg   natural 900×1200 (0.75)   displayed 280×373 (0.75)
+            object-fit: cover · width/height present · alt: "Blake Cody at
+            the 2025 U.S. Open"</pre>
+<p>Ratio preserved, no crop distortion, real alt text, explicit dimensions. This is the best-handled image on the site and it is exactly the fix <span class="id">V4</span> keeps asking for elsewhere — a source and a slot that agree.</p>
+<p>The finding is scale, not handling. At 280px wide inside a 720px column, on a 1440px screen, the one photograph of the person the page is about occupies about 4% of the viewport. On a page whose job is "decide whether you trust me", the face is small.</p>
+<span class="lbl">Fix</span>
+<p>With <span class="id">V1</span>'s wider column, run the photo and the opening two paragraphs as a two-column block above the fold, photo at 380–420px. On mobile it already stacks correctly, so only the desktop rule changes.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">U22</span> Contrast: two failures, both <code>--accent-soft</code> <span class="badge b-me">Medium</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">V2</span></span></h3>
+<table>
+  <tr><th>Element</th><th>Colour</th><th>Size</th><th>Ratio</th><th>Needs</th></tr>
+  <tr><td><code>.section-label</code> — "WHAT I'VE BUILT"</td><td><code>#c46a4f</code></td><td>13.1px</td><td><b style="color:#b3261e">3.38</b></td><td>4.5</td></tr>
+  <tr><td><code>.eyebrow</code> — "← HOME"</td><td><code>#c46a4f</code></td><td>13.1px</td><td><b style="color:#b3261e">3.38</b></td><td>4.5</td></tr>
+</table>
+<p>Everything else on the page passes: body copy 5.52, H1 13.62, subscribe H2 14.73, the eyebrow's own link 6.17.</p>
+<p>One token — <code>--accent-soft</code> used for text — accounts for every contrast failure across <code>articles</code>, <code>book</code>, <code>reflect</code>, <code>about</code> and <code>404</code>. Change it to <code>#a8532f</code> (≈4.6) or swap those uses to <code>--accent #9a3b27</code> (6.17) and the entire site passes AA on text.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U23</span> Two subscribe asks, 200px apart <span class="badge b-lo">Low</span></h3>
+<span class="lbl">Measured</span>
+<pre>.substack-btn  "Read &amp; subscribe on Substack ↗"   291×49   y ≈ 1,760
+.sub-form      "Subscribe →"                      460 wide  y = 1,966</pre>
+<p>Two calls to action for the same outcome — get my writing by email — within one screen of each other, in different visual languages: a solid accent button linking out to Substack, then a native email field and button posting to Substack.</p>
+<p>A reader who has just decided to subscribe now has to work out whether these are the same thing. They are.</p>
+<span class="lbl">Fix</span>
+<p>Keep the native form — it is the better experience and it is the one you can measure. Change the button above it to something that is not a duplicate: "Read the essays" pointing at the archive, or drop it entirely and let the copy's existing Substack link carry it.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">U24</span> Keep <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The H1.</b> "I'm Blake Cody — writing my way through it in public" at 54.4px. First person, specific, and it does the job the word "About" could not.</li>
+  <li><b>Image handling throughout</b> — photo, app icon and App Store badge all carry explicit dimensions and real alt text.</li>
+  <li><b>2.43 folds on desktop.</b> Short, and it does not pad.</li>
+  <li><b>Heading tree</b> H1 → H2 → H3 → H2, no skips.</li>
+  <li><b>The copy voice.</b> Unchanged and still right for the page.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Page depth</td><td>1440 → 2,189px (2.43 folds) · 820 → 2,178px (1.85) · 390 → 2,719px (3.22)</td></tr>
+  <tr><td>Images</td><td>logo 30×30 (60×60 src) · <code>cover.jpg</code> 280×373 from 900×1200, ratio preserved ✓ · app icon 76×76 from 192 · badge 156×52 — all with <code>width</code>/<code>height</code></td></tr>
+  <tr><td>Headings</td><td>H1 54.4px → H2 <b>13.12px</b> → H3 → H2 32px — the first H2 is label-sized</td></tr>
+  <tr><td>Contrast</td><td><code>.section-label</code> <b>3.38 fail</b> · <code>.eyebrow</code> <b>3.38 fail</b> · body 5.52 ✓ · H1 13.62 ✓</td></tr>
+  <tr><td>Buttons</td><td><code>.substack-btn</code> 291×49 ✓ · <code>.sub-submit</code> 136×46 ✓</td></tr>
+  <tr><td>Mobile nav</td><td>clientW 170 · scrollW 385 · 3 items off-screen (<span class="id">R1</span>)</td></tr>
+  <tr><td>Content column / focus</td><td><code>.wrap</code> 720px (<span class="id">V1</span>) · browser-default focus ring (<span class="id">R3</span>)</td></tr>
+</table>
+
+<div class="foot"><p><b>UI page 05 of 7 complete.</b></p>
+<p>blakecody.com UI change log · generated 7 September 2026</p></div>
+</body></html>

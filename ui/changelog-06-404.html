@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>UI Change Log — 06 Not Found (404.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 06 — Not found <code style="font-size:12pt">/404.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · <code>main 32fcad7</code></div>
+  <div><b>Method:</b> headless Chromium at 1440 / 820 / 390 with real webfonts and a live feed injected · geometry and contrast extraction</div>
+  <div><b>Status:</b> Audit only — no code changes applied.</div>
+</div>
+
+<div class="kpi">
+  <div><b>3</b><span>changes proposed</span></div>
+  <div><b>0</b><span>high</span></div>
+  <div><b>1</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+</div>
+
+<div class="score"><b>74</b>
+<span><b>UX score, out of 100 — the highest of any page with content on it.</b> A 404 that fits in one screen, keeps the reader inside the site, and now offers three real essays instead of a shrug. The remaining points are contrast and one layout detail.</span></div>
+
+<figure>
+  <img src="assets/404-desktop.png" alt="404 page at 1440×900" />
+  <figcaption>1440×900, and the whole page fits: measured document height 932px against a 900px viewport — 1.04 viewports. The three recent essays are new since the last pass.</figcaption>
+</figure>
+
+<div class="note">
+<h3>The recent-posts row landed, and it changed the page</h3>
+<p>The SEO report's <span class="id">C38</span> proposed adding the three most recent essays here, reusing <code>postCard()</code> and <code>data-limit="3"</code> so it would populate itself. That is exactly what shipped.</p>
+<p>It matters more than its size suggests. A 404 is a person who wanted something specific and did not get it — the most likely moment on the whole site for someone to give up. This page now converts that moment into a reading choice rather than a dead end, and it does it in one screen.</p>
+</div>
+
+<h2>A. Findings</h2>
+
+<div class="f me">
+<h3><span class="id">U25</span> Three contrast failures, on a page with very little text <span class="badge b-me">Medium</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">V2</span></span></h3>
+<table>
+  <tr><th>Element</th><th>Text</th><th>Size</th><th>Ratio</th></tr>
+  <tr><td><code>.eyebrow</code></td><td>"ERROR 404"</td><td>13.1px</td><td><b style="color:#b3261e">3.38</b></td></tr>
+  <tr><td><code>.section-label</code></td><td>"OR START WITH SOMETHING RECENT"</td><td>13.1px</td><td><b style="color:#b3261e">3.38</b></td></tr>
+  <tr><td><code>.post-meta</code></td><td>each essay date</td><td>12.2px</td><td><b style="color:#b3261e">3.38</b></td></tr>
+</table>
+<p>This page has 49 words of its own plus three cards, and three of its text styles fail AA. Proportionally it is the worst-affected page on the site — and the "ERROR 404" eyebrow is the first thing a confused visitor looks for to confirm what happened.</p>
+<p>Same single cause as everywhere else: <code>--accent-soft #c46a4f</code> used for small text. One token change closes this page along with <code>articles</code>, <code>book</code>, <code>reflect</code> and <code>about</code>.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U26</span> The card CTAs are misaligned here too <span class="badge b-lo">Low</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">H5</span></span></h3>
+<pre>.post-more bottoms:  771, 771, <b>747</b>     <span class="c">24px ragged</span></pre>
+<p>The same top-aligned card contents as the homepage and the archive, so the same 24px step whenever one title wraps to fewer lines. More visible here than elsewhere because there are only three cards and they sit near the bottom edge of a single-screen page, where the ragged line is the last thing the eye crosses.</p>
+<p>Fixed by the same two lines of flexbox as <span class="id">H5</span> — and fixing it once in <code>.post-body</code> fixes all three pages that render cards.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U27</span> The two exits compete rather than rank <span class="badge b-lo">Low</span></h3>
+<span class="lbl">Measured</span>
+<pre>.substack-btn  "← Back home"          145×49    solid accent fill
+.see-all       "Read the articles →"   text link, inline, margin-left:18px</pre>
+<p>A solid button and a text link, side by side, offering two reasonable next steps. But now that three actual essays sit directly beneath them, "Read the articles →" is the weakest of three overlapping options — go home, go to the archive, or read one of these specific pieces.</p>
+<p>The strongest option is the one you just added and it is the one with no call to action attached.</p>
+<span class="lbl">Fix</span>
+<p>Drop "Read the articles →" from the button row. Let "← Back home" be the single primary action, and let the essay cards below be the alternative — they are more concrete than a link to a list. If you want the archive reachable, put "See all essays →" after the three cards, where it belongs as a continuation rather than a competitor.</p>
+<p>Also worth removing the inline <code>style="margin-left:18px"</code> on that link while you are there — the only inline style in the page's markup.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">U28</span> What is right — most of it <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>It fits in one screen.</b> 932px against a 900px viewport. The whole message, the way back, and three essays, with no scrolling. Nothing else on the site achieves this.</li>
+  <li><b>The H1 is human</b> — "This page wandered off." at 54.4px, 13.62 contrast. Not "404", not "Error", not an apology.</li>
+  <li><b>The site does not fall away.</b> Full nav, full footer, same palette and type. A reader who mistypes a URL is not ejected into a system page.</li>
+  <li><b>A real button</b> at 145×49, above the 44px floor.</li>
+  <li><b>Mobile is 2.32 folds</b> — still short even with the cards stacked.</li>
+  <li><b>Heading tree</b> H1 → H2 → H3 ×3, clean.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Page depth</td><td>1440 → <b>932px (1.04 folds)</b> · 820 → 1,180px (1.00) · 390 → 1,959px (2.32)</td></tr>
+  <tr><td>Headings</td><td>H1 54.4px → H2 → H3 ×3 — clean</td></tr>
+  <tr><td>Contrast</td><td><b>3 failures</b>, all <code>--accent-soft</code> at 3.38 · H1 13.62 ✓ · sub 5.52 ✓ · excerpts 5.52 ✓</td></tr>
+  <tr><td>Buttons</td><td><code>.substack-btn</code> 145×49 <span class="tick">✓</span></td></tr>
+  <tr><td>Cards</td><td>3 × 207×360 · CTA bottoms 771 / 771 / <b>747</b></td></tr>
+  <tr><td>Mobile nav</td><td>clientW 170 · scrollW 385 · 3 items off-screen (<span class="id">R1</span>)</td></tr>
+  <tr><td>Content column / focus</td><td><code>.wrap</code> 720px (<span class="id">V1</span>) · browser-default focus ring (<span class="id">R3</span>)</td></tr>
+</table>
+
+<div class="foot"><p><b>UI page 06 of 7 complete.</b></p>
+<p>blakecody.com UI change log · generated 7 September 2026</p></div>
+</body></html>

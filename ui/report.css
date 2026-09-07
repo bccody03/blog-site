@@ -1,0 +1,58 @@
+@page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+* { box-sizing: border-box; }
+body { font: 10.5pt/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1c1a19; margin: 0; }
+h1 { font-size: 21pt; margin: 0 0 4px; letter-spacing: -.4px; }
+h2 { font-size: 14pt; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #9a3b27; color: #9a3b27; page-break-after: avoid; }
+h3 { font-size: 11pt; margin: 0 0 6px; page-break-after: avoid; }
+p { margin: 0 0 8px; }
+.sub { color: #6b625d; font-size: 9.5pt; margin: 0 0 2px; }
+.meta { margin: 14px 0 0; padding: 10px 12px; background: #faf7f4; border-left: 3px solid #9a3b27; font-size: 9.5pt; }
+.meta div { margin: 2px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 8px 0 14px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6ded8; vertical-align: top; }
+th { background: #f5efea; font-weight: 600; }
+code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; }
+code { font-size: 9pt; background: #f2ece8; padding: 1px 4px; border-radius: 3px; }
+pre { font-size: 8.4pt; line-height: 1.45; background: #1f1c1a; color: #f0e9e3; padding: 9px 11px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+pre .c { color: #9aa39a; }
+.f { page-break-inside: avoid; margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e6ded8; border-radius: 5px; background: #fffdfc; }
+.f.hi { border-left: 4px solid #b3261e; }
+.f.me { border-left: 4px solid #c47f18; }
+.f.lo { border-left: 4px solid #5c7a5c; }
+.f.ok { border-left: 4px solid #4a7a4a; background: #f6faf6; }
+.f.op { border-left: 4px solid #8a6a3a; background: #fdfaf4; }
+.badge { display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; vertical-align: 2px; margin-left: 6px; }
+.b-hi { background: #b3261e; color: #fff; }
+.b-me { background: #c47f18; color: #fff; }
+.b-lo { background: #5c7a5c; color: #fff; }
+.b-ok { background: #4a7a4a; color: #fff; }
+.b-op { background: #8a6a3a; color: #fff; }
+.id { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt; color: #9a3b27; font-weight: 700; }
+.lbl { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .4px; color: #6b625d; display: block; margin: 8px 0 2px; }
+ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+li { margin: 3px 0; }
+.foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #e6ded8; font-size: 9pt; color: #6b625d; }
+.kpi { display: flex; gap: 8px; margin: 12px 0 0; }
+.kpi div { flex: 1; padding: 8px; background: #f5efea; border-radius: 4px; text-align: center; }
+.kpi b { display: block; font-size: 17pt; line-height: 1.1; }
+.kpi span { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #6b625d; }
+.note { background: #fdfaf4; border: 1px solid #e6d9c0; border-left: 4px solid #8a6a3a; border-radius: 5px; padding: 11px 13px; margin: 10px 0 16px; page-break-inside: avoid; }
+.note h3 { color: #6b5327; }
+.win { background: #f6faf6; border: 1px solid #cfe2cf; border-left: 4px solid #4a7a4a; border-radius: 5px; padding: 11px 13px; margin: 10px 0 16px; page-break-inside: avoid; }
+.win h3 { color: #2f5c2f; }
+.tick { color: #4a7a4a; font-weight: 700; }
+
+/* UI-report additions */
+figure { margin: 10px 0 12px; page-break-inside: avoid; }
+figure img { width: 100%; border: 1px solid #d9cfc7; border-radius: 4px; display: block; }
+figcaption { font-size: 8.5pt; color: #6b625d; margin-top: 5px; font-style: italic; }
+.score { display: flex; align-items: center; gap: 14px; margin: 10px 0 6px; padding: 12px 14px; background: #1f1c1a; color: #f0e9e3; border-radius: 5px; page-break-inside: avoid; }
+.score > b { font-size: 30pt; line-height: 1; color: #e8a87c; flex: 0 0 auto; }
+.score span { font-size: 9.5pt; }
+.score span b { font-size: 9.5pt; color: #f0e9e3; }
+.f.cr { border-left: 4px solid #7a1410; }
+.b-cr { background: #7a1410; color: #fff; }
+.f.fix { border-left: 4px solid #3a5f8a; background: #f5f8fc; }
+.b-fix { background: #3a5f8a; color: #fff; }
+.bar { display:inline-block; height:7px; background:#9a3b27; border-radius:4px; vertical-align:middle; }
+.barbg { display:inline-block; width:80px; height:7px; background:#eee3da; border-radius:4px; vertical-align:middle; }

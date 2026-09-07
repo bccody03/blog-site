@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>UI Change Log — 03 The Book (book.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 03 — The Book <code style="font-size:12pt">/book.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · <code>main 32fcad7</code></div>
+  <div><b>Method:</b> headless Chromium at 1440 / 820 / 390 with real webfonts · computed-style and geometry extraction · WCAG contrast from measured pairs</div>
+  <div><b>Status:</b> Audit only — no code changes applied.</div>
+</div>
+
+<div class="kpi">
+  <div><b>6</b><span>changes proposed</span></div>
+  <div><b>1</b><span>high</span></div>
+  <div><b>3</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+</div>
+
+<div class="score"><b>60</b>
+<span><b>UX score, out of 100.</b> The writing on this page is the best on the site and the excerpt typography now does it justice. It scores where it does because a page selling a book still contains no picture of the book, and because the moment of the ask — the gate — is the least designed thing on it.</span></div>
+
+<figure>
+  <img src="assets/book-desktop.png" alt="Book page at 1440×900" />
+  <figcaption>1440×900. The H1 now carries the subtitle and the excerpt is set at 17.9px with 14.73 contrast — both improvements from the SEO pass. The only image on the page is the 30px header logo.</figcaption>
+</figure>
+
+<h2>A. The thing that is missing</h2>
+
+<div class="f hi">
+<h3><span class="id">U8</span> A page about a book, with no picture of the book <span class="badge b-hi">High</span></h3>
+<span class="lbl">Measured</span>
+<pre>images on book.html:  [ "logo.png" ]     <span class="c">the 30×30 header mark. That is all.</span>
+page depth:  desktop 2,833px (3.15 folds) · mobile 4,959px (5.88 folds)</pre>
+<p>Nearly three screens of text on desktop, nearly six on mobile, and not one visual anchor in any of it. The eye has nowhere to rest and nothing to remember the page by.</p>
+<p>This is <span class="id">T24</span> from the SEO report arriving as a design problem rather than a schema one. And it is worth restating the correction that came with it: <b>in my page-01 report I claimed <code>cover.jpg</code> was unused book cover art. It is not — it is a photograph of you at the 2025 U.S. Open, now correctly used on the About page.</b> There is no cover art anywhere in the repository. This is an asset to create, not one to find.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li><b>Make a cover.</b> It does not need a publisher. Fraunces 600 for the title, the cream-and-rust palette you already own, a 2:3 canvas at 1400×2100. An afternoon's work in any design tool, and it is the single asset this page, the <code>Book</code> schema, and every social share of the book are all currently missing.</li>
+  <li><b>Place it beside the opening blurb</b>, not below it — a two-column block at ≥1024px, stacked on mobile, with a soft drop shadow so it reads as an object rather than a flat rectangle.</li>
+  <li><b>Interim, today:</b> if the cover does not exist yet, pull the excerpt's strongest line — <i>"Grieving a Ghost — The Person You're Mourning Never Existed"</i> — into a large Fraunces pull-quote between the blurb and the excerpt. It gives the eye an anchor and it costs no new asset.</li>
+</ul>
+</div>
+
+<h2>B. The gate</h2>
+
+<div class="f me">
+<h3><span class="id">U9</span> The ask is the least designed moment on the page <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Measured</span>
+<pre>H2  "READ THE OPENING OF CHAPTER 1 — FREE"   <span class="c">13.1px section-label</span>
+H3  "Grieving a Ghost — …"                    <span class="c">the chapter title</span>
+    excerpt body    17.92px  contrast 14.73   <span class="c">✓ genuinely well set</span>
+H2  "Keep reading — get the full chapter."    <span class="c">the gate</span>
+    .chapter-submit   214×46                  <span class="c">✓ a real button</span></pre>
+<p>The excerpt reads beautifully — 17.9px is a proper reading size and the contrast is excellent. Then the gate arrives, and it is a heading, a line of text and a form field on the same cream background as everything above it.</p>
+<p>A gate has one job: to make the reader feel the cut. The fade at the end of the excerpt does some of that work. But visually there is no shift in weight, colour or surface at the exact moment you are asking for something, so the ask reads as more page rather than as a decision point.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li><b>Give the gate a surface.</b> The dark gradient already used by the app card on the homepage would work here — it is the site's one high-contrast treatment and this is the site's one moment of real ask. A dark card with the field and button in it changes the temperature of the page precisely where you want attention.</li>
+  <li><b>Strengthen the fade.</b> Extend <code>.gate-fade</code> so the last two lines genuinely dissolve rather than stopping. The cut should feel like an interruption, not a layout boundary.</li>
+  <li><b>Make the button the widest thing in the card</b> so the eye lands on it last and there is one obvious next action.</li>
+</ul>
+<p><i>Note the interaction with the SEO report: <span class="id">C24</span> recommends extending the free excerpt to 400–600 words, and <span class="id">T22</span> Option B recommends publishing the whole chapter and dropping the gate entirely. If you take Option B, this finding disappears and the page becomes a reading page. Do not invest in gate design before that decision.</i></p>
+</div>
+
+<div class="f me">
+<h3><span class="id">U10</span> Three screens of unbroken prose, one column, no rhythm <span class="badge b-me">Medium</span></h3>
+<p>Measured: 2,833px on desktop, all of it a single 720px column of paragraphs at 17.92px. The blurb is three paragraphs, then a label, then the excerpt, then the gate. No pull-quote, no rule, no change of measure, no image.</p>
+<p>The type is well set — 17.92px at 5.52 contrast for the blurb, 14.73 for the excerpt — so this is not a legibility problem. It is a pacing problem: nothing signals to a scanner that the page has parts, so someone deciding whether to invest six minutes cannot tell what they are being offered.</p>
+<span class="lbl">Fix</span>
+<ul>
+  <li>A pull-quote between the blurb and the excerpt (see <span class="id">U8</span>).</li>
+  <li>The three-part structure of the book — "decoding love, building yourself, living with intention" — is currently a clause inside a paragraph. Set it as three short labelled items. It is the clearest thing you say about what the book contains and it is buried mid-sentence.</li>
+  <li>A hairline rule and more space before the excerpt label, so the transition from "about the book" to "the book itself" is visible.</li>
+</ul>
+</div>
+
+<div class="f me">
+<h3><span class="id">U11</span> Contrast: the eyebrows fail <span class="badge b-me">Medium</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">V2</span></span></h3>
+<p>Measured on <code>--bg #f7f1e6</code>: both <code>.eyebrow</code> elements — "← HOME" and "The book" — use <code>--accent-soft #c46a4f</code> at 13.1px for a ratio of <b>3.38</b>, against the 4.5 AA requirement.</p>
+<p>The link inside the first eyebrow renders <code>#9a3b27</code> and measures <b>6.17</b>, so it passes — meaning within one component the link is readable and the surrounding label is not.</p>
+<p>Same token, same fix as everywhere else: <code>--accent</code> for these, or darken <code>--accent-soft</code> to about <code>#a8532f</code>. It closes this page, <code>articles</code>, <code>reflect</code>, <code>about</code> and <code>404</code> together.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U12</span> The success state is designed; the failure state is an <code>alert()</code> <span class="badge b-lo">Low</span></h3>
+<p>Submitting successfully reveals a styled card — "It's on the way 📩" — with the manual download link. Good.</p>
+<p>Submitting when the network fails calls <code>alert("Something went wrong sending that…")</code>: a native browser dialog, in the OS font, with an OK button, on top of your page. It is the one moment where a reader who wanted your chapter did not get it, and it is the least considered pixel on the site.</p>
+<pre><span class="c">// app.js, both form catch blocks</span>
+alert("Something went wrong sending that. Mind trying again in a moment?");</pre>
+<p>Fix: an inline error message inside the form, styled like the rest of it, with the text you already wrote. Same for the Reflect form, which does the same thing.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">U13</span> What the SEO pass improved here — and it shows <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The H1 now carries the subtitle</b> — "Aligned / Lead with Love, Live with Intention" at 44.8px, one heading, correct hierarchy. <span class="id">C21</span> done well.</li>
+  <li><b>The excerpt is set at 17.92px with 14.73 contrast</b> — a genuine reading size, and the best-set body text on the site.</li>
+  <li><b>Heading tree fixed</b>: H1 → H2 → H3 → H2. The chapter title is now an <code>h3</code> instead of a paragraph, which was <span class="id">T25</span>.</li>
+  <li><b>A real submit button</b> at 214×46, comfortably above the 44px target floor.</li>
+  <li><b>The writing.</b> Unchanged, and still the best on the site. Nothing in this report asks you to touch it.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Page depth</td><td>1440 → 2,833px (3.15 folds) · 820 → 2,828px (2.40) · 390 → 4,959px (5.88)</td></tr>
+  <tr><td>Images</td><td><b>1</b> — <code>logo.png</code> at 30×30. No cover art exists in the repository.</td></tr>
+  <tr><td>Headings</td><td>H1 (44.8px, with subtitle) → H2 → H3 → H2 → H2 — clean</td></tr>
+  <tr><td>Typography</td><td>blurb 17.92px / 5.52 ✓ · excerpt 17.92px / 14.73 ✓ · eyebrows 13.1px / <b>3.38 fail</b></td></tr>
+  <tr><td>Buttons</td><td><code>.chapter-submit</code> 214×46 <span class="tick">✓</span></td></tr>
+  <tr><td>Mobile nav</td><td>clientW 170 · scrollW 385 · Reflect, About, Substack off-screen (<span class="id">R1</span>)</td></tr>
+  <tr><td>Content column</td><td><code>.wrap</code> 720px (<span class="id">V1</span>)</td></tr>
+  <tr><td>Focus ring</td><td>browser default (<span class="id">R3</span>)</td></tr>
+  <tr><td>Error state</td><td>native <code>alert()</code></td></tr>
+</table>
+
+<div class="foot">
+  <p><b>UI page 03 of 7 complete.</b></p>
+  <p>blakecody.com UI change log · generated 7 September 2026</p>
+</div>
+</body></html>

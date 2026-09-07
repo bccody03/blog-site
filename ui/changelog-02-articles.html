@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>UI Change Log — 02 Articles (articles.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 02 — Articles <code style="font-size:12pt">/articles.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · repository <code>bccody03/blog-site</code> @ <code>main 32fcad7</code> (merged into the audit branch)</div>
+  <div><b>Method:</b> headless Chromium at 1440×900 / 820×1180 / 390×844 with the real webfonts served locally and a 14-post feed injected · computed-style and geometry extraction · WCAG contrast from measured colour pairs</div>
+  <div><b>Status:</b> Audit only — <b>no code changes applied</b>.</div>
+</div>
+
+<div class="kpi">
+  <div><b>7</b><span>changes proposed</span></div>
+  <div><b>1</b><span>high</span></div>
+  <div><b>4</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+</div>
+
+<div class="score"><b>58</b>
+<span><b>UX score, out of 100.</b> Up sharply from the homepage's 45 — the H1, the intro copy and the removal of pagination are all real improvements and they show. What holds it back is that the page now has fourteen items to present and a 720px column to present them in.</span></div>
+
+<div class="note">
+<h3>Site-wide status, checked against current <code>main</code></h3>
+<p><b>Fixed since the page-01 report</b>, verified here: <span class="id">H2</span> real buttons now exist (<code>.sub-submit</code> at 136×46) · <span class="id">X3</span> the Substack iframe is gone, replaced with a native <code>.sub-form</code> in your own palette · <span class="id">T10</span> every image carries <code>width</code>/<code>height</code>, logo is 60×60 at 4 KB · <span class="id">C5</span> post titles are <code>h3</code>.</p>
+<p><b>Still open</b>, confirmed again here and cross-referenced rather than re-argued:</p>
+<table>
+  <tr><th style="width:9%">ID</th><th>Finding</th><th style="width:30%">Measured on this page</th></tr>
+  <tr><td><span class="id">R1</span></td><td><b>Critical.</b> At 390px the nav clips — Reflect, About and Substack render off-screen, no hamburger, no visible scrollbar</td><td><code>clientW 170 · scrollW 386</code></td></tr>
+  <tr><td><span class="id">V1</span></td><td>One breakpoint; <code>.wrap</code> caps at 720px</td><td><code>wrap 720px on a 1440px viewport</code></td></tr>
+  <tr><td><span class="id">R3</span></td><td>Focus ring is the browser default; no <code>:focus-visible</code> anywhere</td><td><code>outline: auto 1px rgb(16,16,16)</code></td></tr>
+  <tr><td><span class="id">H5</span></td><td>Card CTAs bottom-misaligned</td><td>row 1 bottoms at y=928, 928, <b>904</b></td></tr>
+</table>
+</div>
+
+<figure>
+  <img src="assets/articles-desktop.png" alt="Articles archive at 1440×900" />
+  <figcaption>1440×900. The H1, subtitle and intro copy are all new and all work. Below them, fourteen essays are being presented in 207px-wide cards inside a 720px column, with 360px of empty margin on each side.</figcaption>
+</figure>
+
+<h2>A. The new problem: fourteen items, one narrow column</h2>
+
+<div class="f hi">
+<h3><span class="id">U1</span> Removing pagination fixed the SEO and created a mobile scroll of 8.8 screens <span class="badge b-hi">High</span></h3>
+<span class="lbl">Measured</span>
+<pre>              document height    viewports
+desktop 1440        2,955 px        3.28
+tablet   820        2,944 px        2.49
+mobile   390        7,456 px        <b>8.83</b>   <span class="c">← with a 14-post feed</span></pre>
+<p>Deleting pagination was the right call and I recommended it — it turned three uncrawlable JS states into one URL containing every essay. But it was an SEO fix, and it landed on a layout that was never designed to hold the whole archive.</p>
+<p>On a phone each card is a full-width 342px block with a 228px-tall thumbnail, so one essay costs roughly 400px of scroll. Fourteen of them is nearly nine screens. And the archive grows every time you publish — at thirty essays this is an eighteen-screen page.</p>
+<span class="lbl">Fix — keep the one URL, shrink the row</span>
+<ul>
+  <li><b>Drop thumbnails on mobile.</b> <code>@media (max-width: 560px) { .post-thumb { display: none } }</code>. That alone takes the page from 8.8 screens to roughly 4. The titles are set in Fraunces and carry the row perfectly well on their own — see <span class="id">U3</span>, where the images are actively hurting.</li>
+  <li><b>Compact rows below the first few.</b> Show the newest three as full cards, then switch to a dense list — date, title, one line — for everything older. A reader scanning for something specific wants a list, not a gallery.</li>
+  <li><b>Do not reintroduce pagination.</b> If the length becomes genuinely unmanageable, use a "show older essays" button that appends — one URL, all content in the DOM after one click, and crawlers still see everything in the initial HTML once <span class="id">T2</span>'s prerender lands.</li>
+</ul>
+</div>
+
+<h2>B. Visual system</h2>
+
+<div class="f me">
+<h3><span class="id">U2</span> 207px cards on a 1440px screen <span class="badge b-me">Medium</span> <span style="font-size:8.5pt;color:#6b625d">→ site-wide <span class="id">V1</span></span></h3>
+<p>Measured: <code>.wrap</code> = 720px, three cards across, <b>207px each</b>, thumbnails at 207×138. The archive is the page that most needs width — it is a grid of images and titles — and it gets the same column as a privacy policy.</p>
+<p>Card titles wrap to three lines at this width ("The Discipline You Keep When Nobody Is Watching" takes three), which is what makes the row look cramped and what causes <span class="id">H5</span>'s ragged bottoms to be so visible.</p>
+<p>The <span class="id">V1</span> fix — <code>max-width: 1100px</code> above 1280px — takes these cards to roughly 340px, drops most titles to two lines, and makes the thumbnails real images. Nothing else on this page needs to change for it to look substantially better.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">U3</span> Fourteen thumbnails, four aspect ratios, no unifying treatment <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Measured — every thumbnail renders at 207×138 (3:2) via <code>object-fit: cover</code></span>
+<table>
+  <tr><th>Natural size</th><th>Ratio</th><th>What it is</th><th>Result at 3:2</th></tr>
+  <tr><td>1600×1000</td><td>1.60</td><td>dark abstract</td><td>near-native crop, fine</td></tr>
+  <tr><td>900×1200</td><td><b>0.75</b></td><td>portrait photograph</td><td>centre-cropped to landscape; most of the frame discarded</td></tr>
+  <tr><td>192×192</td><td>1.00</td><td>cream app icon</td><td>upscaled past its native width; soft</td></tr>
+  <tr><td>480×640</td><td><b>0.75</b></td><td>portrait photograph</td><td>same crop problem</td></tr>
+</table>
+<p>This was <span class="id">V4</span> on the homepage with three cards. Here it repeats fourteen times down a single column, and the tonal swing — dark, bright, cream, dark — is what the eye tracks instead of the titles. In the screenshot above, your attention goes to the middle card. Not because that essay is better, but because that image is brighter.</p>
+<span class="lbl">Fix</span>
+<p>On an archive I would now argue harder for the second option than I did on the homepage: <b>remove the thumbnails and let the titles carry it.</b> Fourteen Fraunces headlines with dates, in a clean column, would look more considered than fourteen mismatched Substack cover images — and it fixes <span class="id">U1</span> at the same time.</p>
+<p>If you keep them, apply a warm duotone or a low-opacity <code>--accent</code> overlay with <code>mix-blend-mode: multiply</code> so whatever arrives from the feed resolves into your palette.</p>
+</div>
+
+<div class="f me">
+<h3><span class="id">U4</span> Two text styles still fail contrast <span class="badge b-me">Medium</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">V2</span></span></h3>
+<p>The <span class="id">V2</span> fix was applied to link colours but not to <code>--accent-soft</code> where it is used for text. Measured against <code>--bg #f7f1e6</code>:</p>
+<table>
+  <tr><th>Element</th><th>Colour</th><th>Size</th><th>Ratio</th><th>Needs</th></tr>
+  <tr><td><code>.post-meta</code> — every article date</td><td><code>#c46a4f</code></td><td>12.2px</td><td><b style="color:#b3261e">3.38</b></td><td>4.5</td></tr>
+  <tr><td><code>.eyebrow</code> — "← HOME"</td><td><code>#c46a4f</code></td><td>13.1px</td><td><b style="color:#b3261e">3.38</b></td><td>4.5</td></tr>
+</table>
+<p>Interesting detail from the sweep: the <code>&lt;a&gt;</code> <i>inside</i> the eyebrow renders at <code>#9a3b27</code> and measures <b>6.17</b> — it passes. So the link is readable and the wrapper it sits in is not. Two colours, one component.</p>
+<p>Fix as before: use <code>--accent #9a3b27</code> for both, or darken <code>--accent-soft</code> to about <code>#a8532f</code>. This same pair fails on <code>book</code>, <code>reflect</code>, <code>about</code> and <code>404</code> — one token change closes all five pages.</p>
+</div>
+
+<h2>C. Layout detail</h2>
+
+<div class="f lo">
+<h3><span class="id">U5</span> Card CTAs are still bottom-misaligned <span class="badge b-lo">Low</span> <span style="font-size:8.5pt;color:#6b625d">→ <span class="id">H5</span></span></h3>
+<pre>row 1 — .post-more bottoms:  928, 928, <b>904</b>   <span class="c">24px ragged</span>
+row 2 — .post-more bottoms: 1318, 1294, 1294</pre>
+<p>Cards are equal height (360px) but contents are top-aligned, so a two-line title leaves its CTA 24px higher than a three-line neighbour. With fourteen cards the raggedness now repeats down five rows instead of appearing once.</p>
+<pre>.post-body { display: flex; flex-direction: column; height: 100%; }
+.post-more { margin-top: auto; }</pre>
+<p>Two lines, still. This is the cheapest visible improvement on the page.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U6</span> No visual break between rows of five <span class="badge b-lo">Low</span></h3>
+<p>Fourteen identical cards in an unbroken grid give a reader no sense of progress or position. On desktop that is five rows with nothing marking where they are; on mobile it is fourteen identical blocks.</p>
+<p>Cheap fix: group by year or month with a small label between groups — you already have the dates, and <code>.section-label</code> already exists as a style. It turns an undifferentiated wall into something scannable, and it makes the archive feel like a body of work accumulating rather than a list.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">U7</span> What the last pass got right — protect it <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The H1 and intro.</b> "Essays on discipline, love and living with intention" at 54.4px Fraunces, with two paragraphs of real framing under it. The page now says what it is before it starts listing. This was <span class="id">C15</span>/<span class="id">C19</span> and the execution is better than what I proposed.</li>
+  <li><b>"Everything I've written lives here"</b> as the opening line of the intro — that is <span class="id">C36</span> answered before I raised it, and it is the right sentence for a domain that wants to stop describing itself as a mirror.</li>
+  <li><b>The native subscribe form.</b> 460px total, 314px input plus a 136×46 button, centred, in your own palette. It looks like the site now.</li>
+  <li><b>Heading tree is clean:</b> H1 → H2 → H3 ×14. No skips, no reversals.</li>
+  <li><b>Hover craft</b> — 4px card lift, 1.05 thumbnail scale, title recolour — all still intact.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Page depth</td><td>1440 → 2,955px (3.28 folds) · 820 → 2,944px (2.49) · 390 → <b>7,456px (8.83)</b></td></tr>
+  <tr><td>Content column</td><td><code>.wrap</code> 720px at every viewport ≥561px · cards 207×360</td></tr>
+  <tr><td>Thumbnails</td><td>All 207×138 (3:2, <code>object-fit: cover</code>) from 1.60, 0.75, 1.00 and 0.75 ratio sources</td></tr>
+  <tr><td>Card CTA alignment</td><td>928 / 928 / 904 — 24px ragged, repeating per row</td></tr>
+  <tr><td>Contrast</td><td><code>.post-meta</code> 3.38 · <code>.eyebrow</code> 3.38 · <code>.eyebrow a</code> 6.17 ✓ · <code>.archive-sub</code> 5.52 ✓ · excerpt 5.52 ✓ · titles 13.62 ✓</td></tr>
+  <tr><td>Buttons</td><td><code>.sub-submit</code> 136×46 <span class="tick">✓</span> — a real target, above the 44px floor</td></tr>
+  <tr><td>Mobile nav</td><td>clientW 170 · scrollW 386 · 3 items off-screen</td></tr>
+  <tr><td>Focus ring</td><td><code>outline: auto 1px rgb(16,16,16)</code>, no box-shadow</td></tr>
+  <tr><td>Images</td><td>All carry <code>width</code>/<code>height</code> <span class="tick">✓</span></td></tr>
+</table>
+
+<div class="foot">
+  <p><b>UI page 02 of 7 complete.</b></p>
+  <p>blakecody.com UI change log · generated 7 September 2026</p>
+</div>
+</body></html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<title>UI Change Log — 07 Privacy (privacy.html) — blakecody.com</title>
+<link rel="stylesheet" href="report.css" /></head><body>
+
+<p class="sub">blakecody.com — UI &amp; visual design audit / change log</p>
+<h1>Page 07 — Privacy <code style="font-size:12pt">/privacy.html</code></h1>
+
+<div class="meta">
+  <div><b>Audited:</b> 7 September 2026 · <code>main 32fcad7</code></div>
+  <div><b>Method:</b> headless Chromium at 1440 / 820 / 390 with real webfonts · geometry, measure and contrast extraction</div>
+  <div><b>Status:</b> Audit only — no code changes applied. <b>This completes the UI audit for all seven pages.</b></div>
+</div>
+
+<div class="kpi">
+  <div><b>3</b><span>changes proposed</span></div>
+  <div><b>0</b><span>high</span></div>
+  <div><b>1</b><span>medium</span></div>
+  <div><b>2</b><span>low</span></div>
+</div>
+
+<div class="score"><b>76</b>
+<span><b>UX score, out of 100 — the highest on the site.</b> It scores highest partly because it is the easiest page to get right, and partly because it is the one page where nobody was tempted to decorate. It is legible, correctly structured, and it does not fail contrast anywhere. Two of its three findings are about the site's shared components, not this page.</span></div>
+
+<figure>
+  <img src="assets/privacy-desktop.png" alt="Privacy page at 1440×900" />
+  <figcaption>1440×900. Clean H1 → H2 structure, comfortable measure, and the only eyebrow on the site that passes contrast — it uses <code>--ink-soft</code> where every other page uses <code>--accent-soft</code>.</figcaption>
+</figure>
+
+<div class="note">
+<h3>The accidental control group</h3>
+<p>Something useful turned up measuring this page. Its <code>.eyebrow</code> renders <code>--ink-soft #6b5f52</code> at <b>5.52</b> and passes AA. Every other page's eyebrow renders <code>--accent-soft #c46a4f</code> at <b>3.38</b> and fails.</p>
+<p>Same class, same size, same background, two different colours. So the site already contains a working version of the fix that <span class="id">V2</span> has been asking for across five pages — it is just applied on the one page nobody thought of as design work.</p>
+<p>That makes the change lower-risk than it sounds: you are not inventing a new colour, you are propagating one you already ship.</p>
+</div>
+
+<h2>A. Findings</h2>
+
+<div class="f me">
+<h3><span class="id">U29</span> A 720px measure is too wide for continuous prose <span class="badge b-me">Medium</span></h3>
+<span class="lbl">Measured</span>
+<pre>.wrap        720px
+body copy    16px Inter, contrast 5.52
+line length  ≈ 95–100 characters per line</pre>
+<p>Everywhere else on the site, <span class="id">V1</span>'s 720px cap is too <i>narrow</i> — it squeezes three cards into 207px each and wastes half a 1440px screen. This is the one page where the same number is too <b>wide</b>, because this is the one page that is nothing but paragraphs.</p>
+<p>Comfortable reading measure is 60–75 characters. At 95–100 the eye loses its place returning to the start of the next line, which is exactly the failure mode you do not want on the page where someone is trying to understand what happens to their personal messages.</p>
+<span class="lbl">Fix</span>
+<pre>.privacy p,
+.privacy li { max-width: 62ch; }</pre>
+<p>One rule, scoped to this page. It does not conflict with widening <code>.wrap</code> under <span class="id">V1</span> — in fact it becomes more necessary once you do, because a 1100px wrap would push this page past 140 characters per line.</p>
+<p>Apply the same thinking to the book page's blurb and the Reflect intro, which are prose in a card-sized container for the same reason.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U30</span> Four sections, no visual separation <span class="badge b-lo">Low</span></h3>
+<p>Measured: H1 → H2 "Visits" → H2 "The two forms" → H2 "Newsletter" → H2 "Asking for deletion", each an identical Fraunces heading with the same margin above and below.</p>
+<p>The structure is correct — this is the only page on the site with a flawless heading tree — but visually it reads as one continuous column. Someone arriving from the Reflect form's inline link wants one section: <i>what happens to my message</i>. They have to read to find it.</p>
+<span class="lbl">Fix</span>
+<p>A hairline rule (<code>border-top: 1px solid var(--line)</code>) above each H2, and slightly more space above than below so each heading binds to the text it introduces rather than floating between. Optionally, anchor ids on the H2s so the Reflect page's privacy link can point straight at <code>#the-two-forms</code> — the reader lands on their answer instead of at the top.</p>
+</div>
+
+<div class="f lo">
+<h3><span class="id">U31</span> No button, and that is correct — but the deletion route needs a target <span class="badge b-lo">Low</span></h3>
+<p>Measured: <code>querySelectorAll('button, [class*=btn]')</code> → <b>0</b>. On any other page I would call that a finding. Here it is right: a privacy policy asking you to click something would be worse than one that does not.</p>
+<p>The exception is the last section. "Asking for deletion" is the one action this page exists to enable, and it is delivered as two inline links inside a sentence — visually identical to the seven other inline links above it.</p>
+<span class="lbl">Fix</span>
+<p>Not a button. Give that final section a light surface — the same <code>--bg-card</code> treatment as the Reflect form — so the one actionable part of the page is visibly distinct from the seven parts that are explanatory. And once the SEO report's <span class="id">C39</span> adds a contact email, that address is what belongs in it.</p>
+</div>
+
+<div class="f ok">
+<h3><span class="id">U32</span> Keep — and note what it proves <span class="badge b-ok">Keep</span></h3>
+<ul>
+  <li><b>The only clean heading tree on the site</b> — H1 → H2 ×4, no skips, no reversals, every heading naming real content.</li>
+  <li><b>No contrast failures.</b> The only page that can say that. Body 5.52, sub 5.52, eyebrow 5.52, H1 13.62.</li>
+  <li><b>1.49 folds on desktop, 2.07 on mobile.</b> Short, unpadded, and it does not pretend to be longer than it is.</li>
+  <li><b>The subtitle does the persuading</b> — <i>"Short version: this site keeps almost nothing about you, and what it does keep, you can ask me to delete."</i> — set at 17.6px directly under the H1, where it is the first thing read. That is the right sentence in the right place.</li>
+  <li><b>Nobody decorated it.</b> No hero, no card grid, no illustration. On this page restraint is the design decision, and it was made correctly.</li>
+</ul>
+</div>
+
+<h2>Evidence log</h2>
+<table>
+  <tr><th style="width:32%">Check</th><th>Result</th></tr>
+  <tr><td>Page depth</td><td>1440 → 1,345px (1.49 folds) · 820 → 1,339px (1.13) · 390 → 1,746px (2.07)</td></tr>
+  <tr><td>Headings</td><td>H1 54.4px → H2 ×4 — <b>the only clean tree on the site</b></td></tr>
+  <tr><td>Contrast</td><td><b>No failures.</b> body 5.52 ✓ · sub 5.52 ✓ · <code>.eyebrow</code> <b>5.52 ✓</b> (uses <code>--ink-soft</code>, unlike every other page) · H1 13.62 ✓</td></tr>
+  <tr><td>Measure</td><td>≈95–100 characters per line at 720px</td></tr>
+  <tr><td>Buttons</td><td>0 — correct for this page</td></tr>
+  <tr><td>Mobile nav</td><td>clientW 170 · scrollW 385 · 3 items off-screen (<span class="id">R1</span>)</td></tr>
+  <tr><td>Focus ring</td><td>browser default (<span class="id">R3</span>)</td></tr>
+</table>
+
+<h2>Closing: the UI audit across all seven pages</h2>
+
+<div class="f ok">
+<h3>Where the site now stands <span class="badge b-ok">Summary</span></h3>
+<p><b>Scores:</b> privacy 76 · 404 74 · reflect 72 · about 68 · book 60 · articles 58 · homepage 45 (pre-implementation; several of its findings have since shipped).</p>
+<p><b>Four fixes close almost everything that is left</b>, because the same four items recur on every page:</p>
+<table>
+  <tr><th style="width:9%">ID</th><th>One change</th><th style="width:24%">Closes</th></tr>
+  <tr><td><span class="id">R1</span></td><td>A menu button below 560px. Three of six destinations are currently unreachable on a phone, with no hamburger and no visible scrollbar.</td><td>all 7 pages · <b>Critical</b></td></tr>
+  <tr><td><span class="id">V2</span></td><td>Stop using <code>--accent-soft</code> for text. Privacy already proves the fix works.</td><td>5 pages, 8 measured failures</td></tr>
+  <tr><td><span class="id">V1</span></td><td>Breakpoints at 1024 and 1280 so <code>.wrap</code> can reach ~1100px.</td><td>all 7 pages — and it makes cards, thumbnails and the About photo work</td></tr>
+  <tr><td><span class="id">R3</span></td><td>A <code>:focus-visible</code> rule. Seven lines, site-wide.</td><td>all 7 pages · accessibility</td></tr>
+</table>
+<p><b>What the implementation passes already fixed:</b> buttons now exist everywhere, the Substack iframe is gone in favour of a native form in your palette, every image carries dimensions, the author photograph is on the homepage, five one-word H1s became sentences, and the 404 offers three real essays instead of a dead end.</p>
+<p><b>The one genuinely missing asset</b> is book cover art (<span class="id">U8</span>) — the book page still has no image other than the header logo.</p>
+</div>
+
+<div class="foot">
+  <p><b>UI page 07 of 7 — the UI audit is complete.</b> Every page on blakecody.com now has both an SEO and a UI change log.</p>
+  <p>See <code>ui/PROGRESS.md</code> for the consolidated status, and <code>seo/PROGRESS.md</code> for the SEO track.</p>
+  <p>blakecody.com UI change log · generated 7 September 2026</p>
+</div>
+</body></html>
