@@ -58,8 +58,8 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=27" />
-  <script src="app.js?v=27" defer></script>
+  <link rel="stylesheet" href="styles.css?v=28" />
+  <script src="app.js?v=28" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -103,7 +103,18 @@
       <div class="wrap">
         <h2 class="subscribe-title">Stay up to date in your inbox</h2>
         <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
-        <iframe class="sub-frame" title="Subscribe by email" frameborder="0" scrolling="no" loading="lazy"></iframe>
+        <!-- Our own form, posting to Substack's subscribe page: matches the site
+             and lets us count signups per page (the embed iframe couldn't). -->
+        <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+          <label class="sr-only" for="sub-email">Email address</label>
+          <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
+          <input type="hidden" name="utm_source" value="blakecody.com" />
+          <input type="hidden" name="utm_medium" value="referral" />
+          <input type="hidden" name="utm_campaign" value="subscribe" />
+          <input type="hidden" name="utm_content" value="articles" />
+          <button type="submit" class="sub-submit">Subscribe →</button>
+        </form>
+        <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
       </div>
     </section>
 

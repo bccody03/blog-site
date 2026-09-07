@@ -40,7 +40,6 @@ const els = {
   coverImg: document.getElementById("cover-img"),
   coverInner: document.getElementById("cover-inner"),
   header: document.getElementById("site-header"),
-  subscribeFrames: document.querySelectorAll(".sub-frame"),
   revealBtn: document.getElementById("reveal-btn"),
   excerptGate: document.getElementById("excerpt-gate"),
   excerptMore: document.getElementById("excerpt-more"),
@@ -275,13 +274,15 @@ if (CONFIG.substackUrl) {
 // touch it here if CONFIG points somewhere else.
 if (CONFIG.coverImage && CONFIG.coverImage !== "hero-bg.jpg") setCover(CONFIG.coverImage);
 
-/* Sneak-peek lead magnet: embed the real Substack signup, and let the
-   reader unlock the rest of the chapter once they've subscribed. The
-   unlock is remembered so they don't have to do it again. */
-if (CONFIG.substackUrl && els.subscribeFrames.length) {
-  const embedSrc = CONFIG.substackUrl.replace(/\/$/, "") + "/embed";
-  els.subscribeFrames.forEach((frame) => { frame.src = embedSrc; });
-}
+/* Newsletter signup: our own form hands the email to Substack's subscribe
+   page (they confirm there). Counting the submit here is the one thing the
+   old embed iframe could never tell us — which page earns subscribers. */
+document.querySelectorAll(".sub-form").forEach((form) => {
+  form.addEventListener("submit", () => {
+    const where = (form.querySelector('[name="utm_content"]') || {}).value || location.pathname;
+    track("subscribe-submit-" + where, "Newsletter signup");
+  });
+});
 /* Book page lead magnet: capture the reader's email to a dedicated Formspree
    (separate from Reflect + the newsletter), then deliver the chapter PDF. */
 const chapterForm = document.getElementById("chapter-form");

@@ -466,14 +466,45 @@ body {
   max-width: 30em;
   margin: 0 auto 20px;
 }
-.sub-frame {
-  width: 100%;
-  max-width: 480px;
-  height: 150px;
-  border: 0;
+/* Newsletter form (site-styled; posts to Substack's subscribe page) */
+.sub-form {
+  display: flex;
+  gap: 10px;
+  max-width: 460px;
   margin: 0 auto;
-  display: block;
 }
+.sub-form input[type="email"] {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.sub-form input[type="email"]:focus {
+  outline: none;
+  border-color: var(--accent-soft);
+  box-shadow: 0 0 0 3px rgba(154, 59, 39, 0.12);
+}
+.sub-submit {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.sub-submit:hover { background: #832f1f; }
+.sub-note { font-size: 0.85rem; color: var(--ink-soft); margin: 12px 0 0; }
+@media (max-width: 560px) { .sub-form { flex-direction: column; } }
 .reveal-btn {
   margin-top: 8px;
   background: none;
@@ -1102,7 +1133,6 @@ body.plain { background: var(--bg); }
   max-width: 32em;
   margin: 0 auto 22px;
 }
-.subscribe-cta .sub-frame { height: 160px; }
 
 /* Author byline — above the footer on the home page */
 .author-block {
