@@ -83,11 +83,14 @@ function entryContext() {
   return { entry, page: location.pathname };
 }
 
-// Every outbound Substack / App Store click, one delegated listener.
+// Every outbound Substack / App Store click, one delegated listener. Internal
+// calls-to-action opt in with data-track="event-name".
 document.addEventListener("click", (e) => {
   const a = e.target.closest("a");
   if (!a || !a.href) return;
-  if (a.href.includes("substack.com")) {
+  if (a.dataset.track) {
+    track(a.dataset.track, a.textContent.trim());
+  } else if (a.href.includes("substack.com")) {
     const card = a.closest(".post");
     if (card) {
       // Which card, by position — tells us whether readers grab the newest
@@ -117,6 +120,40 @@ function escapeHtml(s) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+// Inline form errors (in place of alert() popups). Pass "" to clear.
+function showFormError(id, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg || "";
+  el.hidden = !msg;
+}
+
+/* Mobile menu: the header's button opens the nav as a panel on narrow
+   screens (CSS hides the button above 700px, so this is inert on desktop).
+   Closes on Escape, on a tap outside, or when a link is chosen. */
+const navToggle = document.getElementById("nav-toggle");
+const siteNav = document.getElementById("site-nav");
+if (navToggle && siteNav && els.header) {
+  const setMenu = (open) => {
+    els.header.classList.toggle("menu-open", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  };
+  navToggle.addEventListener("click", () => {
+    const open = !els.header.classList.contains("menu-open");
+    setMenu(open);
+    if (open) track("menu-open", "Mobile menu opened");
+  });
+  siteNav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && els.header.classList.contains("menu-open")) { setMenu(false); navToggle.focus(); }
+  });
+  document.addEventListener("click", (e) => {
+    if (els.header.classList.contains("menu-open") && !e.target.closest("#site-header")) setMenu(false);
+  });
+  window.matchMedia("(min-width: 701px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 }
 
 /* Intro splash: name pops in, a cross + box draw around it, shine, then the
@@ -291,6 +328,7 @@ if (chapterForm) {
     e.preventDefault();
     const btn = chapterForm.querySelector(".chapter-submit");
     const email = document.getElementById("chapter-email").value.trim();
+    showFormError("chapter-error", "");
     btn.disabled = true;
     btn.textContent = "Sending…";
     try {
@@ -325,7 +363,7 @@ if (chapterForm) {
       console.error(err);
       btn.disabled = false;
       btn.textContent = "Send me the chapter →";
-      alert("Something went wrong sending that. Mind trying again in a moment?");
+      showFormError("chapter-error", "Something went wrong sending that. Mind trying again in a moment?");
     }
   });
 
@@ -384,6 +422,12 @@ if (reflectCats) {
 const reflectAnswer = document.getElementById("reflect-answer");
 if (reflectAnswer) {
   reflectAnswer.addEventListener("input", () => track("reflect-start", "Started writing"), { once: true });
+  // Grow with the writing instead of turning into a scrollbox.
+  const grow = () => {
+    reflectAnswer.style.height = "auto";
+    reflectAnswer.style.height = Math.max(reflectAnswer.scrollHeight + 2, 160) + "px";
+  };
+  reflectAnswer.addEventListener("input", grow);
 }
 
 // A miss becomes one grouped event per requested path, so broken inbound
@@ -396,6 +440,7 @@ if (reflectForm) {
   reflectForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const btn = reflectForm.querySelector(".reflect-submit");
+    showFormError("reflect-error", "");
     btn.disabled = true;
     btn.textContent = "Sending…";
 
@@ -427,7 +472,7 @@ if (reflectForm) {
       console.error(err);
       btn.disabled = false;
       btn.textContent = "Send it to Blake →";
-      alert("Something went wrong sending that. Mind trying again in a moment?");
+      showFormError("reflect-error", "Something went wrong sending that. Mind trying again in a moment?");
     }
   });
 }
@@ -439,19 +484,22 @@ function setCover(url) {
 /* Scroll choreography: fade + lift the cover text as you scroll down,
    and swap the header from transparent to solid once past the cover.
    Pages without a cover (e.g. the Writing archive) keep a solid header. */
-const hasCover = !!document.querySelector(".cover");
+const coverEl = document.querySelector(".cover");
+const hasCover = !!coverEl;
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (hasCover) {
   let ticking = false;
   const onScroll = () => {
     const y = window.scrollY;
-    const vh = window.innerHeight;
+    // The cover is ~74vh, so pace the fade and the header swap on its real
+    // height rather than the viewport's.
+    const ch = coverEl.offsetHeight || window.innerHeight;
     if (!prefersReducedMotion && els.coverInner) {
-      const p = Math.min(y / (vh * 0.8), 1);
+      const p = Math.min(y / (ch * 0.75), 1);
       els.coverInner.style.opacity = String(1 - p);
       els.coverInner.style.transform = `translateY(${y * 0.25}px)`;
     }
-    els.header.classList.toggle("scrolled", y > vh * 0.6);
+    els.header.classList.toggle("scrolled", y > ch - 64);
     ticking = false;
   };
   window.addEventListener("scroll", () => {
@@ -524,7 +572,7 @@ function postCard(p) {
           <div class="post-meta">${fmtDate(p.pubDate)}</div>
           <h3 class="post-title">${title}</h3>
           <p class="post-excerpt">${excerpt(p.content || p.description, 110)}</p>
-          <span class="post-more">Read on Substack →</span>
+          <span class="post-more">Read on Substack ↗</span>
         </div>
       </a>`;
 }
@@ -532,7 +580,21 @@ function postCard(p) {
 let allPosts = [];
 
 function renderList(posts) {
-  els.list.innerHTML = posts.slice(0, postLimit()).map(postCard).join("");
+  const shown = posts.slice(0, postLimit());
+  // On the full archive, mark where the list crosses into an older year so a
+  // long grid has some landmarks. The home page (limit 3) never needs them.
+  const years = new Set(shown.map((p) => new Date(p.pubDate).getFullYear()).filter((y) => !isNaN(y)));
+  const label = postLimit() === Infinity && years.size > 1;
+  let lastYear = null;
+  els.list.innerHTML = shown.map((p) => {
+    let out = "";
+    const y = new Date(p.pubDate).getFullYear();
+    if (label && !isNaN(y) && y !== lastYear) {
+      out += `<div class="post-year" aria-hidden="true">${y}</div>`;
+      lastYear = y;
+    }
+    return out + postCard(p);
+  }).join("");
 }
 
 /* Topic chips on the archive. Built from whatever categories the posts carry

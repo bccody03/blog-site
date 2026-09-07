@@ -58,15 +58,16 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=28" />
-  <script src="app.js?v=28" defer></script>
+  <link rel="stylesheet" href="styles.css?v=29" />
+  <script src="app.js?v=29" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
   <header class="site-header scrolled" id="site-header">
     <div class="wrap">
       <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
-      <nav class="nav">
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <nav class="nav" id="site-nav" aria-label="Site">
         <a href="/">Home</a>
         <a href="articles.html" class="active">Articles</a>
         <a href="book.html">Book</a>
