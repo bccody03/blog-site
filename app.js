@@ -23,6 +23,9 @@ const CONFIG = {
   // from the Reflect inbox and from the Substack newsletter. Create a second
   // form at formspree.io and paste its URL here, e.g. "https://formspree.io/f/abcdwxyz".
   chapterWebhook: "https://formspree.io/f/mqevkrpa",
+  // The chapter PDF lives at an unguessable path that robots.txt disallows,
+  // and nothing in the HTML links to it — the form hands it over on success.
+  chapterPdf: "c/7d3f9a2e1b/aligned-chapter-1.pdf",
 };
 
 /* ------------------------------------------------------------
@@ -37,7 +40,6 @@ const els = {
   coverImg: document.getElementById("cover-img"),
   coverInner: document.getElementById("cover-inner"),
   header: document.getElementById("site-header"),
-  subscribeFrames: document.querySelectorAll(".sub-frame"),
   revealBtn: document.getElementById("reveal-btn"),
   excerptGate: document.getElementById("excerpt-gate"),
   excerptMore: document.getElementById("excerpt-more"),
@@ -272,13 +274,15 @@ if (CONFIG.substackUrl) {
 // touch it here if CONFIG points somewhere else.
 if (CONFIG.coverImage && CONFIG.coverImage !== "hero-bg.jpg") setCover(CONFIG.coverImage);
 
-/* Sneak-peek lead magnet: embed the real Substack signup, and let the
-   reader unlock the rest of the chapter once they've subscribed. The
-   unlock is remembered so they don't have to do it again. */
-if (CONFIG.substackUrl && els.subscribeFrames.length) {
-  const embedSrc = CONFIG.substackUrl.replace(/\/$/, "") + "/embed";
-  els.subscribeFrames.forEach((frame) => { frame.src = embedSrc; });
-}
+/* Newsletter signup: our own form hands the email to Substack's subscribe
+   page (they confirm there). Counting the submit here is the one thing the
+   old embed iframe could never tell us — which page earns subscribers. */
+document.querySelectorAll(".sub-form").forEach((form) => {
+  form.addEventListener("submit", () => {
+    const where = (form.querySelector('[name="utm_content"]') || {}).value || location.pathname;
+    track("subscribe-submit-" + where, "Newsletter signup");
+  });
+});
 /* Book page lead magnet: capture the reader's email to a dedicated Formspree
    (separate from Reflect + the newsletter), then deliver the chapter PDF. */
 const chapterForm = document.getElementById("chapter-form");
@@ -303,14 +307,16 @@ if (chapterForm) {
       track("chapter-request", "Chapter 1 requested");
       const gate = document.getElementById("excerpt-gate");
       const done = document.getElementById("chapter-done");
+      const dl = document.getElementById("chapter-dl");
       if (gate) gate.hidden = true;
+      if (dl) dl.href = CONFIG.chapterPdf;
       if (done) {
         done.hidden = false;
         done.scrollIntoView({ behavior: "smooth", block: "center" });
       }
       // Hand them the PDF straight away
       const a = document.createElement("a");
-      a.href = "chapter-1.pdf";
+      a.href = CONFIG.chapterPdf;
       a.download = "Aligned-Chapter-1.pdf";
       document.body.appendChild(a);
       a.click();
@@ -322,6 +328,26 @@ if (chapterForm) {
       alert("Something went wrong sending that. Mind trying again in a moment?");
     }
   });
+
+  // The manual fallback link counts too — otherwise chapter-request is a
+  // floor, not a total.
+  const chapterDl = document.getElementById("chapter-dl");
+  if (chapterDl) {
+    chapterDl.addEventListener("click", () => track("chapter-download-manual", "Chapter PDF, manual link"));
+  }
+
+  // Count readers who actually reach the gate, so chapter-request has a
+  // denominator: requests / gate-viewed is the number that means something.
+  const gateEl = document.getElementById("excerpt-gate");
+  if (gateEl && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((en) => en.isIntersecting)) {
+        track("gate-viewed", "Chapter gate seen");
+        io.disconnect();
+      }
+    }, { threshold: 0.5 });
+    io.observe(gateEl);
+  }
 }
 
 /* "Reflect with me" — send the reader's answer to Blake. In production
@@ -338,14 +364,32 @@ if (reflectCats) {
     const chip = e.target.closest(".cat");
     if (!chip) return;
     const isActive = chip.classList.contains("active");
-    reflectCats.querySelectorAll(".cat").forEach((c) => c.classList.remove("active"));
+    reflectCats.querySelectorAll(".cat").forEach((c) => {
+      c.classList.remove("active");
+      c.setAttribute("aria-pressed", "false");
+    });
     if (!isActive) {
       chip.classList.add("active");
+      chip.setAttribute("aria-pressed", "true");
       reflectCatInput.value = chip.dataset.cat;
+      track("reflect-topic-" + chip.dataset.cat, "Topic chosen");
     } else {
       reflectCatInput.value = "";
     }
   });
+}
+
+// Attempts, not just completions: fires once on the first keystroke, so
+// reflect-start vs reflect-submit-* shows how many people abandon the form.
+const reflectAnswer = document.getElementById("reflect-answer");
+if (reflectAnswer) {
+  reflectAnswer.addEventListener("input", () => track("reflect-start", "Started writing"), { once: true });
+}
+
+// A miss becomes one grouped event per requested path, so broken inbound
+// links stand out instead of hiding among real pageviews.
+if (document.querySelector(".notfound")) {
+  track("404" + location.pathname, "404: " + location.pathname);
 }
 
 if (reflectForm) {
@@ -524,6 +568,9 @@ function render(posts) {
   allPosts = posts;
   renderFilters(posts);
   renderList(posts);
+  // Lists that opt in stay hidden until there is something to show.
+  const reveal = els.list.closest("[data-reveal]");
+  if (reveal) reveal.hidden = false;
 }
 
 function setState(msg, isError = false) {

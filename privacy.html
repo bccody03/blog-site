@@ -29,8 +29,36 @@
   <meta name="twitter:title" content="Privacy — Blake Cody" />
   <meta name="twitter:description" content="What blakecody.com records about visitors, what the two forms store, and how to ask for your data to be deleted." />
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
-  <link rel="stylesheet" href="styles.css?v=25" />
-  <script src="app.js?v=25" defer></script>
+
+  <!-- If the tracking or the forms change, the dateModified below and the
+       "Last updated" line at the bottom of the page change too. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://blakecody.com/privacy.html#webpage",
+        "url": "https://blakecody.com/privacy.html",
+        "name": "Privacy",
+        "dateModified": "2026-09-07",
+        "isPartOf": { "@id": "https://blakecody.com/#website" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://blakecody.com/privacy.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blakecody.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Privacy" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=28" />
+  <script src="app.js?v=28" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -67,12 +95,12 @@
         <p>Each submission also records which page it came from and how you arrived at the site, so I can tell where readers find me.</p>
 
         <h2>Newsletter</h2>
-        <p>The email signup box is Substack's. If you subscribe, Substack holds your address under <a href="https://substack.com/privacy" target="_blank" rel="noopener">its own privacy policy</a>, and every email has an unsubscribe link.</p>
+        <p>The email signup form on this site hands your address to Substack, where you confirm the subscription. Substack holds it under <a href="https://substack.com/privacy" target="_blank" rel="noopener">its own privacy policy</a>, and every email has an unsubscribe link. This site only counts that a signup was started, not the address itself.</p>
 
         <h2>Asking for deletion</h2>
-        <p>If you'd like anything you've sent me removed, reply to any email you've received from me — or send a note through the <a href="reflect.html">Reflect form</a> asking me to delete your previous messages — and I'll take care of it.</p>
+        <p>Email me at <a href="mailto:bccody910@gmail.com">bccody910@gmail.com</a> and I'll delete anything you've sent. If you'd rather not email, replying to any message you've had from me works too, and the <a href="reflect.html">Reflect form</a> reaches me as well.</p>
 
-        <p class="reflect-note">Last updated September 2026.</p>
+        <p class="policy-updated">Last updated <time datetime="2026-09-07">7 September 2026</time>.</p>
       </section>
     </div>
 
