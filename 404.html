@@ -23,8 +23,8 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Page not found — Blake Cody" />
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
-  <link rel="stylesheet" href="styles.css?v=29" />
-  <script src="app.js?v=29" defer></script>
+  <link rel="stylesheet" href="styles.css?v=30" />
+  <script src="app.js?v=30" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -44,14 +44,15 @@
   </header>
 
   <main class="plain-main">
-    <div class="wrap wrap-reading">
+    <div class="wrap">
       <section class="archive notfound">
         <p class="eyebrow">Error 404</p>
         <h1 class="archive-title">This page wandered off.</h1>
         <p class="archive-sub">The link might be broken, or the page may have moved. Let's get you back on track.</p>
+        <!-- One primary exit. The essays below are the alternative, and the
+             archive link follows them as a continuation rather than a rival. -->
         <p class="about-actions">
-          <a class="substack-btn" href="/">← Back home</a>
-          <a class="see-all" href="articles.html" style="margin-left:18px;">Read the articles →</a>
+          <a class="btn" href="/">← Back home</a>
         </p>
 
         <!-- The latest three essays, using the same feed machinery as the
@@ -60,7 +61,8 @@
         <div class="notfound-recent" data-reveal hidden>
           <h2 class="section-label">Or start with something recent</h2>
           <div class="state" id="state" hidden></div>
-          <div class="post-list" id="post-list" data-limit="3" data-campaign="404"></div>
+          <div class="post-list post-list-home" id="post-list" data-limit="3" data-campaign="404"></div>
+          <p class="notfound-more"><a class="see-all" href="articles.html">See all essays →</a></p>
         </div>
       </section>
     </div>

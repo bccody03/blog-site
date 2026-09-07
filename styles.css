@@ -1365,6 +1365,7 @@ body {
 
 /* 404: the "start with something recent" list */
 .notfound-recent { margin-top: 40px; }
+.notfound-more { margin: 28px 0 0; }
 
 /* About */
 .about {
@@ -1547,10 +1548,31 @@ body.plain { background: var(--bg); }
 .author-links a { display: inline-block; color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 11px 0; }
 .author-links a:hover { text-decoration: underline; }
 
-/* Privacy page */
-.privacy h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 28px 0 8px; }
-.privacy p, .privacy li { color: var(--ink-soft); max-width: 40em; }
+/* Privacy page — nothing but prose, so: a reading measure (~62 characters),
+   a hairline above each section with more space above than below, and one
+   light surface on the only part of the page that asks you to do something. */
+.privacy h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 36px 0 8px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.privacy p, .privacy li { color: var(--ink-soft); max-width: 62ch; }
 .privacy a { color: var(--accent); }
+.privacy-action {
+  margin-top: 36px;
+  padding: 22px 26px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+.privacy-action h2 { margin: 0 0 8px; padding-top: 0; border-top: 0; }
+.privacy-action p { margin: 0; }
+.privacy-action a { font-weight: 600; }
+.privacy .policy-updated { margin-top: 28px; }
 
 /* Footer */
 .site-footer {
@@ -1623,7 +1645,7 @@ body.plain { background: var(--bg); }
   .about { flex-direction: column; align-items: center; text-align: center; }
   .about p { margin: 0 auto; }
   .about-photo { width: min(280px, 80%); }
-  .about-actions { justify-content: center; }
+  .about-page .about-actions { justify-content: center; }
   .reflect-row { flex-direction: column; }
   .book-feature { flex-direction: column; align-items: flex-start; padding-top: 36px; }
   .book-cover { width: 150px; transform: rotate(0); }
