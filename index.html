@@ -9,20 +9,20 @@
   <link rel="canonical" href="https://blakecody.com/" />
   <link rel="alternate" type="application/rss+xml" title="Blake Cody on Substack" href="https://bccody.substack.com/feed" />
 
-  <!-- The hero photo is the largest thing on the page: start fetching it now. -->
-  <link rel="preload" as="image" href="hero-bg.jpg" fetchpriority="high" />
+  <!-- The headshot is the largest thing above the fold: start fetching it now. -->
+  <link rel="preload" as="image" href="blake-hero.webp" fetchpriority="high" />
 
   <!-- Webfonts: loaded without blocking the first paint. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=30" />
+  <link rel="stylesheet" href="styles.css?v=31" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <meta name="theme-color" content="#9a3b27" />
+  <meta name="theme-color" content="#b4232c" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
@@ -33,12 +33,12 @@
   <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Blake Cody — Lead with Love, Live with Intention" />
+  <meta property="og:image:alt" content="Blake Cody — Lead with love. Live with intention." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Blake Cody | Essays on Discipline, Love &amp; Intentional Living" />
   <meta name="twitter:description" content="Essays on discipline, love and living with intention from Blake Cody — plus a free first look at Aligned, the book he's writing." />
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
-  <meta name="twitter:image:alt" content="Blake Cody — Lead with Love, Live with Intention" />
+  <meta name="twitter:image:alt" content="Blake Cody — Lead with love. Live with intention." />
 
   <!-- Structured data: who Blake is, what Aligned is, what My JRNL is. -->
   <script type="application/ld+json">
@@ -95,189 +95,155 @@
         "isPartOf": { "@id": "https://blakecody.com/#website" },
         "about": { "@id": "https://blakecody.com/#person" },
         "primaryImageOfPage": "https://blakecody.com/og-image.jpg",
-        "dateModified": "2026-09-07"
+        "dateModified": "2026-10-18"
       }
     ]
   }
   </script>
 
   <!-- Scripts start downloading now and run once the page is parsed. -->
-  <script src="app.js?v=30" defer></script>
+  <script src="app.js?v=31" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
-<body>
+<body class="plain">
   <!-- Intro splash: name pops in, random cracks race across, then it disintegrates.
        The shards + crack lines are generated in app.js. -->
   <div class="intro" id="intro" aria-hidden="true"></div>
 
-  <!-- Fixed cover image that sits behind everything and shows through on scroll -->
-  <div class="cover-img" id="cover-img"></div>
-
   <header class="site-header" id="site-header">
     <div class="wrap">
-      <a class="brand" href="/"><img class="brand-mark" src="logo.png" alt="" width="30" height="30" />Blake Cody</a>
-      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <a class="brand" href="/">Blake Cody<span>.</span></a>
       <nav class="nav" id="site-nav" aria-label="Site">
-        <a href="/" class="active">Home</a>
-        <a href="articles.html">Articles</a>
+        <a href="articles.html">Essays</a>
         <a href="book.html">Book</a>
+        <a href="speaking.html">Speaking</a>
         <a href="reflect.html">Reflect</a>
         <a href="about.html">About</a>
-        <a id="substack-link" href="https://bccody.substack.com" target="_blank" rel="noopener me">Substack ↗</a>
       </nav>
+      <a class="btn btn-sm nav-cta" href="#subscribe" data-track="cta-nav-subscribe">Subscribe</a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
     </div>
   </header>
 
-  <!-- Full-screen cover. The name keeps its visual weight; the H1 carries
-       the line that actually describes the site. -->
-  <section class="cover" id="top">
+  <main class="home">
     <div class="wrap">
-      <div class="cover-inner" id="cover-inner">
-        <p class="cover-title">Blake Cody</p>
-        <h1 class="cover-lede">Lead with Love, Live with Intention</h1>
-        <p class="cover-sub">Essays on discipline, love and living with intention — for anyone rebuilding after a hard season. Written from inside the work, not after it.</p>
-        <p class="cover-actions">
-          <a class="btn btn-ghost" href="book.html" data-track="cta-hero-chapter">Read Chapter 1 free →</a>
-          <a class="cover-link" href="#latest">Or start with the latest essays ↓</a>
-        </p>
-      </div>
-    </div>
-    <a class="scroll-cue" href="#intro-copy" aria-label="Scroll down to read"><span></span></a>
-  </section>
-
-  <!-- Everything below scrolls up over the cover image -->
-  <main class="page">
-    <div class="wrap">
-      <!-- Who this is and what it's about, in plain words. -->
-      <section id="intro-copy" class="intro-copy">
-        <h2 class="section-label">What this is</h2>
-        <p class="lead">I'm Blake Cody — 22, from Michigan, and writing my way through the work of becoming someone I'm proud of. Most of what I write is about discipline and self-discipline, mindset, relationships, and intentional living: the daily habits and honest decisions that slowly turn a life around.</p>
-        <p>I started because I looked at myself one day and knew there was more — so I began rebuilding my routines, my confidence and my direction from scratch. I write about it in real time — what's working, what isn't, and what I'd tell a friend going through the same thing. That writing became my book, <em>Aligned: Lead with Love, Live with Intention</em>, and a daily journaling habit that eventually became an app, <strong>My JRNL</strong>.</p>
-        <p>If you're rebuilding after a hard season, trying to become more disciplined, or just want to live with more intention, you're in the right place. Start with the latest essays below.</p>
-      </section>
-
-      <section id="latest" class="posts" aria-live="polite">
-        <div class="posts-head">
-          <h2 class="section-label">Latest articles</h2>
-          <a class="see-all" href="articles.html">See all articles →</a>
-        </div>
-        <div class="state" id="state">Loading the latest…</div>
-        <div class="post-list post-list-home" id="post-list" data-limit="3"></div>
-
-        <!-- Compact capture right after the reading: intent is highest here.
-             Same ask as the band at the bottom, counted separately. -->
-        <div class="inline-sub">
-          <p class="inline-sub-text"><strong>New essays, straight to your inbox.</strong> Free, most weeks, no spam.</p>
-          <form class="sub-form sub-form-inline" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
-            <label class="sr-only" for="sub-email-inline">Email address</label>
-            <input type="email" id="sub-email-inline" name="email" placeholder="Your email address" autocomplete="email" required />
-            <input type="hidden" name="utm_source" value="blakecody.com" />
-            <input type="hidden" name="utm_medium" value="referral" />
-            <input type="hidden" name="utm_campaign" value="subscribe" />
-            <input type="hidden" name="utm_content" value="home-inline" />
-            <button type="submit" class="btn sub-submit">Subscribe →</button>
-          </form>
-        </div>
-      </section>
-
-      <!-- The book gets the visual weight: a typographic cover (there's no
-           cover art yet), the big type tier, and the free-chapter offer. -->
-      <section class="feature book-feature" id="book-feature">
-        <a class="book-cover" href="book.html" aria-hidden="true" tabindex="-1">
-          <span class="book-cover-inner">
-            <span class="book-cover-kicker">A field guide</span>
-            <span class="book-cover-title">Aligned</span>
-            <span class="book-cover-sub">Lead with Love,<br />Live with Intention</span>
-            <span class="book-cover-author">Blake Cody</span>
-          </span>
-        </a>
-        <div class="feature-body">
-          <p class="eyebrow">The book · Chapter 1 is free</p>
-          <h2 class="feature-title">Aligned: Lead with Love, Live with Intention</h2>
-          <p class="feature-lede">A field guide for anyone rebuilding after heartbreak and trying to become someone they're proud of — decoding love, building yourself, and living with intention. I'm writing it now, and the opening chapter is yours to read.</p>
-          <p class="feature-actions">
-            <a class="btn btn-outline" href="book.html" data-track="cta-book-feature">Read the opening chapter →</a>
+      <header class="home-hero">
+        <div>
+          <p class="eyebrow">Writer · Speaker in the making · Michigan</p>
+          <h1 class="home-title">Lead with love.<br />Live with intention.</h1>
+          <p class="home-sub">Honest essays on discipline, letting go and rebuilding after a hard season. For high performers who look fine on the outside and are still figuring it out on the inside.</p>
+          <p class="home-ctas">
+            <a class="btn" href="#essays" data-track="cta-hero-essays">Start with my best essays →</a>
+            <a class="btn btn-ghost" href="book.html" data-track="cta-hero-chapter">Read Chapter 1 free</a>
           </p>
+          <p class="home-tagline">Written from inside the work, not after it.</p>
         </div>
-      </section>
-
-      <!-- The most distinctive offer on the site gets its own block. -->
-      <section class="feature reflect-feature">
-        <div class="feature-body">
-          <p class="eyebrow">Reflect with me · Free</p>
-          <h2 class="feature-title">Write what's on your mind. I'll reply personally.</h2>
-          <p class="feature-lede">A relationship, a decision, something you're stuck on. Write it down and I'll read it myself and write back by email — usually within a few days, and only to you.</p>
-          <p class="feature-actions">
-            <a class="btn btn-outline" href="reflect.html" data-track="cta-reflect-feature">Start writing →</a>
-          </p>
+        <div class="home-portrait">
+          <!-- Heartbeat: jagged on the left, a calm wave on the right. -->
+          <svg viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" fill="none" stroke="#b4232c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <img src="blake-hero.webp" alt="Blake Cody smiling in a red polo." width="720" height="749" fetchpriority="high" decoding="async" />
+          <div class="home-badge"><b>Hi, I'm Blake.</b>23 · IT by day · writing the book <i>Aligned</i></div>
         </div>
-        <img class="reflect-feature-photo" src="blake.jpg" alt="Blake Cody" width="240" height="320" loading="lazy" />
-      </section>
-
-      <!-- Little ways to branch off into the rest of the site -->
-      <section class="explore">
-        <h2 class="section-label">Explore</h2>
-        <div class="explore-grid">
-          <a class="explore-card" href="articles.html">
-            <h3>Articles</h3>
-            <p>Every essay on discipline, love and intentional living, newest first. All free.</p>
-            <span class="explore-go">Read all →</span>
-          </a>
-          <a class="explore-card" href="about.html">
-            <h3>About</h3>
-            <p>Who I am, what I'm working toward, and why I'm writing all this in public.</p>
-            <span class="explore-go">More about me →</span>
-          </a>
-          <a class="explore-card explore-card-app" href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">
-            <img class="explore-app-icon" src="app-icon.png?v=2" alt="" width="192" height="192" />
-            <h3>My JRNL <span class="explore-tag">iOS app</span></h3>
-            <p>The journaling habit that kept me steady, built into a simple app. Free on the App Store.</p>
-            <span class="explore-go">Download the app ↗</span>
-          </a>
-        </div>
-      </section>
+      </header>
     </div>
 
-    <section class="subscribe-cta">
+    <!-- Start here: three essays. The links start out pointing at the Substack
+         archive and are upgraded to the exact posts when the feed loads (app.js
+         matches by title). The optional card is swapped for another published
+         essay if its title isn't in the feed. -->
+    <section class="sec" id="essays">
       <div class="wrap">
-        <h2 class="subscribe-title feature-title">Stay up to date in your inbox</h2>
-        <p class="subscribe-sub">New essays and chapters from <em>Aligned</em>, straight to your inbox. Free, no spam.</p>
-        <!-- Our own form, posting to Substack's subscribe page: matches the site
-             and lets us count signups per page (the embed iframe couldn't). -->
-        <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
-          <label class="sr-only" for="sub-email">Email address</label>
-          <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
-          <input type="hidden" name="utm_source" value="blakecody.com" />
-          <input type="hidden" name="utm_medium" value="referral" />
-          <input type="hidden" name="utm_campaign" value="subscribe" />
-          <input type="hidden" name="utm_content" value="home" />
-          <button type="submit" class="sub-submit">Subscribe →</button>
-        </form>
-        <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
+        <div class="sec-head">
+          <div><p class="kicker">Start here</p><h2 class="sec-title">Three essays to begin with</h2></div>
+          <a class="more" href="articles.html">All essays →</a>
+        </div>
+        <div class="start-cards" id="start-cards">
+          <a class="start-card" href="https://bccody.substack.com/archive" target="_blank" rel="noopener" data-title="I Said I Let Go. I Was Lying." data-track="click-substack-card-1"><span class="start-tag">Letting go</span><h3>I Said I Let Go. I Was Lying.</h3><p>I'm 23, I write about discipline, and I'm finally learning to enjoy the ride.</p><span class="start-read">Read →</span></a>
+          <a class="start-card" href="https://bccody.substack.com/archive" target="_blank" rel="noopener" data-title="Before You Say It Back" data-track="click-substack-card-2"><span class="start-tag">Emotions</span><h3>Before You Say It Back</h3><p>Hungry, tired, or lonely? Check your thermostat before you go off on someone.</p><span class="start-read">Read →</span></a>
+          <a class="start-card" href="https://bccody.substack.com/archive" target="_blank" rel="noopener" data-title="The Box Keeps Glowing Until You Stop Opening It" data-optional data-track="click-substack-card-3"><span class="start-tag">Relationships</span><h3>The Box Keeps Glowing Until You Stop Opening It</h3><p>On the people and habits that fuel you, and the ones that quietly drain you.</p><span class="start-read">Read →</span></a>
+        </div>
       </div>
     </section>
 
-    <!-- A real person stands behind this: a compact byline above the footer. -->
-    <section class="author-block">
+    <section class="sec" id="about">
+      <div class="wrap home-about">
+        <p class="home-quote">“Saying you've let go is easy. <span>Doing it is the whole thing.</span>”</p>
+        <div class="home-bio">
+          <p class="kicker">About</p>
+          <p><strong>I'm Blake Cody, 23, from Michigan.</strong> I work in IT, I golf, I lift, and I write every week about the stuff most people only talk about at 2am.</p>
+          <p>I'm not writing from the top of the mountain. I'm writing from the middle of it — what's working, what isn't, and what I'm still learning.</p>
+          <a class="btn btn-ghost btn-sm" href="about.html">More about me →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="speaking">
       <div class="wrap">
-        <img class="author-photo" src="blake.jpg" alt="Blake Cody" width="240" height="320" loading="lazy" />
-        <div class="author-text">
-          <h2 class="author-name">Written by Blake Cody</h2>
-          <p>I'm an aspiring author and life &amp; relationship coach from Michigan, writing about discipline, love and intentional living while I live it. Everything on this site is my own experience, written down as honestly as I can.</p>
-          <p class="author-links">
-            <a href="about.html">About me</a>
-            <a class="js-substack" href="https://bccody.substack.com" target="_blank" rel="noopener me">Substack</a>
-            <a href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">My JRNL on the App Store</a>
-            <a href="https://www.linkedin.com/in/blake-cody-63a48a266/" target="_blank" rel="noopener me">LinkedIn</a>
-          </p>
+        <div class="sec-head">
+          <div><p class="kicker">Speaking</p><h2 class="sec-title">Talks I give</h2></div>
+        </div>
+        <div class="talks">
+          <div class="talk"><span class="talk-num">01</span><h3>Before You Say It Back</h3><p>Why we react worst when we're hungry, tired or lonely, and how to catch it before it costs you.</p></div>
+          <div class="talk"><span class="talk-num">02</span><h3>I Said I Let Go</h3><p>The gap between what we say we've accepted and what our actions show, and how to close it.</p></div>
+          <div class="talk"><span class="talk-num">03</span><h3>Aligned</h3><p>Lead with love, live with intention: building a life that matches who you say you are.</p></div>
+        </div>
+        <div class="speak-cta">
+          <p><strong>Want me to speak to your team, school or group?</strong> Let's talk.</p>
+          <a class="btn" href="speaking.html#invite" data-track="cta-speak-invite">Invite me to speak →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="book">
+      <div class="wrap split">
+        <div class="panel">
+          <p class="kicker">The book</p>
+          <h2><i>Aligned</i></h2>
+          <p>A field guide to leading with love and living with intention. Being written now — the opening chapter is free.</p>
+          <a class="btn" href="book.html" data-track="cta-book-panel">Read Chapter 1 →</a>
+        </div>
+        <div class="panel" id="reflect">
+          <p class="kicker">Reflect with me</p>
+          <h2>Going through something?</h2>
+          <p>Write to me. I read every message and reply personally by email.</p>
+          <a class="btn btn-ghost" href="reflect.html" data-track="cta-reflect-panel">Start writing →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec subscribe-cta" id="subscribe">
+      <div class="wrap">
+        <div class="signup">
+          <h2 class="subscribe-title">One honest essay a week.</h2>
+          <p class="subscribe-sub">Join on Substack. No spam, unsubscribe anytime.</p>
+          <!-- Our own form, posting to Substack's subscribe page: matches the site
+               and lets us count signups per page (the embed iframe couldn't). -->
+          <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+            <label class="sr-only" for="sub-email">Email address</label>
+            <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
+            <input type="hidden" name="utm_source" value="blakecody.com" />
+            <input type="hidden" name="utm_medium" value="referral" />
+            <input type="hidden" name="utm_campaign" value="subscribe" />
+            <input type="hidden" name="utm_content" value="home" />
+            <button type="submit" class="sub-submit">Subscribe →</button>
+          </form>
+          <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
         </div>
       </div>
     </section>
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>© <span id="year"></span> Blake Cody · <a href="privacy.html">Privacy</a></span>
-        <a id="substack-link-footer" href="https://bccody.substack.com" target="_blank" rel="noopener">Read on Substack ↗</a>
+        <span>© <span id="year"></span> Blake Cody</span>
+        <nav class="footer-links" aria-label="Footer">
+          <a id="substack-link-footer" href="https://bccody.substack.com" target="_blank" rel="noopener me">Substack</a>
+          <!-- Instagram: add <a href="…">Instagram</a> here once the account is ready. -->
+          <a href="https://www.linkedin.com/in/blake-cody-63a48a266/" target="_blank" rel="noopener me">LinkedIn</a>
+          <a href="https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326" target="_blank" rel="noopener me">My JRNL app</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
       </div>
     </footer>
   </main>
