@@ -512,6 +512,13 @@ body {
   margin: 0;
 }
 .panel p { color: var(--ink-soft); margin: 0; }
+.panel p.panel-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-top: -6px;
+}
 .panel .btn { align-self: flex-start; margin-top: 6px; }
 
 /* Newsletter block — the same navy card on every page */
@@ -914,6 +921,35 @@ body {
   transition: opacity 0.3s ease;
 }
 .post:hover .post-thumb::after { opacity: 0.05; }
+/* Default cover (posts with no image): navy, heartbeat line, title in Fraunces */
+.post-thumb-default {
+  background: var(--navy);
+  display: flex;
+  align-items: flex-end;
+  padding: 16px 18px;
+}
+.post-thumb-default::after { display: none; }
+.post-thumb-default svg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  width: 100%;
+  height: 28%;
+  opacity: 0.9;
+}
+.post-cover-title {
+  position: relative;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 /* Body fills the card so the "read" line sits on one baseline across a row */
 .post-body { display: flex; flex-direction: column; flex: 1 1 auto; }
 
@@ -968,13 +1004,13 @@ body {
 
 /* Standalone pages reuse the section styles but drop the in-page divider */
 .book-page,
-.coaching-page { padding-top: 8px; border-bottom: none; }
+.reflect-page { padding-top: 8px; border-bottom: none; }
 .book-page .eyebrow + .eyebrow,
-.coaching-page .eyebrow + .eyebrow { margin-top: 14px; }
+.reflect-page .eyebrow + .eyebrow { margin-top: 14px; }
 .about-page .about-stack { margin-top: 16px; }
 .archive .eyebrow a,
 .book-page .eyebrow a,
-.coaching-page .eyebrow a,
+.reflect-page .eyebrow a,
 .privacy .eyebrow a,
 .notfound .eyebrow a {
   display: inline-block;
@@ -985,7 +1021,7 @@ body {
 }
 .archive .eyebrow a:hover,
 .book-page .eyebrow a:hover,
-.coaching-page .eyebrow a:hover { text-decoration: underline; }
+.reflect-page .eyebrow a:hover { text-decoration: underline; }
 
 /* Articles archive: intro copy, topic chips, RSS line */
 .archive-intro { margin: 18px 0 8px; }
@@ -1015,13 +1051,13 @@ body {
 .archive-rss a { display: inline-block; color: var(--accent); text-decoration: none; font-weight: 600; padding: 12px 0; margin: -12px 0; }
 .archive-rss a:hover { text-decoration: underline; }
 
-/* Coaching / Reflect with me */
-.coaching {
+/* Reflect with me */
+.reflect-section {
   padding: 64px 0 56px;
   border-bottom: 1px solid var(--line);
 }
-.coaching-free { color: var(--accent); }
-.coaching-title {
+.reflect-free { color: var(--accent); }
+.reflect-title {
   font-family: var(--serif);
   font-size: clamp(2rem, 5vw, 2.8rem);
   font-weight: 600;
@@ -1029,7 +1065,7 @@ body {
   letter-spacing: -0.01em;
   margin: 10px 0 14px;
 }
-.coaching-intro {
+.reflect-intro {
   font-size: 1.1rem;
   color: var(--ink-soft);
   max-width: 36em;
@@ -1400,8 +1436,17 @@ body.plain { background: var(--bg); }
   .nav a.active { box-shadow: none; color: var(--accent); }
   .nav a:first-child { border-top: 0; }
 
-  .home-hero { grid-template-columns: 1fr; gap: 32px; padding-top: 16px; }
-  .home-portrait { order: -1; max-width: 420px; margin: 0 auto; width: 100%; }
+  /* Words first: the headline and both buttons come before the photo, and
+     the photo panel is short so the whole hero stays compact. */
+  .home-hero { grid-template-columns: 1fr; gap: 28px; padding-top: 20px; padding-bottom: 48px; }
+  .home-portrait {
+    aspect-ratio: auto;
+    height: 280px;
+    width: 100%;
+    max-width: none;
+    align-items: flex-start;
+  }
+  .home-portrait img { margin-bottom: 0; }
   .start-cards, .talks, .split { grid-template-columns: 1fr; }
   .home-about { grid-template-columns: 1fr; gap: 24px; }
   .sec-head { flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -1413,6 +1458,9 @@ body.plain { background: var(--bg); }
 @media (max-width: 560px) {
   .wrap { padding: 0 16px; }
   .home-ctas .btn { width: 100%; }
+  .home-title { font-size: 2.15rem; margin-bottom: 16px; }
+  .home-sub { font-size: 1.0625rem; margin-bottom: 22px; }
+  .home-ctas { margin-bottom: 18px; }
   .sub-form { flex-direction: column; }
   .panel { padding: 26px 22px; }
   .site-footer .wrap { flex-direction: column; align-items: flex-start; }
@@ -1423,6 +1471,10 @@ body.plain { background: var(--bg); }
   .about-photo { width: min(280px, 80%); }
   .about-page .about-actions { justify-content: center; }
   .reflect-row { flex-direction: column; }
+  .about-portrait { width: min(280px, 80%); }
+  .speak-bio { flex-direction: column; align-items: flex-start; }
+  .speak-portrait { width: min(220px, 70%); }
+  .notice { padding: 16px 18px; }
   .built-card { flex-direction: column; }
   .chapter-form { flex-direction: column; }
   .book-parts li { grid-template-columns: 1fr; grid-template-areas: "num" "name" "desc"; row-gap: 2px; }
@@ -1443,3 +1495,65 @@ body.plain { background: var(--bg); }
 .about-text a.btn-ghost { color: var(--ink); }
 .about-text a.btn-ghost:hover { color: #fff; }
 .about-actions { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+
+/* Safety notice on Reflect: a clear box above the form, not fine print */
+.notice {
+  margin: 0 0 24px;
+  padding: 18px 22px;
+  background: var(--red-soft);
+  border: 1px solid #e3b8bb;
+  border-left: 5px solid var(--accent);
+  border-radius: 14px;
+  color: var(--ink);
+}
+.notice p { margin: 0; font-size: 1rem; line-height: 1.6; max-width: 46em; }
+.notice strong { font-weight: 700; }
+.notice a { color: var(--accent); font-weight: 700; }
+
+/* About + Speaking: the hero headshot on a navy panel */
+.about-portrait {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(240px, 34%, 380px);
+  aspect-ratio: 4 / 4.4;
+  background: var(--navy);
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: var(--shadow);
+}
+.about-portrait img { width: 104%; max-width: none; height: auto; margin-bottom: -1%; display: block; }
+.about-candid { padding: 40px 0 32px; }
+.about-candid figure { margin: 0; max-width: 260px; }
+.about-candid img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); display: block; }
+.about-candid figcaption { margin-top: 10px; font-size: 0.85rem; color: var(--ink-soft); }
+
+/* Speaking: formats line, bio + headshot, video slot */
+.speak-formats { margin: -12px 0 28px; color: var(--ink-soft); font-size: 0.98rem; }
+.speak-formats strong { color: var(--ink); }
+.speak-bio { display: flex; gap: clamp(24px, 4vw, 44px); align-items: center; margin: 0 0 40px; }
+.speak-portrait { width: clamp(180px, 22%, 240px); }
+.speak-bio-body { flex: 1; min-width: 0; }
+.speak-bio-body p { margin: 0; }
+.speak-bio-body p:not(.kicker) { font-size: 1.1rem; color: var(--ink-soft); max-width: 40em; }
+.speak-bio-body p:not(.kicker) em { color: var(--ink); }
+.speak-video { margin: 0 0 40px; }
+.speak-video[hidden] { display: none; }
+.speak-video h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 12px; }
+.speak-video-frame { aspect-ratio: 16 / 9; max-width: 720px; background: var(--navy); border-radius: var(--radius); overflow: hidden; }
+.speak-video-frame > * { width: 100%; height: 100%; border: 0; }
+
+/* Book: waitlist after the excerpt */
+.waitlist {
+  margin-top: 28px;
+  padding: 28px clamp(20px, 4vw, 32px);
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.waitlist-title { font-family: var(--serif); font-size: clamp(1.3rem, 2.6vw, 1.6rem); font-weight: 600; line-height: 1.25; margin: 0 0 18px; }
+.waitlist .sub-form input[type="email"] { border: 1px solid var(--line); }
+.waitlist .sub-note { color: var(--ink-soft); }

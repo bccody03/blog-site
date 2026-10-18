@@ -18,7 +18,7 @@ const CONFIG = {
   // formspree.io and paste its URL here, e.g.
   //   "https://formspree.io/f/abcdwxyz"
   // (A Make webhook works too.) Leave "" to test in demo mode.
-  coachWebhook: "https://formspree.io/f/xaqgwvwe",
+  reflectWebhook: "https://formspree.io/f/xaqgwvwe",
   // Dedicated Formspree form for Book-page chapter requests, kept separate
   // from the Reflect inbox and from the Substack newsletter. Create a second
   // form at formspree.io and paste its URL here, e.g. "https://formspree.io/f/abcdwxyz".
@@ -465,8 +465,8 @@ if (reflectForm) {
     };
 
     try {
-      if (CONFIG.coachWebhook) {
-        const res = await fetch(CONFIG.coachWebhook, {
+      if (CONFIG.reflectWebhook) {
+        const res = await fetch(CONFIG.reflectWebhook, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(payload),
@@ -616,13 +616,21 @@ function postLimit() {
   return n > 0 ? n : Infinity;
 }
 
+// Default cover for posts with no image (or whose image fails to load): navy,
+// the red heartbeat line, and the title in Fraunces. Decorative — the title
+// is repeated as text under it, so it's hidden from screen readers.
+const HEARTBEAT_SVG = '<svg viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" fill="none" stroke="#b4232c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function defaultCover(escapedTitle) {
+  return `<div class="post-thumb post-thumb-default" aria-hidden="true">${HEARTBEAT_SVG}<span class="post-cover-title">${escapedTitle}</span></div>`;
+}
+
 // Build the HTML for a single post card.
 function postCard(p) {
   const img = p.image || firstImage(p.content);
   const title = escapeHtml(p.title);
   const thumb = img
     ? `<div class="post-thumb"><img src="${img}" alt="${title}" loading="lazy" width="480" height="320" /></div>`
-    : "";
+    : defaultCover(title);
   const campaign = (els.list && els.list.getAttribute("data-campaign")) || "home-latest";
   const href = withUtm(p.link, campaign, "card");
   return `
@@ -670,7 +678,20 @@ function linkStartCards(posts) {
   });
 }
 
+// If a cover image can't be fetched, swap in the default cover instead of
+// leaving an empty grey box. (Error events don't bubble, so listen in capture.)
+function swapBrokenCovers() {
+  if (!els.list || els.list.dataset.coverGuard) return;
+  els.list.dataset.coverGuard = "1";
+  els.list.addEventListener("error", (e) => {
+    const img = e.target;
+    if (!img || img.tagName !== "IMG" || !img.closest(".post-thumb")) return;
+    img.closest(".post-thumb").outerHTML = defaultCover(escapeHtml(img.alt));
+  }, true);
+}
+
 function renderList(posts) {
+  swapBrokenCovers();
   const shown = posts.slice(0, postLimit());
   // On the full archive, mark where the list crosses into an older year so a
   // long grid has some landmarks. The home page (limit 3) never needs them.
