@@ -10,9 +10,6 @@ const CONFIG = {
   // one relay that reliably reaches your feed. Without a key it's capped at ~10
   // posts; paste a free key here to load your whole feed.
   rssApiKey: "twjzn4hogufejzoxy2wgo6iajtvyqtycosvavtqv",
-  // Front cover image. Leave "" to auto-use your latest post's cover,
-  // or drop your own file in this folder, e.g. "cover.jpg".
-  coverImage: "hero-bg.jpg",
   // Where "Reflect with me" submissions go. Paste a form endpoint that
   // emails you the message — easiest is Formspree: create a free form at
   // formspree.io and paste its URL here, e.g.
@@ -40,13 +37,7 @@ const els = {
   list: document.getElementById("post-list"),
   state: document.getElementById("state"),
   year: document.getElementById("year"),
-  avatar: document.getElementById("avatar"),
-  coverImg: document.getElementById("cover-img"),
-  coverInner: document.getElementById("cover-inner"),
   header: document.getElementById("site-header"),
-  revealBtn: document.getElementById("reveal-btn"),
-  excerptGate: document.getElementById("excerpt-gate"),
-  excerptMore: document.getElementById("excerpt-more"),
   substackLinks: [
     ...document.querySelectorAll(".js-substack"),
     document.getElementById("substack-link"),
@@ -315,11 +306,6 @@ if (CONFIG.substackUrl) {
   });
 }
 
-// The default hero (hero-bg.jpg) is declared in styles.css and preloaded from
-// index.html so it starts downloading before this script even runs. Only
-// touch it here if CONFIG points somewhere else.
-if (CONFIG.coverImage && CONFIG.coverImage !== "hero-bg.jpg") setCover(CONFIG.coverImage);
-
 /* Newsletter signup: our own form hands the email to Substack's subscribe
    page (they confirm there). Counting the submit here is the one thing the
    old embed iframe could never tell us — which page earns subscribers. */
@@ -535,42 +521,6 @@ if (inviteForm) {
       showFormError("invite-error", "Something went wrong sending that. Mind trying again in a moment?");
     }
   });
-}
-
-function setCover(url) {
-  if (url && els.coverImg) els.coverImg.style.backgroundImage = `url("${url}")`;
-}
-
-/* Scroll choreography: fade + lift the cover text as you scroll down,
-   and swap the header from transparent to solid once past the cover.
-   Pages without a cover (e.g. the Writing archive) keep a solid header. */
-const coverEl = document.querySelector(".cover");
-const hasCover = !!coverEl;
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (hasCover) {
-  let ticking = false;
-  const onScroll = () => {
-    const y = window.scrollY;
-    // The cover is ~74vh, so pace the fade and the header swap on its real
-    // height rather than the viewport's.
-    const ch = coverEl.offsetHeight || window.innerHeight;
-    if (!prefersReducedMotion && els.coverInner) {
-      const p = Math.min(y / (ch * 0.75), 1);
-      els.coverInner.style.opacity = String(1 - p);
-      els.coverInner.style.transform = `translateY(${y * 0.25}px)`;
-    }
-    els.header.classList.toggle("scrolled", y > ch - 64);
-    ticking = false;
-  };
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      window.requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  });
-  onScroll();
-} else if (els.header) {
-  els.header.classList.add("scrolled");
 }
 
 function fmtDate(dateStr) {
@@ -909,9 +859,9 @@ function showLatest(post) {
 }
 
 async function init() {
-  // Only the Home and Writing pages list posts; the About page wants the
-  // Substack avatar. Other pages (Book, Reflect) need no feed at all.
-  if (!els.list && !els.avatar && !startCards) return;
+  // Only the Home and Writing pages list posts, plus the
+  // home start cards. Other pages need no feed at all.
+  if (!els.list && !startCards) return;
   const demo = new URLSearchParams(location.search).has("demo");
   if (!CONFIG.substackUrl || demo) {
     setState("Demo mode — showing sample posts.");
@@ -922,17 +872,7 @@ async function init() {
   }
   try {
     setState("Loading the latest…");
-    const { posts, image } = await loadFromSubstack(CONFIG.substackUrl);
-    if (image && els.avatar) {
-      els.avatar.src = image;
-      els.avatar.parentElement.classList.remove("hidden");
-    }
-    // If no cover was set in CONFIG, use the newest post's cover image
-    // at full size so the front cover stays crisp.
-    if (!CONFIG.coverImage && posts.length) {
-      const hero = firstImage(posts[0].content);
-      if (hero) setCover(sizeImage(hero, 1600));
-    }
+    const { posts } = await loadFromSubstack(CONFIG.substackUrl);
     render(posts);
     linkStartCards(posts);
     showLatest(posts[0]);
