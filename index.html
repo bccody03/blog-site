@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=31" />
+  <link rel="stylesheet" href="styles.css?v=32" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
@@ -102,7 +102,7 @@
   </script>
 
   <!-- Scripts start downloading now and run once the page is parsed. -->
-  <script src="app.js?v=31" defer></script>
+  <script src="app.js?v=32" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -132,8 +132,16 @@
           <p class="eyebrow">Writer · Speaker in the making · Michigan</p>
           <h1 class="home-title">I write about rebuilding — from the middle of it.</h1>
           <p class="home-sub">Weekly essays on discipline, letting go and starting over. For high performers who look fine on the outside and are still figuring it out on the inside.</p>
+          <form class="sub-form hero-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+            <label class="sr-only" for="hero-email">Email address</label>
+            <input type="email" id="hero-email" name="email" placeholder="Your email address" autocomplete="email" required />
+            <input type="hidden" name="utm_source" value="blakecody.com" />
+            <input type="hidden" name="utm_medium" value="referral" />
+            <input type="hidden" name="utm_campaign" value="subscribe" />
+            <input type="hidden" name="utm_content" value="home-hero" />
+            <button type="submit" class="btn">Get the weekly essay →</button>
+          </form>
           <p class="home-ctas">
-            <a class="btn" href="#subscribe" data-track="cta-hero-subscribe">Get the weekly essay →</a>
             <a class="btn btn-ghost" href="#essays" data-track="cta-hero-essays">Start with my best essays</a>
           </p>
           <p class="home-tagline">Written from inside the work, not after it.</p>
@@ -149,10 +157,10 @@
       </header>
     </div>
 
-    <!-- Start here: three essays. The links start out pointing at the Substack
-         archive and are upgraded to the exact posts when the feed loads (app.js
-         matches by title). The optional card is swapped for another published
-         essay if its title isn't in the feed. -->
+    <!-- Start here: three essays, linked straight to their posts. When the feed
+         loads, app.js re-matches each card by title (data-title) so a changed
+         URL still resolves. A card marked data-optional is swapped for another
+         published essay if its title isn't in the feed. -->
     <section class="sec" id="essays">
       <div class="wrap">
         <div class="sec-head">
@@ -160,9 +168,9 @@
           <a class="more" href="articles.html">All essays →</a>
         </div>
         <div class="start-cards" id="start-cards">
-          <a class="start-card" href="https://bccody.substack.com/archive" target="_blank" rel="noopener" data-title="Are You Whole, or Just Good at Being Alone?" data-track="click-substack-card-1"><span class="start-tag">Essay</span><h3>Are You Whole, or Just Good at Being Alone?</h3><p>On the difference between being at peace on your own and just being good at hiding.</p><span class="start-read">Read →</span></a>
-          <a class="start-card" href="https://bccody.substack.com/archive" target="_blank" rel="noopener" data-title="Before You Say It Back" data-track="click-substack-card-2"><span class="start-tag">Emotions</span><h3>Before You Say It Back</h3><p>Hungry, tired, or lonely? Check your thermostat before you go off on someone.</p><span class="start-read">Read →</span></a>
-          <a class="start-card" href="https://bccody.substack.com/archive" target="_blank" rel="noopener" data-title="The Box Keeps Glowing Until You Stop Opening It" data-optional data-track="click-substack-card-3"><span class="start-tag">Relationships</span><h3>The Box Keeps Glowing Until You Stop Opening It</h3><p>On the people and habits that fuel you, and the ones that quietly drain you.</p><span class="start-read">Read →</span></a>
+          <a class="start-card" href="https://bccody.substack.com/p/i-said-i-let-go-i-was-lying" target="_blank" rel="noopener" data-title="I Said I Let Go. I Was Lying." data-track="click-substack-card-1"><span class="start-tag">Letting go</span><h3>I Said I Let Go. I Was Lying.</h3><p>I'm 23, I write about discipline, and I'm finally learning to enjoy the ride.</p><span class="start-read">Read →</span></a>
+          <a class="start-card" href="https://bccody.substack.com/p/before-you-say-it-back" target="_blank" rel="noopener" data-title="Before You Say It Back" data-track="click-substack-card-2"><span class="start-tag">Emotions</span><h3>Before You Say It Back</h3><p>Hungry, tired, or lonely? Check your thermostat before you go off on someone.</p><span class="start-read">Read →</span></a>
+          <a class="start-card" href="https://bccody.substack.com/p/are-you-whole-or-just-good-at-being" target="_blank" rel="noopener" data-title="Are You Whole, or Just Good at Being Alone?" data-track="click-substack-card-3"><span class="start-tag">Essay</span><h3>Are You Whole, or Just Good at Being Alone?</h3><p>On the difference between being at peace on your own and just being good at hiding.</p><span class="start-read">Read →</span></a>
         </div>
       </div>
     </section>
@@ -175,6 +183,28 @@
           <p><strong>I'm Blake Cody, 23, from Michigan.</strong> I work in IT, I golf, I lift, and I write every week about the stuff most people only talk about at 2am.</p>
           <p>I'm not writing from the top of the mountain. I'm writing from the middle of it — what's working, what isn't, and what I'm still learning.</p>
           <a class="btn btn-ghost btn-sm" href="about.html">More about me →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec subscribe-cta" id="subscribe">
+      <div class="wrap">
+        <div class="signup">
+          <h2 class="subscribe-title">One honest essay a week.</h2>
+          <p class="subscribe-sub">Join on Substack. No spam, unsubscribe anytime.</p>
+          <!-- Our own form, posting to Substack's subscribe page: matches the site
+               and lets us count signups per page (the embed iframe couldn't). -->
+          <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+            <label class="sr-only" for="sub-email">Email address</label>
+            <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
+            <input type="hidden" name="utm_source" value="blakecody.com" />
+            <input type="hidden" name="utm_medium" value="referral" />
+            <input type="hidden" name="utm_campaign" value="subscribe" />
+            <input type="hidden" name="utm_content" value="home" />
+            <button type="submit" class="sub-submit">Subscribe →</button>
+          </form>
+          <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
+          <p class="sub-latest" id="sub-latest" hidden></p>
         </div>
       </div>
     </section>
@@ -203,34 +233,13 @@
           <h2><i>Aligned</i></h2>
           <p class="panel-sub">Lead with Love, Live with Intention</p>
           <p>A field guide to leading with love and living with intention. Being written now — the opening chapter is free.</p>
-          <a class="btn" href="book.html" data-track="cta-book-panel">Read Chapter 1 →</a>
+          <a class="btn btn-ghost" href="book.html" data-track="cta-book-panel">Read Chapter 1 →</a>
         </div>
         <div class="panel" id="reflect">
           <p class="kicker">Reflect with me</p>
           <h2>Going through something?</h2>
           <p>Write to me. I read every message and reply personally by email.</p>
           <a class="btn btn-ghost" href="reflect.html" data-track="cta-reflect-panel">Start writing →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec subscribe-cta" id="subscribe">
-      <div class="wrap">
-        <div class="signup">
-          <h2 class="subscribe-title">One honest essay a week.</h2>
-          <p class="subscribe-sub">Join on Substack. No spam, unsubscribe anytime.</p>
-          <!-- Our own form, posting to Substack's subscribe page: matches the site
-               and lets us count signups per page (the embed iframe couldn't). -->
-          <form class="sub-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
-            <label class="sr-only" for="sub-email">Email address</label>
-            <input type="email" id="sub-email" name="email" placeholder="Your email address" autocomplete="email" required />
-            <input type="hidden" name="utm_source" value="blakecody.com" />
-            <input type="hidden" name="utm_medium" value="referral" />
-            <input type="hidden" name="utm_campaign" value="subscribe" />
-            <input type="hidden" name="utm_content" value="home" />
-            <button type="submit" class="sub-submit">Subscribe →</button>
-          </form>
-          <p class="sub-note">You'll confirm on Substack. Free, and you can unsubscribe any time.</p>
         </div>
       </div>
     </section>

@@ -302,12 +302,10 @@ function buildIntro(intro) {
   setTimeout(() => intro.remove(), 2100);
 }
 
-// Tag the start-here cards' fallback (archive) links for Substack's own stats.
-if (CONFIG.substackUrl) {
-  document.querySelectorAll(".start-card").forEach((card, i) => {
-    card.href = withUtm(CONFIG.substackUrl.replace(/\/$/, "") + "/archive", "home-start", "card-" + (i + 1));
-  });
-}
+// Tag the start-here cards' links (each points at its post) for Substack's own stats.
+document.querySelectorAll(".start-card").forEach((card, i) => {
+  card.href = withUtm(card.getAttribute("href"), "home-start", "card-" + (i + 1));
+});
 
 // Point the Substack links (nav + book CTA) at the configured URL.
 if (CONFIG.substackUrl) {
@@ -359,6 +357,8 @@ if (chapterForm) {
       const dl = document.getElementById("chapter-dl");
       if (gate) gate.hidden = true;
       if (dl) dl.href = CONFIG.chapterPdf;
+      const sub = document.getElementById("chapter-sub");
+      if (sub) sub.href = withUtm(CONFIG.substackUrl + "/subscribe?email=" + encodeURIComponent(email), "subscribe", "book-chapter-done");
       if (done) {
         done.hidden = false;
         done.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -899,6 +899,15 @@ const SAMPLE_POSTS = [
   },
 ];
 
+/* Home signup: "Latest: <newest essay> · <date>", so the block shows the
+   newsletter is alive. Stays hidden if the feed fails. */
+function showLatest(post) {
+  const el = document.getElementById("sub-latest");
+  if (!el || !post || !post.link || post.link === "#") return;
+  el.innerHTML = `Latest: <a id="sub-latest-link" href="${escapeHtml(withUtm(post.link, "home-latest", "signup"))}" target="_blank" rel="noopener">${escapeHtml(post.title)}</a> · <span>${fmtDate(post.pubDate)}</span>`;
+  el.hidden = false;
+}
+
 async function init() {
   // Only the Home and Writing pages list posts; the About page wants the
   // Substack avatar. Other pages (Book, Reflect) need no feed at all.
@@ -926,6 +935,7 @@ async function init() {
     }
     render(posts);
     linkStartCards(posts);
+    showLatest(posts[0]);
   } catch (err) {
     console.error(err);
     track("feed-error", "Substack feed failed");
