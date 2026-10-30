@@ -521,6 +521,12 @@ body {
 }
 .panel .btn { align-self: flex-start; margin-top: 6px; }
 
+/* Hero signup: the newsletter form on cream, left-aligned under the sub. */
+.home-hero .hero-form { margin: 0 0 12px; max-width: 470px; }
+.hero-form input[type="email"] { border: 1px solid var(--ink-soft); background: var(--bg-card); }
+.home-hero .hero-form input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; box-shadow: none; }
+.hero-form .btn { white-space: nowrap; }
+
 /* Newsletter block — the same navy card on every page */
 .signup {
   background: var(--navy);
@@ -540,6 +546,9 @@ body {
 }
 .subscribe-sub { color: var(--on-navy); max-width: 32em; margin: 0 auto 26px; }
 .sub-note { font-size: 0.85rem; color: var(--on-navy); margin: 14px 0 0; }
+.sub-latest { font-size: 0.875rem; color: var(--on-navy); margin: 18px auto 0; max-width: 40em; }
+.sub-latest span { white-space: nowrap; }
+.sub-latest a { color: #fff; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
 .sub-form {
   display: flex;
   gap: 10px;
@@ -810,6 +819,8 @@ body {
 .chapter-done h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin: 0 0 8px; }
 .chapter-done p { color: var(--ink-soft); max-width: 30em; margin: 0 auto; }
 .chapter-done a { color: var(--accent); font-weight: 600; }
+.chapter-done .chapter-more { margin-top: 10px; }
+.chapter-more a { display: inline-flex; align-items: center; min-height: 44px; }
 @media (max-width: 560px) { .chapter-form { flex-direction: column; } }
 
 /* The reward */
@@ -1457,7 +1468,8 @@ body.plain { background: var(--bg); }
 
 @media (max-width: 560px) {
   .wrap { padding: 0 16px; }
-  .home-ctas .btn { width: 100%; }
+  .home-ctas .btn, .hero-form .btn { width: 100%; }
+  .hero-form input[type="email"] { min-height: 48px; }
   .home-title { font-size: 2.15rem; margin-bottom: 16px; }
   .home-sub { font-size: 1.0625rem; margin-bottom: 22px; }
   .home-ctas { margin-bottom: 18px; }
