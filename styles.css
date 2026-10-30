@@ -838,12 +838,6 @@ body {
 
 /* Posts */
 .posts { padding: 16px 0 8px; }
-.posts-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-}
 .see-all {
   display: inline-block;
   color: var(--accent);
