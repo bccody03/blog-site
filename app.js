@@ -151,9 +151,10 @@ if (navToggle && siteNav && els.header) {
   window.matchMedia("(min-width: 861px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 }
 
-/* Intro splash: name pops in, a cross + box draw around it, shine, then the
-   pieces break away. Plays once per browsing session — refreshing or coming
-   back to Home in the same visit skips it. (Also skipped for reduced motion.) */
+/* Intro splash (~1.4s): name pops in, a cross + box draw around it, a brief
+   shine, then the splash fades while the hero eases in underneath. Plays once
+   per browsing session — refreshing or coming back to Home in the same visit
+   skips it. (Also skipped for reduced motion.) */
 const intro = document.getElementById("intro");
 if (intro) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -164,13 +165,60 @@ if (intro) {
   } else {
     try { sessionStorage.setItem("intro-seen", "1"); } catch (e) {}
     intro.classList.add("play");
+    // Hold the hero entrance until the splash hands off (see styles.css).
+    document.documentElement.classList.add("intro-playing");
     try {
       buildIntro(intro);
     } catch (e) {
       console.error("intro failed:", e);
       intro.remove(); // never let a hiccup leave the overlay stuck
+      document.documentElement.classList.remove("intro-playing");
     }
   }
+}
+
+/* Motion (see the Motion section of styles.css). The inline head script adds
+   html.motion only when the visitor allows motion; it removes it again unless
+   this flag is set, so a failed script never leaves anything hidden. */
+window.__motionReady = true;
+const motionOn = document.documentElement.classList.contains("motion");
+
+// Scroll reveals: section heads and cards ease up as they come into view.
+// Anything already on screen at load is left alone (no flash), and each
+// element drops its reveal classes once settled so its hover still works.
+const REVEAL = ".sec-head, .start-card, .home-quote, .home-bio, .talk, .speak-cta, .panel, .signup, .post";
+const revealIO = motionOn
+  ? new IntersectionObserver((entries) => {
+      let i = 0;
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        revealIO.unobserve(el);
+        el.style.transitionDelay = Math.min(i++, 4) * 70 + "ms";
+        el.classList.add("in");
+        const settle = () => { el.classList.remove("rv", "in"); el.style.transitionDelay = ""; };
+        const onEnd = (ev) => { if (ev.target === el) { el.removeEventListener("transitionend", onEnd); settle(); } };
+        el.addEventListener("transitionend", onEnd);
+        setTimeout(settle, 1100); // in case transitionend never fires
+      });
+    }, { rootMargin: "0px 0px -8% 0px" })
+  : null;
+function watchReveals(root, skipVisible) {
+  if (!revealIO) return;
+  root.querySelectorAll(REVEAL).forEach((el) => {
+    if (el.classList.contains("rv") || el.dataset.revealed) return;
+    el.dataset.revealed = "1";
+    if (skipVisible && el.getBoundingClientRect().top < window.innerHeight) return;
+    el.classList.add("rv");
+    revealIO.observe(el);
+  });
+}
+watchReveals(document, true);
+
+// Pause the heartbeat pulse while the photo panel is off screen.
+const portrait = document.querySelector(".home-portrait");
+if (motionOn && portrait) {
+  new IntersectionObserver(([en]) => portrait.classList.toggle("is-offscreen", !en.isIntersecting)).observe(portrait);
 }
 
 function buildIntro(intro) {
@@ -178,33 +226,7 @@ function buildIntro(intro) {
   const W = window.innerWidth || 1000;
   const H = window.innerHeight || 700;
 
-  const t0 = Date.now();
-
-  // 1) Four backdrop quadrants. At the end each peels off into its OWN corner
-  //    (top-left piece to the top-left of the screen, and so on). Once the name
-  //    box is measured they get re-cut so the middle box is its own piece.
-  // All pieces share the identical full-screen gradient, so they OVERLAP by a
-  // little (eps) — otherwise anti-aliasing at the clip edges lets a hairline of
-  // the page behind peek through as a faint seam line.
-  const eps = 0.6;
-  const corners = [
-    { clip: `polygon(0 0, ${50 + eps}% 0, ${50 + eps}% ${50 + eps}%, 0 ${50 + eps}%)`, dx: -45, dy: -45 }, // top-left
-    { clip: `polygon(${50 - eps}% 0, 100% 0, 100% ${50 + eps}%, ${50 - eps}% ${50 + eps}%)`, dx: 45, dy: -45 }, // top-right
-    { clip: `polygon(0 ${50 - eps}%, ${50 + eps}% ${50 - eps}%, ${50 + eps}% 100%, 0 100%)`, dx: -45, dy: 45 }, // bottom-left
-    { clip: `polygon(${50 - eps}% ${50 - eps}%, 100% ${50 - eps}%, 100% 100%, ${50 - eps}% 100%)`, dx: 45, dy: 45 }, // bottom-right
-  ];
-  const cornerEls = [];
-  for (const cfg of corners) {
-    const el = document.createElement("div");
-    el.className = "corner";
-    el.style.clipPath = cfg.clip;
-    el.style.setProperty("--dx", cfg.dx + "vw");
-    el.style.setProperty("--dy", cfg.dy + "vh");
-    intro.appendChild(el);
-    cornerEls.push(el);
-  }
-
-  // 2) The name, centered on top. Pops in, then jumps out at the viewer.
+  // 1) The name, centered. Pops in (CSS).
   const center = document.createElement("div");
   center.className = "intro-center";
   const name = document.createElement("span");
@@ -213,12 +235,10 @@ function buildIntro(intro) {
   center.appendChild(name);
   intro.appendChild(center);
 
-  // 3) A perfect cross that splits the page into four boxes — except its four
-  //    arms stop at a box traced around the name. The box is measured from the
-  //    name's real on-screen size so it always hugs it. Timeline (seconds),
-  //    compressed to ~2s total so it never competes with LCP:
-  //    0–0.2 name pops · 0.2–0.9 lines draw (arms, then the box) ·
-  //    0.9–1.6 everything shines · 1.6 corners peel + name jumps out.
+  // 2) A cross that splits the page into four, its arms stopping at a box
+  //    traced around the name (measured from the name's real on-screen size).
+  //    Timeline (seconds): 0–0.25 name pops · ~0.2–0.8 lines draw (arms, then
+  //    the box) · 0.7–1.05 shine · 1.0–1.4 splash fades, hero eases in.
   const start = () => {
     const rect = name.getBoundingClientRect();
     const padX = 32;
@@ -227,29 +247,6 @@ function buildIntro(intro) {
     const r = Math.min(95, ((rect.right + padX) / W) * 100);
     const t = Math.max(8, ((rect.top - padY) / H) * 100);
     const b = Math.min(92, ((rect.bottom + padY) / H) * 100);
-
-    // Re-cut the backdrop so the pieces match the drawing: each corner piece is
-    // its quadrant MINUS the name box, and the box becomes its own piece that
-    // flies straight at the viewer. (Same gradient everywhere, so the re-cut is
-    // invisible until the break.)
-    const poly = (pts) => "polygon(" + pts.map((p) => p[0].toFixed(2) + "% " + p[1].toFixed(2) + "%").join(", ") + ")";
-    // Same eps overlap as at creation, so no hairline seams show between pieces.
-    const e = eps;
-    const notched = [
-      [[0, 0], [50 + e, 0], [50 + e, t + e], [l + e, t + e], [l + e, 50 + e], [0, 50 + e]], // top-left
-      [[50 - e, 0], [100, 0], [100, 50 + e], [r - e, 50 + e], [r - e, t + e], [50 - e, t + e]], // top-right
-      [[0, 50 - e], [l + e, 50 - e], [l + e, b - e], [50 + e, b - e], [50 + e, 100], [0, 100]], // bottom-left
-      [[100, 50 - e], [100, 100], [50 - e, 100], [50 - e, b - e], [r - e, b - e], [r - e, 50 - e]], // bottom-right
-    ];
-    notched.forEach((pts, i) => { cornerEls[i].style.clipPath = poly(pts); });
-    const boxEl = document.createElement("div");
-    boxEl.className = "boxpiece";
-    boxEl.style.clipPath = poly([[l - e, t - e], [r + e, t - e], [r + e, b + e], [l - e, b + e]]);
-    // Its exit is timed in CSS from element creation, so compensate for the
-    // measuring delay to fire at the same absolute moment as the corners (1.6s).
-    const elapsed = (Date.now() - t0) / 1000;
-    boxEl.style.animationDelay = Math.max(0, 1.6 - elapsed).toFixed(2) + "s";
-    intro.appendChild(boxEl);
 
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("class", "cracks");
@@ -269,19 +266,19 @@ function buildIntro(intro) {
       const sl = pxLen(pts);
       pl.style.strokeDasharray = sl.toFixed(1);
       pl.style.strokeDashoffset = sl.toFixed(1);
-      // The three values map to: draw / shine / fade.
-      pl.style.animationDuration = drawDur + "s, 0.7s, 0.2s";
-      pl.style.animationDelay = drawDelay + "s, 0.7s, 1.4s";
+      // The two values map to: draw / shine.
+      pl.style.animationDuration = drawDur + "s, 0.35s";
+      pl.style.animationDelay = drawDelay + "s, 0.5s";
       svg.appendChild(pl);
     };
-    // Cross arms, drawing in from the edges to the box (0.4s)...
-    addLine([[50, 0], [50, t]], 0.4, 0);
-    addLine([[50, 100], [50, b]], 0.4, 0);
-    addLine([[0, 50], [l, 50]], 0.4, 0);
-    addLine([[100, 50], [r, 50]], 0.4, 0);
-    // ...then the box traces around the name (0.3s), starting where the left
+    // Cross arms, drawing in from the edges to the box (0.35s)...
+    addLine([[50, 0], [50, t]], 0.35, 0);
+    addLine([[50, 100], [50, b]], 0.35, 0);
+    addLine([[0, 50], [l, 50]], 0.35, 0);
+    addLine([[100, 50], [r, 50]], 0.35, 0);
+    // ...then the box traces around the name (0.25s), starting where the left
     // arm lands and looping the whole way round.
-    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.3, 0.4);
+    addLine([[l, 50], [l, t], [r, t], [r, b], [l, b], [l, 50]], 0.25, 0.35);
     intro.appendChild(svg);
   };
   // Wait for the name to pop in (and the webfont to settle) before measuring.
@@ -290,7 +287,12 @@ function buildIntro(intro) {
   const fontCap = new Promise((res) => setTimeout(res, 400)); // don't stall if fonts hang
   Promise.all([minDelay, Promise.race([fontsReady, fontCap])]).then(start);
 
-  setTimeout(() => intro.remove(), 2100);
+  // 3) Hand-off: fade the splash and let the hero entrance play underneath.
+  setTimeout(() => {
+    intro.classList.add("intro-out");
+    document.documentElement.classList.remove("intro-playing");
+  }, 1000);
+  setTimeout(() => intro.remove(), 1450);
 }
 
 // Tag the start-here cards' links (each points at its post) for Substack's own stats.
@@ -874,6 +876,7 @@ async function init() {
     setState("Loading the latest…");
     const { posts } = await loadFromSubstack(CONFIG.substackUrl);
     render(posts);
+    if (els.list) watchReveals(els.list, false);
     linkStartCards(posts);
     showLatest(posts[0]);
   } catch (err) {

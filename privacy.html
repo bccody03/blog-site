@@ -57,8 +57,9 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=33" />
-  <script src="app.js?v=33" defer></script>
+  <script>/* Gentle motion only when the visitor allows it; dropped again if app.js never confirms. */!function(d){if(matchMedia("(prefers-reduced-motion: no-preference)").matches&&"IntersectionObserver"in window){d.classList.add("motion");try{/^\/(index\.html)?$/.test(location.pathname)&&sessionStorage.getItem("intro-seen")!=="1"&&d.classList.add("intro-playing")}catch(e){}setTimeout(function(){window.__motionReady||d.classList.remove("motion","intro-playing")},2500)}}(document.documentElement)</script>
+  <link rel="stylesheet" href="styles.css?v=34" />
+  <script src="app.js?v=34" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
