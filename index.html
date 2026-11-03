@@ -10,19 +10,19 @@
   <link rel="alternate" type="application/rss+xml" title="Blake Cody on Substack" href="https://bccody.substack.com/feed" />
 
   <!-- The headshot is the largest thing above the fold: start fetching it now. -->
-  <link rel="preload" as="image" href="blake-hero.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="blake-hero-wide.webp" fetchpriority="high" />
 
   <!-- Webfonts: loaded without blocking the first paint. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=33" />
+  <link rel="stylesheet" href="styles.css?v=36" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <meta name="theme-color" content="#b4232c" />
+  <meta name="theme-color" content="#2f4bff" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
@@ -102,7 +102,7 @@
   </script>
 
   <!-- Scripts start downloading now and run once the page is parsed. -->
-  <script src="app.js?v=33" defer></script>
+  <script src="app.js?v=36" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="plain">
@@ -112,6 +112,7 @@
 
   <header class="site-header" id="site-header">
     <div class="wrap">
+      <div class="avatar" id="home-avatar" aria-hidden="true"><img src="blake-avatar.webp" alt="" width="160" height="160" /></div>
       <a class="brand" href="/">Blake Cody<span>.</span></a>
       <nav class="nav" id="site-nav" aria-label="Site">
         <a href="articles.html">Essays</a>
@@ -125,37 +126,48 @@
     </div>
   </header>
 
+  <div class="prog" id="prog" aria-hidden="true"></div>
+
   <main class="home">
-    <div class="wrap">
-      <header class="home-hero">
-        <div>
-          <p class="eyebrow">Writer · Speaker in the making · Michigan</p>
-          <h1 class="home-title">I write about rebuilding — from the middle of it.</h1>
-          <p class="home-sub">Weekly essays on discipline, letting go and starting over. For high performers who look fine on the outside and are still figuring it out on the inside.</p>
-          <form class="sub-form hero-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener">
-            <label class="sr-only" for="hero-email">Email address</label>
-            <input type="email" id="hero-email" name="email" placeholder="Your email address" autocomplete="email" required />
-            <input type="hidden" name="utm_source" value="blakecody.com" />
-            <input type="hidden" name="utm_medium" value="referral" />
-            <input type="hidden" name="utm_campaign" value="subscribe" />
-            <input type="hidden" name="utm_content" value="home-hero" />
-            <button type="submit" class="btn">Get the weekly essay →</button>
-          </form>
-          <p class="home-ctas">
-            <a class="btn btn-ghost" href="#essays" data-track="cta-hero-essays">Start with my best essays</a>
-          </p>
-          <p class="home-tagline">Written from inside the work, not after it.</p>
-        </div>
-        <div class="home-portrait">
-          <!-- Heartbeat: jagged on the left, a calm wave on the right. -->
-          <svg viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" fill="none" stroke="#b4232c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <img src="blake-hero.webp" alt="Blake Cody smiling in a red polo." width="610" height="650" fetchpriority="high" decoding="async" />
-          <div class="home-badge"><b>Hi, I'm Blake.</b>23 · IT by day · writing the book <i>Aligned</i></div>
-        </div>
-      </header>
-    </div>
+    <!-- Hero: the figure is the whole first screen. Scrolling carries him up and a
+         white sheet rises over him; app.js adds the lean-in, the deepening blue and the pop. -->
+    <section class="hero" id="hero" aria-label="Blake Cody">
+      <p class="topline" aria-hidden="true">Writer · Speaker in the making · Michigan</p>
+      <div class="wordmark" id="wordmark" aria-hidden="true">Blake Cody</div>
+      <!-- Heartbeat: jagged on the left, a calm wave on the right. -->
+      <svg class="beat" id="beat" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" />
+      </svg>
+      <div class="shade" id="shade"></div>
+      <div class="face" id="face">
+        <div class="tilt" id="tilt"><div class="pulser" id="pulser">
+          <img id="faceImg" src="blake-hero-wide.webp" alt="Blake Cody smiling in a red polo." width="870" height="830" fetchpriority="high" decoding="async" draggable="false" />
+          <span class="ring" id="ring"></span>
+        </div></div>
+      </div>
+      <div class="home-badge" id="badge"><b>Hi, I'm Blake.</b>23 · IT by day · writing the book <i>Aligned</i></div>
+      <div class="cue" id="cue" aria-hidden="true">Scroll<span></span></div>
+    </section>
+
+    <section class="sheet pre" id="sheet">
+      <div class="wrap">
+        <h1 class="home-title" id="home-title">I write about rebuilding — <em>from the middle of it.</em></h1>
+        <p class="home-sub" data-pop>Weekly essays on discipline, letting go and starting over. For high performers who look fine on the outside and are still figuring it out on the inside.</p>
+        <form class="sub-form hero-form" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-pop>
+          <label class="sr-only" for="hero-email">Email address</label>
+          <input type="email" id="hero-email" name="email" placeholder="Your email address" autocomplete="email" required />
+          <input type="hidden" name="utm_source" value="blakecody.com" />
+          <input type="hidden" name="utm_medium" value="referral" />
+          <input type="hidden" name="utm_campaign" value="subscribe" />
+          <input type="hidden" name="utm_content" value="home-hero" />
+          <button type="submit" class="btn">Get the weekly essay →</button>
+        </form>
+        <p class="home-ctas" data-pop>
+          <a class="btn btn-ghost" href="#essays" data-track="cta-hero-essays">Start with my best essays</a>
+        </p>
+        <p class="home-tagline" data-pop>Written from inside the work, not after it.</p>
+      </div>
+    </section>
 
     <!-- Start here: three essays, linked straight to their posts. When the feed
          loads, app.js re-matches each card by title (data-title) so a changed
