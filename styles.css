@@ -555,7 +555,7 @@ body {
   position: relative;
   opacity: 0;
 }
-.avatar img { position: absolute; width: 106px; height: auto; max-width: none; left: -33px; top: -2px; }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
 @media (max-width: 700px) {
   .hero { height: 84svh; min-height: 520px; }
