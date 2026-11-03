@@ -569,7 +569,7 @@ function postLimit() {
 // Default cover for posts with no image (or whose image fails to load): navy,
 // the red heartbeat line, and the title in Fraunces. Decorative — the title
 // is repeated as text under it, so it's hidden from screen readers.
-const HEARTBEAT_SVG = '<svg viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" fill="none" stroke="#b4232c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const HEARTBEAT_SVG = '<svg viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" fill="none" stroke="#8fa1ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function defaultCover(escapedTitle) {
   return `<div class="post-thumb post-thumb-default" aria-hidden="true">${HEARTBEAT_SVG}<span class="post-cover-title">${escapedTitle}</span></div>`;
 }
@@ -888,5 +888,146 @@ async function init() {
     }
   }
 }
+
+
+/* ------------------------------------------------------------
+   Home page motion. Everything here is decoration on top of a normal page:
+   with reduced motion, no IntersectionObserver or no script, the hero is a still
+   picture, the sheet and every section are simply visible.
+   - The figure scrolls up with the page, a little slower, so the white sheet climbs over him.
+   - He leans in slightly (never a full enlarge), the blue deepens, the heartbeat stretches.
+   - The headline pops in word by word when the sheet arrives; sections below rise into place.
+   - Tapping his face pulses the heartbeat. On desktop the figure follows the mouse a touch.
+   ------------------------------------------------------------ */
+function initHomeMotion() {
+  const hero = document.getElementById("hero");
+  const sheet = document.getElementById("sheet");
+  if (!hero || !sheet) return;
+
+  const prog = document.getElementById("prog");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canObserve = "IntersectionObserver" in window;
+  const $ = (id) => document.getElementById(id);
+  const face = $("face"), tilt = $("tilt"), pulser = $("pulser"), ring = $("ring"), beat = $("beat"),
+        wordmark = $("wordmark"), shade = $("shade"), badge = $("badge"), cue = $("cue"), avatar = $("home-avatar");
+  const clamp = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+  // Tap the face: pulse, ring, heartbeat burst (a small reward, not required for anything).
+  const faceImg = $("faceImg");
+  if (faceImg && !reduce) {
+    faceImg.addEventListener("click", () => {
+      pulser.classList.remove("pulse"); ring.classList.remove("go"); beat.classList.remove("fast");
+      void pulser.offsetWidth;
+      pulser.classList.add("pulse"); ring.classList.add("go"); beat.classList.add("fast");
+      track("home-face-tap", "Tapped the face");
+    });
+  }
+
+  if (reduce) return; // still hero, nothing hidden, nothing moving
+
+  // Split the headline into words so they can pop in one by one.
+  const title = $("home-title");
+  const words = [];
+  if (title) {
+    const split = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+            const w = document.createElement("span");
+            w.className = "w pp"; w.textContent = part; words.push(w); frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) split(n);
+      });
+    };
+    split(title);
+  }
+  let pendingRev = [], revealIfPast = () => {};
+  const pops = [...words, ...sheet.querySelectorAll("[data-pop]")];
+  pops.forEach((el, i) => { el.classList.add("pp"); el.style.setProperty("--i", i); });
+
+  if (canObserve) {
+    document.documentElement.classList.add("js");
+    // Pop: when the sheet has risen about a quarter of the way up the screen.
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { sheet.classList.remove("pre"); io.disconnect(); }
+    }, { rootMargin: "0px 0px -24% 0px" });
+    io.observe(sheet);
+
+    // Rise: cards, panels and headings below the sheet ease up as they arrive.
+    const targets = [".start-card", ".talk", ".panel", ".speak-cta", ".signup", ".sec-head", ".home-quote", ".home-bio"];
+    targets.forEach((sel) => document.querySelectorAll(sel).forEach((el, i) => {
+      el.classList.add("rev"); el.style.setProperty("--i", i % 3);
+    }));
+    const rio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        el.classList.add("in"); rio.unobserve(el);
+        // Hand the element back to its normal styles (hover lift etc.) once it has landed.
+        setTimeout(() => el.classList.remove("rev", "in"), 1500);
+      });
+    }, { rootMargin: "0px 0px -12% 0px" });
+    document.querySelectorAll(".rev").forEach((el) => rio.observe(el));
+    // Anything already scrolled past (a deep link, a fast flick) must not stay hidden.
+    pendingRev = [...document.querySelectorAll(".rev")];
+    revealIfPast = () => {
+      if (!pendingRev.length) return;
+      pendingRev = pendingRev.filter((el) => {
+        if (!el.classList.contains("rev")) return false;
+        if (el.getBoundingClientRect().bottom < 0) { el.classList.add("in"); rio.unobserve(el); setTimeout(() => el.classList.remove("rev", "in"), 1500); return false; }
+        return !el.classList.contains("in");
+      });
+    };
+  }
+
+  // Scroll-linked motion.
+  let px = 0, py = 0, queued = false;
+  const render = () => {
+    queued = false;
+    const y = window.pageYOffset;
+    const hh = hero.offsetHeight || window.innerHeight;
+    const t = Math.min(y, hh), u = t / hh;
+    if (y < hh * 1.3) {
+      face.style.setProperty("--fy", t * 0.22 + "px");
+      face.style.setProperty("--fs", 1 + 0.06 * u);
+      wordmark.style.setProperty("--wy", t * 0.42 + "px");
+      wordmark.style.setProperty("--wx", -u * 5 + "vw");
+      wordmark.style.letterSpacing = -0.04 + 0.06 * u + "em";
+      wordmark.style.opacity = 1 - 0.55 * u;
+      beat.style.setProperty("--by", t * 0.32 + "px");
+      beat.style.setProperty("--bx", -u * 5 + "vw");
+      beat.style.setProperty("--bs", 1 + 0.55 * u);
+      shade.style.setProperty("--shade", 0.62 * u);
+      badge.style.transform = "translateX(" + -u * 60 + "px)";
+      badge.style.opacity = 1 - 1.5 * u;
+      cue.style.opacity = 1 - 3 * u;
+      const par = 1 - clamp(y / (hh * 0.4));
+      tilt.style.transform = "translate(" + px * 12 * par + "px," + py * 8 * par + "px) rotate(" + px * 0.6 * par + "deg)";
+    }
+    revealIfPast();
+    if (avatar) {
+      const a = clamp((y - hh * 0.72) / (hh * 0.2));
+      avatar.style.opacity = a; avatar.style.width = 40 * a + "px"; avatar.style.marginRight = -12 * (1 - a) + "px";
+    }
+    if (prog) {
+      const doc = document.documentElement.scrollHeight - window.innerHeight;
+      prog.style.setProperty("--p", doc > 0 ? clamp(y / doc) : 0);
+    }
+  };
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(render); } };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
+    const nx = (e.clientX / window.innerWidth - 0.5) * 2, ny = (e.clientY / window.innerHeight - 0.5) * 2;
+    px += (nx - px) * 0.5; py += (ny - py) * 0.5; schedule();
+  }, { passive: true });
+  render();
+}
+initHomeMotion();
 
 init();

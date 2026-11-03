@@ -1,18 +1,24 @@
 :root {
-  --bg: #f6f1e7;        /* cream: page background */
-  --bg-card: #fffdf8;   /* paper: cards */
-  --ink: #16213a;       /* headings, body text */
-  --ink-soft: #5b6476;  /* muted: secondary text */
-  --line: #e3dacb;      /* borders, dividers */
-  --navy: #1f2a44;      /* photo panel, talk cards, signup block */
-  --navy-2: #2a3757;
-  --accent: #b4232c;    /* red: buttons, eyebrow labels, accents */
-  --accent-hover: #9c1d25;
-  --accent-soft: #d9737b;   /* borders and hover edges only, never text */
-  --red-soft: #f3dcdd;
-  --on-navy: #c9d0e0;   /* body text on navy */
+  /* Two quiet colors + one loud one.
+     Quiet: a clean off-white page and deep ink. Loud: cobalt, used only for the main button,
+     the color field behind the face, the signup block, the logo dot and the heartbeat. */
+  --bg: #f7f8fb;        /* quiet 1: page background */
+  --bg-card: #ffffff;   /* cards, form surfaces */
+  --ink: #0e1630;       /* quiet 2: headings, body, dark panels */
+  --ink-soft: #566079;  /* muted: secondary text */
+  --line: #e3e7f0;      /* borders, dividers */
+  --navy: #0e1630;      /* dark panels: talk cards, gate card, default cover */
+  --navy-2: #1a2547;
+  --accent: #2f4bff;    /* LOUD: cobalt */
+  --accent-hover: #2038d8;
+  --accent-soft: #e3e7f0;   /* borders and hover edges only, never text */
+  --red-soft: #e8ecff;      /* quiet cobalt tint (name kept for old rules) */
+  --on-navy: #c5cce0;   /* body text on dark panels */
+  --on-accent-soft: #e6eaff; /* body text on cobalt */
+  --danger: #c2252f;    /* error messages only */
+  --hdr: 64px;
   --radius: 20px;
-  --shadow: 0 1px 2px rgba(22, 33, 58, 0.05), 0 8px 24px rgba(22, 33, 58, 0.07);
+  --shadow: 0 1px 2px rgba(14, 22, 48, 0.05), 0 8px 24px rgba(14, 22, 48, 0.07);
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Inter", system-ui, -apple-system, sans-serif;
 }
@@ -35,7 +41,7 @@
 .corner {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #16213a 0%, #1f2a44 60%, #2a3757 100%);
+  background: linear-gradient(135deg, #2038d8 0%, #2f4bff 60%, #5870ff 100%);
   animation: cornerOff 0.3s ease-in 1.6s forwards;
   will-change: transform, opacity, filter;
   backface-visibility: hidden;
@@ -51,7 +57,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(135deg, #16213a 0%, #1f2a44 60%, #2a3757 100%);
+  background: linear-gradient(135deg, #2038d8 0%, #2f4bff 60%, #5870ff 100%);
   animation: boxOut 0.2s cubic-bezier(0.55, 0, 0.85, 0.4) 1.6s forwards;
   will-change: transform, opacity;
   backface-visibility: hidden;
@@ -97,7 +103,7 @@
 }
 .cracks polyline {
   fill: none;
-  stroke: rgba(246, 241, 231, 0.85);
+  stroke: rgba(255, 255, 255, 0.85);
   stroke-width: 2.5;
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
@@ -119,7 +125,7 @@
 @keyframes crackDraw { to { stroke-dashoffset: 0; } }
 /* Two seconds of shining: ramp up to a wide soft glow, breathe once, hold. */
 @keyframes crackShine {
-  0% { stroke: rgba(246, 241, 231, 0.85); stroke-width: 2.5; }
+  0% { stroke: rgba(255, 255, 255, 0.85); stroke-width: 2.5; }
   25% {
     stroke: #ffffff;
     stroke-width: 4;
@@ -225,7 +231,7 @@ body {
   left: 0;
   right: 0;
   z-index: 20;
-  background: rgba(246, 241, 231, 0.92);
+  background: rgba(247, 248, 251, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
@@ -313,72 +319,126 @@ body {
 .section-label { margin: 8px 0 4px; }
 
 /* ================= Homepage ================= */
-.home { padding-top: 64px; }
+.home { padding-top: 0; }
 
-.home-hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 48px;
-  align-items: center;
-  padding: 40px 0 72px;
-}
-.home-hero .eyebrow { margin: 0 0 18px; }
-.home-title {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(2.5rem, 5.4vw, 4rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin: 0 0 22px;
-}
-.home-sub {
-  font-size: 1.1875rem;
-  color: var(--ink-soft);
-  max-width: 30em;
-  margin: 0 0 30px;
-}
-.home-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin: 0 0 26px; }
-.home-tagline {
-  font-family: var(--serif);
-  font-style: italic;
-  color: var(--ink-soft);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.home-portrait {
+/* Hero: Blake's figure is the whole first screen. It scrolls away like any page
+   (a little slower than the rest, so the white sheet climbs up over him). */
+.hero {
   position: relative;
-  background: var(--navy);
-  border-radius: 28px;
-  aspect-ratio: 4 / 4.4;
+  height: min(100vh, 900px);
+  height: min(100svh, 900px);
+  min-height: 560px;
+  background: var(--accent);
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  z-index: 1;
 }
-.home-portrait img {
-  position: relative;
-  z-index: 2;
-  width: 104%;
-  max-width: none;
-  margin-bottom: -1%;
-  height: auto;
-  display: block;
-}
-.home-portrait svg {
+.wordmark {
   position: absolute;
   left: 0;
   right: 0;
+  top: calc(var(--hdr) + env(safe-area-inset-top, 0px) + 3svh);
+  text-align: center;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: min(17vw, 21svh);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.24);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  transform: translate(var(--wx, 0px), var(--wy, 0px));
+  will-change: transform, opacity;
+}
+.beat {
+  position: absolute;
+  left: -8%;
+  width: 116%;
   top: 46%;
+  height: clamp(60px, 12svh, 120px);
+  pointer-events: none;
+  transform: translate(var(--bx, 0px), var(--by, 0px)) scaleY(var(--bs, 1));
+  will-change: transform;
+}
+.beat path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: beatDraw 1.6s 0.2s cubic-bezier(0.3, 0.7, 0.2, 1) forwards, beatGlow 2.8s 1.9s ease-in-out infinite;
+}
+.beat.fast path { animation: beatGlow 0.5s ease-in-out 3; stroke-dashoffset: 0; }
+@keyframes beatDraw { to { stroke-dashoffset: 0; } }
+@keyframes beatGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 22, 48, 0) 15%, rgba(14, 22, 48, 0.8) 100%);
+  opacity: var(--shade, 0);
+  pointer-events: none;
+}
+.face {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 90%;
+  aspect-ratio: 870 / 830;
+  max-width: 100vw;
+  transform: translate(-50%, var(--fy, 0px)) scale(var(--fs, 1));
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+.tilt { position: absolute; inset: 0; will-change: transform; }
+.pulser { position: absolute; inset: 0; }
+.pulser.pulse { animation: facePulse 0.55s ease-out; }
+@keyframes facePulse { 0% { transform: scale(1); } 35% { transform: scale(1.03); } 100% { transform: scale(1); } }
+.pulser img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  z-index: 1;
-  opacity: 0.9;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  display: block;
+  cursor: pointer;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.ring {
+  position: absolute;
+  left: 62%;
+  top: 78%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  pointer-events: none;
+}
+.ring.go { animation: faceRing 0.9s ease-out; }
+@keyframes faceRing { 0% { opacity: 0.9; transform: scale(0.3); } 100% { opacity: 0; transform: scale(6); } }
+.topline {
+  position: absolute;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  top: calc(var(--hdr) + env(safe-area-inset-top, 0px) + 14px);
+  margin: 0;
+  color: var(--on-accent-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .home-badge {
   position: absolute;
   z-index: 3;
-  left: 20px;
-  bottom: 20px;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  bottom: max(34px, env(safe-area-inset-bottom, 0px));
   background: var(--bg-card);
   color: var(--ink);
   border-radius: 14px;
@@ -388,6 +448,119 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 .home-badge b { display: block; font-size: 0.875rem; }
+.cue {
+  position: absolute;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: max(38px, env(safe-area-inset-bottom, 0px));
+  z-index: 3;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.cue span {
+  width: 2px;
+  height: 34px;
+  background: linear-gradient(#fff, transparent);
+  transform-origin: top;
+  animation: cueDrop 1.6s ease-in-out infinite;
+}
+@keyframes cueDrop { 0% { transform: scaleY(0); opacity: 0; } 40% { opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* The sheet that rises over him; the headline lives here. */
+.sheet {
+  position: relative;
+  z-index: 2;
+  margin-top: -34px;
+  background: var(--bg);
+  border-radius: 34px 34px 0 0;
+  box-shadow: 0 -18px 50px rgba(14, 22, 48, 0.22);
+  padding: clamp(56px, 9vw, 104px) 0 clamp(64px, 9vw, 110px);
+}
+.home-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 8.2vw, 6.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 24px;
+  max-width: 13em;
+  text-wrap: balance;
+}
+.home-title .w { display: inline-block; }
+.home-title em {
+  font-style: normal;
+  background-image: linear-gradient(transparent 64%, rgba(47, 75, 255, 0.28) 64%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.home-sub {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  color: var(--ink-soft);
+  max-width: 34em;
+  margin: 0 0 28px;
+}
+.home-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin: 0 0 22px; }
+.home-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* The pop and the rise. Only active when script is running (html.js). */
+.js .sheet.pre .pp { opacity: 0; transform: translateY(46px) scale(0.95); }
+.pp {
+  transition: opacity 0.5s ease-out, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.js .sheet.pre .home-title em { background-size: 0% 100%; }
+.sheet .home-title em { transition: background-size 0.9s 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.js .rev:not(.in) { opacity: 0; transform: translateY(46px) scale(0.97); }
+.rev {
+  transition: opacity 0.6s ease-out, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Reading progress under the header (home page) */
+.prog {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: calc(var(--hdr) + env(safe-area-inset-top, 0px));
+  height: 3px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--p, 0));
+  z-index: 31;
+  pointer-events: none;
+}
+
+/* Header avatar: Blake's face lands next to the name once the hero is behind you */
+.avatar {
+  flex: none;
+  width: 0;
+  height: 40px;
+  margin-right: -12px;
+  border-radius: 50%;
+  background: var(--accent);
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+}
+.avatar img { position: absolute; width: 106px; height: auto; max-width: none; left: -33px; top: -2px; }
+
+@media (max-width: 700px) {
+  .hero { height: 84svh; min-height: 520px; }
+  .face { max-width: 134vw; height: 78%; }
+}
 
 /* Sections */
 .sec { padding: 72px 0; border-top: 1px solid var(--line); }
@@ -521,15 +694,15 @@ body {
 }
 .panel .btn { align-self: flex-start; margin-top: 6px; }
 
-/* Hero signup: the newsletter form on cream, left-aligned under the sub. */
-.home-hero .hero-form { margin: 0 0 12px; max-width: 470px; }
-.hero-form input[type="email"] { border: 1px solid var(--ink-soft); background: var(--bg-card); }
-.home-hero .hero-form input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; box-shadow: none; }
+/* Sheet signup: the newsletter form under the headline. */
+.sheet .hero-form { margin: 0 0 14px; max-width: 520px; }
+.hero-form input[type="email"] { border: 1px solid var(--line); background: var(--bg-card); }
+.sheet .hero-form input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; box-shadow: none; }
 .hero-form .btn { white-space: nowrap; }
 
 /* Newsletter block — the same navy card on every page */
 .signup {
-  background: var(--navy);
+  background: var(--accent);
   color: #fff;
   border-radius: 28px;
   padding: 56px;
@@ -544,9 +717,9 @@ body {
   color: #fff;
   margin: 0 0 10px;
 }
-.subscribe-sub { color: var(--on-navy); max-width: 32em; margin: 0 auto 26px; }
-.sub-note { font-size: 0.85rem; color: var(--on-navy); margin: 14px 0 0; }
-.sub-latest { font-size: 0.875rem; color: var(--on-navy); margin: 18px auto 0; max-width: 40em; }
+.subscribe-sub { color: var(--on-accent-soft); max-width: 32em; margin: 0 auto 26px; }
+.sub-note { font-size: 0.85rem; color: var(--on-accent-soft); margin: 14px 0 0; }
+.sub-latest { font-size: 0.875rem; color: var(--on-accent-soft); margin: 18px auto 0; max-width: 40em; }
 .sub-latest span { white-space: nowrap; }
 .sub-latest a { color: #fff; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
 .sub-form {
@@ -755,7 +928,7 @@ body {
   margin: 0 0 24px;
   padding: 32px clamp(20px, 4vw, 36px) 28px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, #16213a 0%, #1f2a44 60%, #2a3757 100%);
+  background: linear-gradient(135deg, #0e1630 0%, #131d3d 60%, #1a2547 100%);
   color: #fff;
   box-shadow: var(--shadow);
 }
@@ -1441,17 +1614,6 @@ body.plain { background: var(--bg); }
   .nav a.active { box-shadow: none; color: var(--accent); }
   .nav a:first-child { border-top: 0; }
 
-  /* Words first: the headline and both buttons come before the photo, and
-     the photo panel is short so the whole hero stays compact. */
-  .home-hero { grid-template-columns: 1fr; gap: 28px; padding-top: 20px; padding-bottom: 48px; }
-  .home-portrait {
-    aspect-ratio: auto;
-    height: 280px;
-    width: 100%;
-    max-width: none;
-    align-items: flex-start;
-  }
-  .home-portrait img { margin-bottom: 0; }
   .start-cards, .talks, .split { grid-template-columns: 1fr; }
   .home-about { grid-template-columns: 1fr; gap: 24px; }
   .sec-head { flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -1464,7 +1626,7 @@ body.plain { background: var(--bg); }
   .wrap { padding: 0 16px; }
   .home-ctas .btn, .hero-form .btn { width: 100%; }
   .hero-form input[type="email"] { min-height: 48px; }
-  .home-title { font-size: 2.15rem; margin-bottom: 16px; }
+  .home-title { font-size: 2.35rem; margin-bottom: 16px; }
   .home-sub { font-size: 1.0625rem; margin-bottom: 22px; }
   .home-ctas { margin-bottom: 18px; }
   .sub-form { flex-direction: column; }
@@ -1563,3 +1725,44 @@ body.plain { background: var(--bg); }
 .waitlist-title { font-family: var(--serif); font-size: clamp(1.3rem, 2.6vw, 1.6rem); font-weight: 600; line-height: 1.25; margin: 0 0 18px; }
 .waitlist .sub-form input[type="email"] { border: 1px solid var(--line); }
 .waitlist .sub-note { color: var(--ink-soft); }
+
+/* ---- Color roles -------------------------------------------------------
+   The loud color (cobalt) does one job: tell you where to act. Everything else
+   that used to be red text is now ink, so the page stays calm. */
+:focus-visible { outline-color: var(--ink); }
+.eyebrow, .section-label, .kicker, .start-tag, .home-bio p.kicker, .panel p.kicker, .post-meta,
+.built-card-sub, .excerpt-label, .reflect-free, .book-part-num, .book-status, .panel p.panel-sub { color: var(--ink-soft); }
+.about-text a:not(.btn), .reflect-links a, .reflect-note a, .book-links a, .invite-note a, .chapter-done a,
+.state a, .archive-rss a, .privacy a, .see-all, .explore-go, .archive .eyebrow a, .privacy-action a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+.nav a.active { box-shadow: inset 0 -2px 0 var(--ink); }
+.start-card:hover .start-read, .post:hover .post-title, .post:hover .post-more { color: var(--ink); }
+.talk-num { color: #9fb0ff; }
+.cat.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.cat:hover { border-color: var(--ink); color: var(--ink); }
+.book-pull { border-left-color: var(--ink); }
+.home-quote span { background: linear-gradient(transparent 62%, rgba(47, 75, 255, 0.28) 62%); color: var(--ink); }
+.notice { background: var(--red-soft); border-color: var(--line); border-left-color: var(--ink); }
+.notice a { color: var(--ink); }
+.form-error, .state.error { color: var(--danger); }
+.form-error { background: rgba(194, 37, 47, 0.07); border-color: rgba(194, 37, 47, 0.3); }
+.gate-card .form-error { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+.signup .sub-submit { background: var(--ink); color: #fff; }
+.signup .sub-submit:hover { background: #000; }
+.signup :focus-visible, .hero :focus-visible, .talk :focus-visible { outline-color: #fff; }
+.sub-latest a { color: #fff; }
+.about-portrait { background: var(--accent); }
+.btn-ghost:hover { color: #fff; }
+.sub-form input[type="email"]:focus { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.45); }
+@media (max-width: 860px) { .nav a.active { color: var(--ink); box-shadow: none; font-weight: 700; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pp, .rev, .beat path { transition: none; animation: none; }
+  .beat path { stroke-dashoffset: 0; }
+  .js .sheet.pre .pp, .js .rev:not(.in) { opacity: 1; transform: none; }
+  .prog { display: none; }
+}
