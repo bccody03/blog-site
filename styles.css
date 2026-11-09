@@ -2,25 +2,25 @@
   /* Two quiet colors + one loud one.
      Quiet: a clean off-white page and deep ink. Loud: cobalt, used only for the main button,
      the color field behind the face, the signup block, the logo dot and the heartbeat. */
-  --bg: #f7f8fb;        /* quiet 1: page background */
+  --bg: #F5F6F8;        /* quiet 1: page background */
   --bg-card: #ffffff;   /* cards, form surfaces */
-  --ink: #0e1630;       /* quiet 2: headings, body, dark panels */
-  --ink-soft: #566079;  /* muted: secondary text */
-  --line: #e3e7f0;      /* borders, dividers */
-  --navy: #0e1630;      /* dark panels: talk cards, gate card, default cover */
-  --navy-2: #1a2547;
-  --accent: #2f4bff;    /* LOUD: cobalt */
-  --accent-hover: #2038d8;
-  --accent-soft: #e3e7f0;   /* borders and hover edges only, never text */
+  --ink: #111318;       /* quiet 2: headings, body, dark panels */
+  --ink-soft: #3F4450;  /* muted: secondary text */
+  --line: #D9DCE2;      /* borders, dividers */
+  --navy: #111318;      /* dark panels: talk cards, gate card, default cover */
+  --navy-2: #1b1e26;
+  --accent: #4D6BFF;    /* LOUD: cobalt */
+  --accent-hover: #3a57ec;
+  --accent-soft: #D9DCE2;   /* borders and hover edges only, never text */
   --red-soft: #e8ecff;      /* quiet cobalt tint (name kept for old rules) */
-  --on-navy: #c5cce0;   /* body text on dark panels */
+  --on-navy: #C4C8D2;   /* body text on dark panels */
   --on-accent-soft: #e6eaff; /* body text on cobalt */
   --danger: #c2252f;    /* error messages only */
   --hdr: 64px;
   --radius: 20px;
   --shadow: 0 1px 2px rgba(14, 22, 48, 0.05), 0 8px 24px rgba(14, 22, 48, 0.07);
-  --serif: "Fraunces", Georgia, "Times New Roman", serif;
-  --sans: "Inter", system-ui, -apple-system, sans-serif;
+  --serif: "Geist", system-ui, -apple-system, sans-serif;
+  --sans: "Geist", system-ui, -apple-system, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -231,7 +231,7 @@ body {
   left: 0;
   right: 0;
   z-index: 20;
-  background: rgba(247, 248, 251, 0.92);
+  background: rgba(245, 246, 248, 0.94);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
@@ -1766,3 +1766,12 @@ body.plain { background: var(--bg); }
   .js .sheet.pre .pp, .js .rev:not(.in) { opacity: 1; transform: none; }
   .prog { display: none; }
 }
+
+/* Site-wide system: Geist, squared uppercase buttons, heavy headings */
+h1, h2, h3, .archive-title, .sec-title, .subscribe-title, .built-title { font-weight: 800; letter-spacing: -0.02em; }
+.archive-title { font-weight: 900; }
+.btn, .sub-submit { border-radius: 6px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 800; font-size: 14px; }
+.brand { text-transform: uppercase; font-weight: 900; font-size: 18px; letter-spacing: 0.08em; font-family: var(--sans); }
+.nav a { text-transform: uppercase; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; }
+.signup, .panel, .start-card { border-radius: 10px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
