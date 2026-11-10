@@ -6,7 +6,7 @@
    cover : path of the cover image (9:16). Leave "" to use a title card.
    hi    : the word in the title to highlight in blue on the title card */
 window.VIDEOS = [
-  { title: "Life makes sense backwards", topic: "Letting go", src: "", cover: "", hi: "backwards" },
-  { title: "The insecure overachiever mindset", topic: "Discipline", src: "", cover: "", hi: "overachiever" },
-  { title: "My weird coping mechanism", topic: "Hard seasons", src: "", cover: "", hi: "coping" }
+  { title: "Three fuel sources", topic: "Discipline", src: "videos/three-fuel-sources.mp4", cover: "videos/three-fuel-sources.jpg", hi: "fuel" },
+  { title: "Life makes sense backwards", topic: "Letting go", src: "videos/life-makes-sense-backwards.mp4", cover: "videos/life-makes-sense-backwards.jpg", hi: "backwards" },
+  { title: "Give it good problems to solve", topic: "Overthinking", src: "videos/give-it-good-problems-to-solve.mp4", cover: "videos/give-it-good-problems-to-solve.jpg", hi: "problems" }
 ];
