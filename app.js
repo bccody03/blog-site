@@ -1,5 +1,5 @@
 /* ============================================================
-   CONFIG — the only line you normally need to touch.
+   CONFIG, the only line you normally need to touch.
    Paste your Substack address between the quotes, e.g.
      "https://blakecody.substack.com"
    Leave it as-is to see the demo with sample posts.
@@ -11,7 +11,7 @@ const CONFIG = {
   // posts; paste a free key here to load your whole feed.
   rssApiKey: "twjzn4hogufejzoxy2wgo6iajtvyqtycosvavtqv",
   // Where "Reflect with me" submissions go. Paste a form endpoint that
-  // emails you the message — easiest is Formspree: create a free form at
+  // emails you the message, easiest is Formspree: create a free form at
   // formspree.io and paste its URL here, e.g.
   //   "https://formspree.io/f/abcdwxyz"
   // (A Make webhook works too.) Leave "" to test in demo mode.
@@ -25,7 +25,7 @@ const CONFIG = {
   // To give it its own inbox, create a third Formspree form and paste its URL here.
   speakingWebhook: "https://formspree.io/f/xaqgwvwe",
   // The chapter PDF lives at an unguessable path that robots.txt disallows,
-  // and nothing in the HTML links to it — the form hands it over on success.
+  // and nothing in the HTML links to it, the form hands it over on success.
   chapterPdf: "c/7d3f9a2e1b/aligned-chapter-1.pdf",
 };
 
@@ -88,7 +88,7 @@ document.addEventListener("click", (e) => {
   } else if (a.href.includes("substack.com")) {
     const card = a.closest(".post");
     if (card) {
-      // Which card, by position — tells us whether readers grab the newest
+      // Which card, by position, tells us whether readers grab the newest
       // post or actually browse down the list.
       const idx = [...card.parentElement.children].indexOf(card) + 1;
       track("click-substack-card-" + idx, "Substack click, card " + idx);
@@ -152,7 +152,7 @@ if (navToggle && siteNav && els.header) {
 }
 
 /* Intro splash: name pops in, a cross + box draw around it, shine, then the
-   pieces break away. Plays once per browsing session — refreshing or coming
+   pieces break away. Plays once per browsing session, refreshing or coming
    back to Home in the same visit skips it. (Also skipped for reduced motion.) */
 const intro = document.getElementById("intro");
 if (intro) {
@@ -184,7 +184,7 @@ function buildIntro(intro) {
   //    (top-left piece to the top-left of the screen, and so on). Once the name
   //    box is measured they get re-cut so the middle box is its own piece.
   // All pieces share the identical full-screen gradient, so they OVERLAP by a
-  // little (eps) — otherwise anti-aliasing at the clip edges lets a hairline of
+  // little (eps), otherwise anti-aliasing at the clip edges lets a hairline of
   // the page behind peek through as a faint seam line.
   const eps = 0.6;
   const corners = [
@@ -213,7 +213,7 @@ function buildIntro(intro) {
   center.appendChild(name);
   intro.appendChild(center);
 
-  // 3) A perfect cross that splits the page into four boxes — except its four
+  // 3) A perfect cross that splits the page into four boxes, except its four
   //    arms stop at a box traced around the name. The box is measured from the
   //    name's real on-screen size so it always hugs it. Timeline (seconds),
   //    compressed to ~2s total so it never competes with LCP:
@@ -308,7 +308,7 @@ if (CONFIG.substackUrl) {
 
 /* Newsletter signup: our own form hands the email to Substack's subscribe
    page (they confirm there). Counting the submit here is the one thing the
-   old embed iframe could never tell us — which page earns subscribers. */
+   old embed iframe could never tell us, which page earns subscribers. */
 document.querySelectorAll(".sub-form").forEach((form) => {
   form.addEventListener("submit", () => {
     const where = (form.querySelector('[name="utm_content"]') || {}).value || location.pathname;
@@ -364,7 +364,7 @@ if (chapterForm) {
     }
   });
 
-  // The manual fallback link counts too — otherwise chapter-request is a
+  // The manual fallback link counts too, otherwise chapter-request is a
   // floor, not a total.
   const chapterDl = document.getElementById("chapter-dl");
   if (chapterDl) {
@@ -385,7 +385,7 @@ if (chapterForm) {
   }
 }
 
-/* "Reflect with me" — send the reader's answer to Blake. In production
+/* "Reflect with me", send the reader's answer to Blake. In production
    this POSTs to a Make webhook (which can drop it in Notion + email you).
    With no webhook set it runs in demo mode so the flow is still testable. */
 const reflectForm = document.getElementById("reflect-form");
@@ -393,7 +393,7 @@ const reflectThanks = document.getElementById("reflect-thanks");
 const reflectCats = document.getElementById("reflect-cats");
 const reflectCatInput = document.getElementById("reflect-cat");
 
-// Topic chips — click to pick (or unpick) a category.
+// Topic chips, click to pick (or unpick) a category.
 if (reflectCats) {
   reflectCats.addEventListener("click", (e) => {
     const chip = e.target.closest(".cat");
@@ -474,7 +474,7 @@ if (reflectForm) {
   });
 }
 
-/* "Invite me to speak" — same pattern as Reflect: POST to the form endpoint,
+/* "Invite me to speak", same pattern as Reflect: POST to the form endpoint,
    show an inline error on failure, swap in a thank-you on success. */
 const inviteForm = document.getElementById("invite-form");
 if (inviteForm) {
@@ -489,7 +489,7 @@ if (inviteForm) {
     btn.disabled = true;
     btn.textContent = "Sending…";
     const payload = {
-      _subject: "Speaking invitation — blakecody.com",
+      _subject: "Speaking invitation, blakecody.com",
       category: "Speaking invitation",
       name: val("invite-name").trim(),
       email: val("invite-email").trim(),
@@ -567,7 +567,7 @@ function postLimit() {
 }
 
 // Default cover for posts with no image (or whose image fails to load): navy,
-// the red heartbeat line, and the title in Fraunces. Decorative — the title
+// the red heartbeat line, and the title in Fraunces. Decorative, the title
 // is repeated as text under it, so it's hidden from screen readers.
 const HEARTBEAT_SVG = '<svg viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L70 60 L90 20 L110 100 L130 8 L150 112 L170 40 L190 78 L215 60 L300 60 C330 60 340 40 370 40 C400 40 410 80 440 80 C470 80 480 45 510 45 C540 45 555 70 600 60" fill="none" stroke="#8fa1ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function defaultCover(escapedTitle) {
@@ -661,7 +661,7 @@ function renderList(posts) {
 
 /* Topic chips on the archive. Built from whatever categories the posts carry
    in the feed; if they carry none, the row stays empty and hidden. Filtering
-   is client-side only — it changes what's shown, not the URL. */
+   is client-side only, it changes what's shown, not the URL. */
 function renderFilters(posts) {
   const box = document.getElementById("post-filters");
   if (!box) return;
@@ -685,7 +685,7 @@ function renderFilters(posts) {
 function render(posts) {
   if (!els.list) return; // pages without a post list (Book, Reflect, About)
   if (!posts.length) {
-    setState("Nothing here yet — your latest posts will show up automatically.");
+    setState("Nothing here yet, your latest posts will show up automatically.");
     return;
   }
   els.state.classList.add("hidden");
@@ -790,7 +790,7 @@ async function loadFromSubstack(url) {
   const feed = url.replace(/\/$/, "") + "/feed";
   const enc = encodeURIComponent(feed);
 
-  // 1) rss2json WITH an API key — reliable, returns the full feed.
+  // 1) rss2json WITH an API key, reliable, returns the full feed.
   if (CONFIG.rssApiKey) {
     try {
       const api =
@@ -829,7 +829,7 @@ const SAMPLE_POSTS = [
     pubDate: "2026-06-10",
     categories: ["Intention"],
     description:
-      "I kept a private notebook for years. Here's what changed when I started putting the messy drafts out where people could actually read them — and why it made the thinking sharper.",
+      "I kept a private notebook for years. Here's what changed when I started putting the messy drafts out where people could actually read them, and why it made the thinking sharper.",
   },
   {
     title: "The Case for Doing Less, Better",
@@ -864,7 +864,7 @@ async function init() {
   if (!els.list && !startCards) return;
   const demo = new URLSearchParams(location.search).has("demo");
   if (!CONFIG.substackUrl || demo) {
-    setState("Demo mode — showing sample posts.");
+    setState("Demo mode, showing sample posts.");
     render(SAMPLE_POSTS);
     linkStartCards(SAMPLE_POSTS);
     if (els.state) els.state.classList.remove("hidden"); // keep the demo note visible
@@ -879,7 +879,7 @@ async function init() {
   } catch (err) {
     console.error(err);
     track("feed-error", "Substack feed failed");
-    // Never render placeholder articles to real visitors — point them at
+    // Never render placeholder articles to real visitors, point them at
     // Substack instead, and the feed-error event above says it happened.
     if (els.state) {
       els.state.innerHTML = `Latest posts are on <a href="${withUtm(CONFIG.substackUrl, "site", "feed-error")}" target="_blank" rel="noopener">Substack →</a>`;
