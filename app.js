@@ -489,7 +489,7 @@ if (inviteForm) {
     btn.disabled = true;
     btn.textContent = "Sending…";
     const payload = {
-      _subject: "Speaking invitation, blakecody.com",
+      _subject: "Speaking invitation from blakecody.com",
       category: "Speaking invitation",
       name: val("invite-name").trim(),
       email: val("invite-email").trim(),
@@ -640,6 +640,8 @@ function swapBrokenCovers() {
   }, true);
 }
 
+swapBrokenCovers(); // also guards essays that ship in the HTML
+
 function renderList(posts) {
   swapBrokenCovers();
   const shown = posts.slice(0, postLimit());
@@ -682,10 +684,12 @@ function renderFilters(posts) {
   });
 }
 
+function hasStaticPosts() { return !!(els.list && els.list.querySelector(".post")); }
+
 function render(posts) {
   if (!els.list) return; // pages without a post list (Book, Reflect, About)
   if (!posts.length) {
-    setState("Nothing here yet, your latest posts will show up automatically.");
+    setState("Nothing here yet. New essays will show up here automatically.");
     return;
   }
   els.state.classList.add("hidden");
@@ -871,7 +875,9 @@ async function init() {
     return;
   }
   try {
-    setState("Loading the latest…");
+    // Pages that ship with essays already in the HTML keep showing them while
+    // (and if) the live feed loads, so there is no "Loading" flash and no empty page.
+    if (!hasStaticPosts()) setState("Loading the latest…");
     const { posts } = await loadFromSubstack(CONFIG.substackUrl);
     render(posts);
     linkStartCards(posts);
@@ -881,7 +887,7 @@ async function init() {
     track("feed-error", "Substack feed failed");
     // Never render placeholder articles to real visitors, point them at
     // Substack instead, and the feed-error event above says it happened.
-    if (els.state) {
+    if (els.state && !hasStaticPosts()) {
       els.state.innerHTML = `Latest posts are on <a href="${withUtm(CONFIG.substackUrl, "site", "feed-error")}" target="_blank" rel="noopener">Substack →</a>`;
       els.state.classList.remove("hidden");
       els.state.classList.remove("error");

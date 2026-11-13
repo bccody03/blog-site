@@ -11,7 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" />
-  <link rel="stylesheet" href="site.css?v=40" />
+  <link rel="stylesheet" href="site.css?v=43" />
+  <!-- Motion: mark the page as script-enabled before first paint. If site.js never loads, undo it so nothing stays hidden. -->
+  <script>(function(h){if(!("IntersectionObserver" in window))return;h.classList.add("js-motion");setTimeout(function(){if(!window.__motion)h.classList.remove("js-motion")},3000)})(document.documentElement)</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -22,13 +24,13 @@
   <meta property="og:title" content="Blake Cody | Rebuilding, from the middle of it" />
   <meta property="og:description" content="Weekly essays and one-minute videos on discipline, letting go and starting over, from Blake Cody, a 23-year-old writer in Michigan. Plus a free first chapter of Aligned, the book he is writing." />
   <meta property="og:url" content="https://blakecody.com/" />
-  <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
+  <meta property="og:image" content="https://blakecody.com/og-image.jpg?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Blake Cody | Rebuilding, from the middle of it" />
   <meta name="twitter:description" content="Weekly essays and one-minute videos on discipline, letting go and starting over, from Blake Cody, a 23-year-old writer in Michigan. Plus a free first chapter of Aligned, the book he is writing." />
-  <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
+  <meta name="twitter:image" content="https://blakecody.com/og-image.jpg?v=2" />
   <link rel="preload" as="image" href="blake-hero-wide.webp" fetchpriority="high" />
   <script type="application/ld+json">
   {
@@ -45,6 +47,7 @@
         "knowsAbout": ["discipline", "intentional living", "journaling", "relationships", "personal growth"],
         "sameAs": [
           "https://bccody.substack.com",
+          "https://www.instagram.com/itsblakecody",
           "https://www.linkedin.com/in/blake-cody-63a48a266/",
           "https://apps.apple.com/us/app/my-jrnl-journal-habits/id6788176326"
         ]
@@ -83,14 +86,14 @@
         "name": "Blake Cody | I write about rebuilding: from the middle of it",
         "isPartOf": { "@id": "https://blakecody.com/#website" },
         "about": { "@id": "https://blakecody.com/#person" },
-        "primaryImageOfPage": "https://blakecody.com/og-image.jpg",
+        "primaryImageOfPage": "https://blakecody.com/og-image.jpg?v=2",
         "dateModified": "2026-10-18"
       }
     ]
   }
   </script>
-  <script src="videos-data.js?v=41" defer></script>
-  <script src="site.js?v=40" defer></script>
+  <script src="videos-data.js?v=43" defer></script>
+  <script src="site.js?v=43" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -104,22 +107,25 @@
         <a href="book.html">Book</a>
         <a href="speaking.html">Speaking</a>
         <a href="reflect.html">Contact</a>
+        <a class="nav-sub" href="https://bccody.substack.com/subscribe?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=nav" target="_blank" rel="noopener" data-track="cta-nav-subscribe">Subscribe</a>
       </div>
     </nav>
   </header>
   <main id="main">
     <section class="hero" aria-label="Blake Cody">
-      <img class="hero-photo" src="blake-hero-wide.webp" alt="Blake Cody, smiling, in a polo shirt." width="870" height="830" fetchpriority="high" />
+      <div class="hero-media" id="hero-media">
+        <img class="hero-photo" src="blake-hero-wide.webp" alt="Blake Cody, smiling, in a polo shirt." width="870" height="830" fetchpriority="high" />
+      </div>
       <div class="hero-text"><div class="wrap">
-        <h1>Blake<br />Cody</h1>
+        <h1><span class="ln">Blake</span> <span class="ln">Cody</span></h1>
         <p>Rebuilding, from the middle of it.</p>
       </div></div>
     </section>
 
     <section class="band" id="subscribe" aria-labelledby="news-h">
       <div class="news">
-        <h2 id="news-h">One honest essay every week.<br /><span>For people who look fine and are still figuring it out.</span></h2>
-        <form class="signup" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-where="home-band">
+        <h2 id="news-h" class="rv" data-rv-delay="120">One honest essay every week. <span>For people who look fine and are still figuring it out.</span></h2>
+        <form class="signup rv" data-rv-delay="200" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-where="home-band">
           <label class="sr-only" for="news-email">Email address</label>
           <input type="email" id="news-email" name="email" placeholder="Your email address" autocomplete="email" required />
           <input type="hidden" name="utm_source" value="blakecody.com" />
@@ -128,54 +134,54 @@
           <input type="hidden" name="utm_content" value="home-band" />
           <button type="submit" class="btn">Subscribe</button>
         </form>
-        <p class="fine">Free. You confirm on Substack and can unsubscribe any time.</p>
+        <p class="fine rv" data-rv-delay="280">Free. You confirm on Substack and can unsubscribe any time.</p>
       </div>
     </section>
 
-    <section class="sec w1200 rv" id="videos" aria-labelledby="vid-h">
-      <h2 id="vid-h">Videos</h2>
-      <p class="lede">A minute at a time on letting go, discipline and the stuff most people only talk about at 2am. New every week.</p>
-      <div class="vgrid" id="video-row"></div>
+    <section class="sec w1200" id="videos" aria-labelledby="vid-h">
+      <h2 id="vid-h" class="rv">Videos</h2>
+      <p class="lede rv" data-rv-delay="80">A minute at a time on letting go, discipline and the stuff most people only talk about at 2am. New every week.</p>
+      <div class="vgrid" id="video-row" data-rv-group data-rv-delay="80"></div>
       <noscript><p class="lede"><a href="videos.html">Watch the videos</a></p></noscript>
-      <a class="more" href="videos.html" data-track="cta-home-all-videos">All videos →</a>
+      <a class="more rv" href="videos.html" data-track="cta-home-all-videos">All videos <span class="arr" aria-hidden="true">→</span></a>
     </section>
 
-    <section class="sec w900 rv" id="essays" aria-labelledby="ess-h">
-      <h2 id="ess-h">Essays</h2>
-      <p class="lede">Every week I write about rebuilding: discipline, letting go and starting over. Written from inside the work, not after it.</p>
-      <div class="rows">
+    <section class="sec w900" id="essays" aria-labelledby="ess-h">
+      <h2 id="ess-h" class="rv">Essays</h2>
+      <p class="lede rv" data-rv-delay="80">Every week I write about rebuilding: discipline, letting go and starting over. Written from inside the work, not after it.</p>
+      <div class="rows" data-rv-group data-rv-delay="80">
         <a href="https://bccody.substack.com/p/i-said-i-let-go-i-was-lying?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=home-essays" target="_blank" rel="noopener" data-track="click-substack-essay-1"><b>I Said I Let Go</b><span class="go" aria-hidden="true">Read →</span></a>
         <a href="https://bccody.substack.com/p/before-you-say-it-back?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=home-essays" target="_blank" rel="noopener" data-track="click-substack-essay-2"><b>Emotions Before You Say It Back</b><span class="go" aria-hidden="true">Read →</span></a>
         <a href="https://bccody.substack.com/p/are-you-whole-or-just-good-at-being?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=home-essays" target="_blank" rel="noopener" data-track="click-substack-essay-3"><b>Are You Whole, or Just Good at Being Alone?</b><span class="go" aria-hidden="true">Read →</span></a>
       </div>
-      <a class="more" href="articles.html" data-track="cta-home-all-essays">All essays →</a>
+      <a class="more rv" href="articles.html" data-track="cta-home-all-essays">All essays <span class="arr" aria-hidden="true">→</span></a>
     </section>
 
-    <section class="band rv" id="book" aria-labelledby="book-h">
+    <section class="band" id="book" aria-labelledby="book-h">
       <div class="book">
-        <p class="label">The book</p>
-        <h2 id="book-h">Aligned</h2>
-        <p class="sub">Lead with love, live with intention. Being written now. Chapter 1 is free.</p>
-        <a class="btn btn-light" href="book.html" data-track="cta-home-book">Read Chapter 1</a>
+        <p class="label rv" data-rv-delay="120">The book</p>
+        <h2 id="book-h" data-letters>Aligned</h2>
+        <p class="sub rv" data-rv-delay="360">Lead with love, live with intention. Being written now. Chapter 1 is free.</p>
+        <a class="btn btn-light rv" data-rv-delay="440" href="book.html" data-track="cta-home-book">Read Chapter 1</a>
       </div>
     </section>
 
-    <section class="sec w900 rv" id="speaking" aria-labelledby="spk-h">
-      <h2 id="spk-h">Speaking</h2>
-      <p class="lede">I'm booking my first talks for teams, schools and groups.</p>
-      <ul class="rows talks">
+    <section class="sec w900" id="speaking" aria-labelledby="spk-h">
+      <h2 id="spk-h" class="rv">Speaking</h2>
+      <p class="lede rv" data-rv-delay="80">I'm booking my first talks for teams, schools and groups.</p>
+      <ul class="rows talks" data-rv-group data-rv-delay="80">
         <li><b>Before You Say It Back</b><span>Why we react worst when we're hungry, tired, or lonely.</span></li>
         <li><b>I Said I Let Go</b><span>The gap between what we say we've accepted and what our actions show.</span></li>
         <li><b>Aligned</b><span>Lead with love, live with intention.</span></li>
       </ul>
-      <a class="btn" href="speaking.html#invite" data-track="cta-home-invite">Invite me to speak</a>
+      <a class="btn rv" href="speaking.html#invite" data-track="cta-home-invite">Invite me to speak</a>
     </section>
 
-    <section class="sec w900 contact rv" id="contact" aria-labelledby="con-h">
-      <h2 id="con-h">Going through something?</h2>
-      <p>Write to me. I read every message and reply personally.</p>
-      <a class="btn btn-outline" href="reflect.html" data-track="cta-home-write">Write to me</a>
-      <div class="social">
+    <section class="sec w900 contact" id="contact" aria-labelledby="con-h">
+      <h2 id="con-h" class="rv">Going through something?</h2>
+      <p class="rv" data-rv-delay="80">Write to me. I read every message and reply personally.</p>
+      <a class="btn btn-outline rv" data-rv-delay="160" href="reflect.html" data-track="cta-home-write">Write to me</a>
+      <div class="social" data-rv-group>
         <a href="https://instagram.com/itsblakecody" target="_blank" rel="noopener me" aria-label="Blake on Instagram" data-track="click-instagram"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg></a>
         <a href="https://bccody.substack.com" target="_blank" rel="noopener me" aria-label="Blake on Substack" data-track="click-substack-icon"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h16v2.5H4zM4 7.5h16V10H4zM4 12h16v9l-8-4.5L4 21z"></path></svg></a>
         <a href="https://www.linkedin.com/in/blake-cody-63a48a266/" target="_blank" rel="noopener me" aria-label="Blake on LinkedIn" data-track="click-linkedin"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4v11H4zM6 3.5a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4zM10 9h3.8v1.6c.6-1 1.9-1.9 3.8-1.9 3.4 0 4.4 2.1 4.4 5.2V20h-4v-5.4c0-1.5-.3-2.8-1.9-2.8-1.7 0-2.1 1.2-2.1 2.8V20h-4z"></path></svg></a>
@@ -183,7 +189,7 @@
     </section>
   </main>
   <footer class="foot">
-    <div class="wrap">
+    <div class="wrap rv" data-rv-delay="120">
       <span>© <span id="year">2026</span> Blake Cody · Michigan</span>
       <nav aria-label="Footer">
         <a href="about.html">About</a>

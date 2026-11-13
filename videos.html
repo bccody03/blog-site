@@ -11,7 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" />
-  <link rel="stylesheet" href="site.css?v=40" />
+  <link rel="stylesheet" href="site.css?v=43" />
+  <!-- Motion: mark the page as script-enabled before first paint. If site.js never loads, undo it so nothing stays hidden. -->
+  <script>(function(h){if(!("IntersectionObserver" in window))return;h.classList.add("js-motion");setTimeout(function(){if(!window.__motion)h.classList.remove("js-motion")},3000)})(document.documentElement)</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -22,16 +24,16 @@
   <meta property="og:title" content="Videos | Blake Cody" />
   <meta property="og:description" content="One minute, one honest thought. Short videos from Blake Cody on letting go, discipline and the stuff nobody posts about." />
   <meta property="og:url" content="https://blakecody.com/videos.html" />
-  <meta property="og:image" content="https://blakecody.com/og-image.jpg" />
+  <meta property="og:image" content="https://blakecody.com/og-image.jpg?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Videos | Blake Cody" />
   <meta name="twitter:description" content="One minute, one honest thought. Short videos from Blake Cody on letting go, discipline and the stuff nobody posts about." />
-  <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
+  <meta name="twitter:image" content="https://blakecody.com/og-image.jpg?v=2" />
 
-  <script src="videos-data.js?v=41" defer></script>
-  <script src="site.js?v=40" defer></script>
+  <script src="videos-data.js?v=43" defer></script>
+  <script src="site.js?v=43" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="page-dark on-dark">
@@ -45,6 +47,7 @@
         <a href="book.html">Book</a>
         <a href="speaking.html">Speaking</a>
         <a href="reflect.html">Contact</a>
+        <a class="nav-sub" href="https://bccody.substack.com/subscribe?utm_source=blakecody.com&amp;utm_medium=referral&amp;utm_campaign=nav" target="_blank" rel="noopener" data-track="cta-nav-subscribe">Subscribe</a>
       </div>
     </nav>
   </header>
@@ -52,7 +55,7 @@
     <section class="feature" aria-label="Latest video">
       <div id="featured"></div>
       <div class="feature-text">
-        <p class="label" style="color:#8196ff">New this week</p>
+        <p class="label" id="feat-label" style="color:#8196ff">New this week</p>
         <h1>One minute.<br /><span>One honest thought.</span></h1>
         <p>Short videos on letting go, discipline and the stuff nobody posts about. Filmed on my phone, usually after work.</p>
         <div class="actions">
@@ -63,22 +66,23 @@
     </section>
 
     <section class="lib" aria-labelledby="all-h">
-      <div class="lib-head">
+      <div class="lib-head rv">
         <h2 id="all-h">All videos</h2>
-        <p id="video-count" aria-live="polite"></p>
+        <p id="video-count" aria-hidden="true"></p>
+        <p class="sr-only" id="video-count-live" aria-live="polite"></p>
       </div>
-      <div class="chips" id="chips" role="group" aria-label="Filter videos by topic"></div>
-      <div class="vgrid" id="video-grid"></div>
+      <div class="chips rv" data-rv-delay="80" id="chips" role="group" aria-label="Filter videos by topic"></div>
+      <div class="vgrid" id="video-grid" data-rv-group data-rv-delay="80"></div>
       <noscript><p class="empty">Turn on JavaScript to browse the videos, or find them on <a href="https://bccody.substack.com">Substack</a>.</p></noscript>
     </section>
 
     <section class="blue" id="subscribe" aria-labelledby="get-h">
       <div class="wrap">
-        <div class="col">
+        <div class="col rv" data-rv-delay="120">
           <h2 id="get-h">Get the new one every week.</h2>
           <p>Each week's video and essay, straight to your inbox. Free on Substack.</p>
         </div>
-        <form class="signup" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-where="videos-band">
+        <form class="signup rv" data-rv-delay="200" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-where="videos-band">
           <label class="sr-only" for="vid-email">Email address</label>
           <input type="email" id="vid-email" name="email" placeholder="Your email address" autocomplete="email" required />
           <input type="hidden" name="utm_source" value="blakecody.com" />
@@ -91,7 +95,7 @@
     </section>
   </main>
   <footer class="foot lined">
-    <div class="wrap">
+    <div class="wrap rv" data-rv-delay="120">
       <span>© <span id="year">2026</span> Blake Cody · Michigan</span>
       <nav aria-label="Footer">
         <a href="about.html">About</a>
