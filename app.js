@@ -489,7 +489,7 @@ if (inviteForm) {
     btn.disabled = true;
     btn.textContent = "Sending…";
     const payload = {
-      _subject: "Speaking invitation, blakecody.com",
+      _subject: "Speaking invitation from blakecody.com",
       category: "Speaking invitation",
       name: val("invite-name").trim(),
       email: val("invite-email").trim(),
@@ -685,7 +685,7 @@ function renderFilters(posts) {
 function render(posts) {
   if (!els.list) return; // pages without a post list (Book, Reflect, About)
   if (!posts.length) {
-    setState("Nothing here yet, your latest posts will show up automatically.");
+    setState("Nothing here yet. New essays will show up here automatically.");
     return;
   }
   els.state.classList.add("hidden");
