@@ -264,6 +264,12 @@ html.lb-open { overflow: hidden; }
   html.js-motion .book h2.letters .ch { opacity: 0; transform: translateY(8px); }
   html.js-motion .book h2.letters.in .ch { opacity: 1; transform: none; transition: opacity 520ms var(--ease-out) calc(var(--i) * 30ms + 200ms), transform 520ms var(--ease-out) calc(var(--i) * 30ms + 200ms); }
 }
+/* Page to page: a plain 250ms cross-fade between Home and Videos, using the browser's
+   own View Transitions. Browsers without it just load the page as usual. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 250ms; animation-timing-function: ease; }
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 
 /* Phones */
