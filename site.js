@@ -135,26 +135,65 @@
     else if (watch) watch.hidden = true;
   }
 
-  /* Lightbox player */
-  var lb = $("lightbox"), stage = $("lb-stage"), lbTitle = $("lb-title"), lbTopic = $("lb-topic"), cur = -1;
+  /* Lightbox player: eases open and shut, slides between videos, locks page scroll,
+     closes on Esc or a backdrop click, and hands focus back to the thumbnail. */
+  var lb = $("lightbox"), stage = $("lb-stage"), lbTitle = $("lb-title"), lbTopic = $("lb-topic"), cur = -1, opener = null, swapping = false;
+  var lbInner = lb ? lb.querySelector(".lb-in") : null;
   function isFile(src) { return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(src); }
-  function open(i) {
-    var v = V[i]; if (!v || !lb) return;
+  function fill(i) {
+    var v = V[i];
     cur = i;
     lbTitle.textContent = v.title; lbTopic.textContent = v.topic;
     if (!v.src) stage.innerHTML = '<p class="soon">This one is uploading. Check back soon.</p>';
     else if (isFile(v.src)) stage.innerHTML = '<video src="' + esc(v.src) + '"' + (v.cover ? ' poster="' + esc(v.cover) + '"' : "") + ' controls autoplay playsinline preload="metadata"></video>';
     else stage.innerHTML = '<iframe src="' + esc(v.src) + '" title="' + esc(v.title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
-    if (!lb.open) { if (lb.showModal) lb.showModal(); else lb.setAttribute("open", ""); }
     track("video-play-" + v.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
   }
-  function close() { if (lb.open) lb.close(); }
+  function open(i) {
+    if (!V[i] || !lb) return;
+    if (!lb.open) {
+      opener = d.activeElement;
+      lb.classList.remove("closing");
+      fill(i);
+      root.classList.add("lb-open");
+      if (lb.showModal) lb.showModal(); else lb.setAttribute("open", "");
+    } else fill(i);
+  }
+  function next() {
+    if (swapping || V.length < 2) return;
+    var n = (cur + 1) % V.length;
+    if (reduce || !lbInner) { fill(n); return; }
+    swapping = true;
+    lbInner.classList.add("swap-out"); /* current one eases out 12px to the left */
+    setTimeout(function () {
+      fill(n);
+      lbInner.classList.remove("swap-out");
+      lbInner.classList.add("swap-pre"); /* next one waits 12px to the right */
+      void lbInner.offsetWidth;
+      lbInner.classList.remove("swap-pre");
+      lbInner.classList.add("swap-in");
+      setTimeout(function () { lbInner.classList.remove("swap-in"); swapping = false; }, 360);
+    }, 180);
+  }
+  function close() {
+    if (!lb.open || lb.classList.contains("closing")) return;
+    var vid = stage.querySelector("video"); if (vid) vid.pause();
+    if (reduce) { lb.close(); return; }
+    lb.classList.add("closing");
+    setTimeout(function () { lb.close(); lb.classList.remove("closing"); }, 220);
+  }
   if (lb) {
-    lb.addEventListener("close", function () { stage.innerHTML = ""; });
+    lb.addEventListener("close", function () {
+      stage.innerHTML = "";
+      root.classList.remove("lb-open");
+      if (opener && d.contains(opener) && opener.focus) opener.focus();
+      opener = null;
+    });
+    lb.addEventListener("cancel", function (e) { e.preventDefault(); close(); }); /* Esc */
     lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
     $("lb-close").addEventListener("click", close);
     var nx = $("lb-next");
-    if (nx) { if (V.length < 2) nx.hidden = true; nx.addEventListener("click", function () { open((cur + 1) % V.length); }); }
+    if (nx) { if (V.length < 2) nx.hidden = true; nx.addEventListener("click", next); }
     d.addEventListener("click", function (e) {
       var b = e.target.closest && e.target.closest("[data-play]");
       if (b) open(parseInt(b.getAttribute("data-play"), 10));
