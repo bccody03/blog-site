@@ -67,7 +67,8 @@
     <section class="lib" aria-labelledby="all-h">
       <div class="lib-head rv">
         <h2 id="all-h">All videos</h2>
-        <p id="video-count" aria-live="polite"></p>
+        <p id="video-count" aria-hidden="true"></p>
+        <p class="sr-only" id="video-count-live" aria-live="polite"></p>
       </div>
       <div class="chips rv" data-rv-delay="80" id="chips" role="group" aria-label="Filter videos by topic"></div>
       <div class="vgrid" id="video-grid" data-rv-group data-rv-delay="80"></div>

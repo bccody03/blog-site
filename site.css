@@ -186,10 +186,25 @@ html.js-motion .top { position: fixed; transition: transform var(--dur-base) var
 .lib-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
 .lib-head h2 { margin: 0; font-size: clamp(32px, 4.4vw, 56px); line-height: 1; letter-spacing: -.02em; font-weight: 900; text-transform: uppercase; }
 .lib-head p { margin: 0; color: var(--footer); font-weight: 600; font-variant-numeric: tabular-nums; }
-.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chips { position: relative; isolation: isolate; display: flex; flex-wrap: wrap; gap: 10px; }
+/* Sliding highlight behind the active chip (see moveIndicator in site.js). */
+.chip-ind { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: -1; pointer-events: none; }
+.chip-ind i { position: absolute; left: 0; top: 0; width: 100px; height: 44px; background: var(--accent); transform-origin: 0 50%; transition: transform var(--dur-base) var(--ease-out); }
+.chip-ind i:first-child, .chip-ind i:last-child { border-radius: 50%; }
+.chip-ind.snap i { transition: none; }
+.chips.has-ind .chip[aria-pressed="true"] { background: transparent; border-color: transparent; }
 .chip { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 2px solid #343945; background: transparent; color: var(--light); font: 700 13px var(--font); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
 .chip:hover { border-color: var(--light); }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+/* Filter change: the grid eases out, swaps, and the matches ease back in. */
+.vgrid.leaving > * { opacity: 0; transform: scale(.98); transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
+@media (prefers-reduced-motion: no-preference) {
+  .vgrid.entering > * { animation: cardIn var(--dur-base) var(--ease-out) calc(var(--i, 0) * 40ms) both; }
+  @keyframes cardIn { from { opacity: 0; transform: scale(.98); } }
+  /* Featured video: the same gentle rise as the hero text, once on load. */
+  .feature .vthumb { animation: riseIn var(--dur-slow) var(--ease-out) 120ms both; }
+  .feature-text { animation: riseIn var(--dur-slow) var(--ease-out) 210ms both; }
+}
 .lib .vgrid { justify-content: start; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
 .blue { background: var(--accent); color: var(--on-accent); }
 .blue .wrap { padding-top: 64px; padding-bottom: 64px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px; }

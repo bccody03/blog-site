@@ -62,16 +62,74 @@
   var grid = $("video-grid"), chips = $("chips"), count = $("video-count"), feat = $("featured"), watch = $("watch-btn");
   var filter = "All";
   function shown() { return filter === "All" ? V : V.filter(function (v) { return v.topic === filter; }); }
-  function renderGrid() {
+  var countLive = $("video-count-live"), chipInd = null, swapTimer = 0, tickRaf = 0;
+  function countText(n) { return n + (n === 1 ? " video" : " videos"); }
+  function chipButtons() { return Array.prototype.slice.call(chips.querySelectorAll(".chip")); }
+  function drawCards() {
     var list = shown();
     grid.innerHTML = list.length ? list.map(function (v) { return card(v, true); }).join("") : '<p class="empty">Nothing here yet. New videos land every week.</p>';
-    count.textContent = list.length + (list.length === 1 ? " video" : " videos");
-    Array.prototype.forEach.call(chips.children, function (b) { b.setAttribute("aria-pressed", String(b.textContent === filter)); });
+    return list.length;
+  }
+  /* The count ticks to its new value over about 300ms; screen readers hear only the final number. */
+  function setCount(n, animate) {
+    if (countLive) countLive.textContent = countText(n);
+    var from = parseInt(count.textContent, 10);
+    cancelAnimationFrame(tickRaf);
+    if (!animate || reduce || isNaN(from) || from === n) { count.textContent = countText(n); return; }
+    var t0 = performance.now();
+    (function step(now) {
+      var p = Math.min(1, (now - t0) / 300);
+      count.textContent = countText(Math.round(from + (n - from) * p));
+      if (p < 1) tickRaf = requestAnimationFrame(step);
+    })(t0);
+  }
+  /* One shared highlight slides between chips. It is built from two round caps and a
+     stretchable middle so it stays a clean pill while only transforms animate. */
+  function moveIndicator(animate) {
+    if (!chipInd) return;
+    var on = chips.querySelector('.chip[aria-pressed="true"]');
+    if (!on) return;
+    var box = chips.getBoundingClientRect(), r = on.getBoundingClientRect();
+    var x = r.left - box.left, y = r.top - box.top, w = r.width, h = r.height;
+    var parts = chipInd.children;
+    chipInd.classList.toggle("snap", !animate);
+    for (var i = 0; i < 3; i++) parts[i].style.height = h + "px";
+    parts[0].style.width = parts[2].style.width = h + "px";
+    parts[0].style.transform = "translate(" + x + "px," + y + "px)";
+    parts[1].style.transform = "translate(" + (x + h / 2 - 1) + "px," + y + "px) scaleX(" + Math.max(0, (w - h + 2) / 100) + ")";
+    parts[2].style.transform = "translate(" + (x + w - h) + "px," + y + "px)";
+  }
+  function setFilter(t) {
+    if (t === filter) return;
+    filter = t;
+    chipButtons().forEach(function (b) { b.setAttribute("aria-pressed", String(b.textContent === filter)); });
+    moveIndicator(true);
+    setCount(shown().length, true);
+    clearTimeout(swapTimer);
+    grid.classList.add("rv-done"); /* the scroll reveal is finished with this grid from here on */
+    if (reduce) { drawCards(); return; }
+    /* Simple fade: everything eases out, the grid swaps, the matches ease back in. */
+    grid.classList.remove("entering");
+    grid.classList.add("leaving");
+    swapTimer = setTimeout(function () {
+      drawCards();
+      Array.prototype.forEach.call(grid.children, function (el, i) { el.style.setProperty("--i", Math.min(i, 6)); });
+      grid.classList.remove("leaving");
+      grid.classList.add("entering");
+      swapTimer = setTimeout(function () { grid.classList.remove("entering"); }, 900);
+    }, 200);
   }
   if (grid && chips) {
-    chips.innerHTML = TOPICS.map(function (t) { return '<button type="button" class="chip" aria-pressed="false">' + t + "</button>"; }).join("");
-    chips.addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) { filter = b.textContent; renderGrid(); } });
-    renderGrid();
+    chips.innerHTML = '<span class="chip-ind" aria-hidden="true"><i></i><i></i><i></i></span>' +
+      TOPICS.map(function (t) { return '<button type="button" class="chip" aria-pressed="' + (t === filter) + '">' + t + "</button>"; }).join("");
+    chipInd = chips.querySelector(".chip-ind");
+    chips.classList.add("has-ind");
+    chips.addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) setFilter(b.textContent); });
+    setCount(drawCards(), false);
+    moveIndicator(false);
+    window.addEventListener("resize", function () { moveIndicator(false); });
+    window.addEventListener("load", function () { moveIndicator(false); });
+    if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { moveIndicator(false); });
     if (feat && V[0]) feat.outerHTML = thumb(V[0]);
     if (watch && V[0]) { watch.setAttribute("data-play", "0"); }
     else if (watch) watch.hidden = true;
