@@ -225,6 +225,13 @@ dialog.lb[open] { display: flex; align-items: center; justify-content: center; }
   html.js-motion .rv.in,
   html.js-motion [data-rv-group]:not(.rv-done) > .in { opacity: 1; transform: none; transition: opacity var(--dur-slow) var(--ease-out) var(--d, 0ms), transform var(--dur-slow) var(--ease-out) var(--d, 0ms); }
 }
+/* The one "moment" on the page: ALIGNED arrives letter by letter (30ms apart, 8px rise).
+   site.js splits the heading into letters only when motion is allowed. */
+.book h2 .ch { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js-motion .book h2.letters .ch { opacity: 0; transform: translateY(8px); }
+  html.js-motion .book h2.letters.in .ch { opacity: 1; transform: none; transition: opacity 520ms var(--ease-out) calc(var(--i) * 30ms + 200ms), transform 520ms var(--ease-out) calc(var(--i) * 30ms + 200ms); }
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 
 /* Phones */

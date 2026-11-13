@@ -195,5 +195,27 @@
     Array.prototype.forEach.call(groups, function (el) { io.observe(el); });
   })();
 
+  /* ALIGNED, letter by letter. The heading keeps its full name for screen readers. */
+  (function () {
+    var h = d.querySelector("[data-letters]");
+    if (!h || reduce || !canReveal) return;
+    var text = h.textContent, html = "";
+    for (var i = 0; i < text.length; i++) html += text[i] === " " ? " " : '<span class="ch" aria-hidden="true" style="--i:' + i + '">' + esc(text[i]) + "</span>";
+    h.setAttribute("aria-label", text);
+    h.innerHTML = html;
+    h.classList.add("letters");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var r = en.boundingClientRect, passed = r.bottom <= 0;
+        if (!passed && en.intersectionRatio < 0.6) return;
+        io.disconnect();
+        if (passed) { h.classList.remove("letters"); return; }
+        h.classList.add("in");
+        setTimeout(function () { h.classList.remove("letters", "in"); }, 200 + text.length * 30 + 700);
+      });
+    }, { threshold: [0, 0.6] });
+    io.observe(h);
+  })();
+
   window.__motion = true; /* tells the <head> fallback that this script ran to the end */
 })();
