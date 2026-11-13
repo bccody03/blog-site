@@ -93,6 +93,34 @@
     });
   }
 
+  /* One passive scroll listener for everything that follows the scroll position. */
+  var scrollFns = [], ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; var y = window.pageYOffset || 0; scrollFns.forEach(function (f) { f(y); }); });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* Hero parallax: the photo trails the scroll slightly (0.85x), 60px at most.
+     Desktop pointers only, and never under reduced motion. */
+  (function () {
+    var media = $("hero-media");
+    var fine = !!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    if (!media || reduce || !fine) return;
+    var hero = media.parentNode, idle = 0, last = -1;
+    scrollFns.push(function (y) {
+      if (y > hero.offsetHeight) return;
+      var shift = Math.min(60, Math.round(y * 0.15 * 10) / 10);
+      if (shift === last) return;
+      last = shift;
+      media.style.willChange = "transform";
+      media.style.transform = "translate3d(0," + shift + "px,0)";
+      clearTimeout(idle);
+      idle = setTimeout(function () { media.style.willChange = ""; }, 200);
+    });
+  })();
+
   /* Reveal on scroll: once per element, groups stagger, classes are removed when done. */
   (function () {
     var singles = d.querySelectorAll(".rv"), groups = d.querySelectorAll("[data-rv-group]");
