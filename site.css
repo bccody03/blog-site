@@ -169,6 +169,10 @@ html.js-motion .top { position: fixed; transition: transform var(--dur-base) var
 .vthumb:focus-visible img { transform: scale(1.03); }
 .vthumb:focus-visible::after, .vthumb:focus-visible .play { opacity: 1; }
 .vthumb .play, .vthumb .cap { z-index: 1; }
+.vthumb .dur { position: absolute; right: 10px; bottom: 12px; z-index: 1; padding: 3px 8px; border-radius: 4px; background: rgba(17, 19, 24, .72); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.vthumb .vcap { position: absolute; left: 18px; right: 70px; bottom: 16px; z-index: 1; text-align: left; font-size: 19px; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; text-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+.vthumb .vcap small { display: block; margin-bottom: 5px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
+.feature .vthumb .dur { right: 16px; bottom: 16px; }
 .vmeta { display: flex; flex-direction: column; gap: 2px; padding: 0 2px; }
 .vmeta b { font-weight: 700; font-size: 16px; line-height: 1.25; }
 .vmeta span { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }

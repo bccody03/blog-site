@@ -44,11 +44,15 @@
     }
     return t;
   }
-  function thumb(v) {
+  function fmtDur(s) { s = Math.round(s); return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
+  function thumb(v, featured) {
     var inner = v.cover
-      ? '<img src="' + esc(v.cover) + '" alt="" loading="lazy" decoding="async" />'
+      ? '<img src="' + esc(v.cover) + '" alt="" ' + (featured ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" />'
       : '<span class="cap">' + capHtml(v) + "</span>";
-    return '<button type="button" class="vthumb" data-play="' + v.i + '" aria-label="Play video: ' + esc(v.title) + '">' + inner + PLAY + "</button>";
+    /* The featured card names its video on the picture; grid cards have the title underneath. */
+    if (featured && v.cover) inner += '<span class="vcap"><small>' + esc(v.topic) + "</small>" + esc(v.title) + "</span>";
+    if (v.dur) inner += '<span class="dur" aria-hidden="true">' + fmtDur(v.dur) + "</span>";
+    return '<button type="button" class="vthumb" data-play="' + v.i + '" aria-label="Play video: ' + esc(v.title) + (v.dur ? ", " + fmtDur(v.dur) : "") + '">' + inner + PLAY + "</button>";
   }
   function card(v, meta) {
     return '<div class="vcard">' + thumb(v) + (meta ? '<div class="vmeta"><b>' + esc(v.title) + "</b><span>" + esc(v.topic) + "</span></div>" : "") + "</div>";
@@ -130,9 +134,28 @@
     window.addEventListener("resize", function () { moveIndicator(false); });
     window.addEventListener("load", function () { moveIndicator(false); });
     if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { moveIndicator(false); });
-    if (feat && V[0]) feat.outerHTML = thumb(V[0]);
-    if (watch && V[0]) { watch.setAttribute("data-play", "0"); }
+    if (feat && V[0]) feat.outerHTML = thumb(V[0], true);
+    if (watch && V[0]) { watch.setAttribute("data-play", "0"); watch.setAttribute("aria-label", "Watch: " + V[0].title); }
     else if (watch) watch.hidden = true;
+    /* "New this week" only when the newest video really is under a week old. */
+    var label = $("feat-label");
+    if (label && V[0]) {
+      var age = V[0].date ? (Date.now() - new Date(V[0].date + "T12:00:00").getTime()) / 864e5 : Infinity;
+      label.textContent = age >= -1 && age < 7.5 ? "New this week" : "Latest video";
+    }
+    /* Tell search engines about each video (name, cover, date, length, file). */
+    var site = "https://blakecody.com/", items = V.filter(function (v) { return v.src && v.cover && v.date && isFile(v.src); }).map(function (v) {
+      var o = { "@type": "VideoObject", name: v.title, description: v.title + ". A short video from Blake Cody on " + v.topic.toLowerCase() + ".",
+        thumbnailUrl: site + v.cover, uploadDate: v.date + "T12:00:00-05:00", contentUrl: site + v.src, url: site + "videos.html" };
+      if (v.dur) o.duration = "PT" + Math.floor(v.dur / 60) + "M" + (Math.round(v.dur) % 60) + "S";
+      return o;
+    });
+    if (items.length) {
+      var ld = d.createElement("script");
+      ld.type = "application/ld+json";
+      ld.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": items });
+      d.head.appendChild(ld);
+    }
   }
 
   /* Lightbox player: eases open and shut, slides between videos, locks page scroll,
