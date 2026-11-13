@@ -1469,3 +1469,6 @@ h1, h2, h3, .archive-title, .sec-title, .subscribe-title, .built-title { font-we
   .foot .wrap { justify-content: center; text-align: center; }
   .foot nav { justify-content: center; }
 }
+
+/* Essays: room between the intro line and the first row of essays */
+.archive .post-list { margin-top: 32px; }
