@@ -185,10 +185,14 @@ dialog.lb[open] { display: flex; align-items: center; justify-content: center; }
 .lb-title { margin: 0; font-size: 30px; line-height: 1.08; letter-spacing: -.02em; font-weight: 900; }
 .lb-side .btn { min-height: 46px; padding: 0 20px; font-size: 13px; }
 
-/* Scroll reveal: only hidden when JS is on and motion is allowed */
+/* Scroll reveal. Elements are only hidden once the page is script-enabled (.js-motion)
+   and motion is allowed. site.js adds .in when about 15% is on screen, once, then
+   strips the classes so hovers and focus styles are untouched afterwards. */
 @media (prefers-reduced-motion: no-preference) {
-  html.js-motion .rv { opacity: 0; transform: translateY(var(--rise)); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
-  html.js-motion .rv.in { opacity: 1; transform: none; }
+  html.js-motion .rv,
+  html.js-motion [data-rv-group]:not(.rv-done) > * { opacity: 0; transform: translateY(var(--rise)); }
+  html.js-motion .rv.in,
+  html.js-motion [data-rv-group]:not(.rv-done) > .in { opacity: 1; transform: none; transition: opacity var(--dur-slow) var(--ease-out) var(--d, 0ms), transform var(--dur-slow) var(--ease-out) var(--d, 0ms); }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 

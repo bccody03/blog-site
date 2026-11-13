@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" />
   <link rel="stylesheet" href="site.css?v=42" />
   <!-- Motion: mark the page as script-enabled before first paint. If site.js never loads, undo it so nothing stays hidden. -->
-  <script>(function(h){h.classList.add("js-motion");setTimeout(function(){if(!window.__motion)h.classList.remove("js-motion")},3000)})(document.documentElement)</script>
+  <script>(function(h){if(!("IntersectionObserver" in window))return;h.classList.add("js-motion");setTimeout(function(){if(!window.__motion)h.classList.remove("js-motion")},3000)})(document.documentElement)</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -65,22 +65,22 @@
     </section>
 
     <section class="lib" aria-labelledby="all-h">
-      <div class="lib-head">
+      <div class="lib-head rv">
         <h2 id="all-h">All videos</h2>
         <p id="video-count" aria-live="polite"></p>
       </div>
-      <div class="chips" id="chips" role="group" aria-label="Filter videos by topic"></div>
-      <div class="vgrid" id="video-grid"></div>
+      <div class="chips rv" data-rv-delay="80" id="chips" role="group" aria-label="Filter videos by topic"></div>
+      <div class="vgrid" id="video-grid" data-rv-group data-rv-delay="80"></div>
       <noscript><p class="empty">Turn on JavaScript to browse the videos, or find them on <a href="https://bccody.substack.com">Substack</a>.</p></noscript>
     </section>
 
     <section class="blue" id="subscribe" aria-labelledby="get-h">
       <div class="wrap">
-        <div class="col">
+        <div class="col rv">
           <h2 id="get-h">Get the new one every week.</h2>
           <p>Each week's video and essay, straight to your inbox. Free on Substack.</p>
         </div>
-        <form class="signup" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-where="videos-band">
+        <form class="signup rv" data-rv-delay="80" action="https://bccody.substack.com/subscribe" method="get" target="_blank" rel="noopener" data-where="videos-band">
           <label class="sr-only" for="vid-email">Email address</label>
           <input type="email" id="vid-email" name="email" placeholder="Your email address" autocomplete="email" required />
           <input type="hidden" name="utm_source" value="blakecody.com" />
@@ -93,7 +93,7 @@
     </section>
   </main>
   <footer class="foot lined">
-    <div class="wrap">
+    <div class="wrap rv">
       <span>© <span id="year">2026</span> Blake Cody · Michigan</span>
       <nav aria-label="Footer">
         <a href="about.html">About</a>

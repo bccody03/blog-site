@@ -2,8 +2,11 @@
 (function () {
   var d = document;
   /* The <head> adds .js-motion early; this confirms the script really loaded (the head removes it otherwise). */
-  window.__motion = true;
-  d.documentElement.classList.add("js-motion");
+  var root = d.documentElement;
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var canReveal = "IntersectionObserver" in window;
+  if (canReveal) root.classList.add("js-motion");
+  function token(name, fallback) { var v = parseFloat(getComputedStyle(root).getPropertyValue(name)); return isNaN(v) ? fallback : v; }
   var $ = function (id) { return d.getElementById(id); };
   var esc = function (s) { return String(s || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var V = (window.VIDEOS || []).map(function (v, i) { v.i = i; return v; });
@@ -90,10 +93,48 @@
     });
   }
 
-  /* Reveal on scroll */
-  var rv = d.querySelectorAll(".rv");
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
-    rv.forEach(function (el) { io.observe(el); });
-  } else rv.forEach(function (el) { el.classList.add("in"); });
+  /* Reveal on scroll: once per element, groups stagger, classes are removed when done. */
+  (function () {
+    var singles = d.querySelectorAll(".rv"), groups = d.querySelectorAll("[data-rv-group]");
+    function kids(g) { return Array.prototype.slice.call(g.children); }
+    function finish(el) { el.classList.remove("rv", "in"); el.style.removeProperty("--d"); el.style.willChange = ""; }
+    function finishGroup(g) { g.classList.add("rv-done"); kids(g).forEach(finish); }
+    if (!canReveal || reduce) {
+      Array.prototype.forEach.call(singles, finish);
+      Array.prototype.forEach.call(groups, finishGroup);
+      return;
+    }
+    var STAGGER = token("--stagger", 70), CAP = 350, SLOW = token("--dur-slow", 700) + 120;
+    function show(el, delay) {
+      el.style.setProperty("--d", delay + "ms");
+      el.style.willChange = "transform, opacity";
+      el.classList.add("in");
+    }
+    function reveal(el, instant) {
+      var base = parseInt(el.getAttribute("data-rv-delay"), 10) || 0;
+      if (el.hasAttribute("data-rv-group")) {
+        if (instant) return finishGroup(el);
+        var list = kids(el), last = 0;
+        list.forEach(function (k, i) { last = base + Math.min(i * STAGGER, CAP); show(k, last); });
+        setTimeout(function () { finishGroup(el); }, last + SLOW);
+      } else {
+        if (instant) return finish(el);
+        show(el, base);
+        setTimeout(function () { finish(el); }, base + SLOW);
+      }
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var r = en.boundingClientRect, el = en.target;
+        var passed = r.bottom <= 0 || (en.isIntersecting && r.top < 0); /* already scrolled past: show without motion */
+        if (!passed && en.intersectionRatio < 0.15) return;
+        io.unobserve(el);
+        reveal(el, passed);
+      });
+    }, { threshold: [0, 0.15] });
+    Array.prototype.forEach.call(singles, function (el) { io.observe(el); });
+    Array.prototype.forEach.call(groups, function (el) { io.observe(el); });
+  })();
+
+  window.__motion = true; /* tells the <head> fallback that this script ran to the end */
 })();
