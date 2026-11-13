@@ -21,7 +21,17 @@
     if (el) track(el.getAttribute("data-track"));
   });
   d.addEventListener("submit", function (e) {
-    var f = e.target; if (f.matches && f.matches(".signup")) track("signup-" + (f.getAttribute("data-where") || "site"));
+    var f = e.target;
+    if (!f.matches || !f.matches(".signup")) return;
+    track("signup-" + (f.getAttribute("data-where") || "site"));
+    /* Brief "Sending…" state. The form itself still goes to Substack exactly as before. */
+    var b = f.querySelector('button[type="submit"]');
+    if (!b || b.getAttribute("aria-busy")) return;
+    var label = b.textContent;
+    b.style.minWidth = b.offsetWidth + "px";
+    b.textContent = "Sending\u2026";
+    b.setAttribute("aria-busy", "true");
+    setTimeout(function () { b.textContent = label; b.removeAttribute("aria-busy"); b.style.minWidth = ""; }, 1400);
   });
 
   var y = $("year"); if (y) y.textContent = new Date().getFullYear();
