@@ -102,6 +102,27 @@
   }
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  /* Nav: solid after 40px. Past the first screen it tucks away on the way down and
+     returns on the way up (small thresholds stop it flickering on tiny movements). */
+  (function () {
+    var top = d.querySelector(".top");
+    if (!top) return;
+    var lastY = window.pageYOffset || 0, run = 0;
+    function update(y) {
+      top.classList.toggle("stuck", y > 40);
+      var dy = y - lastY; lastY = y;
+      if (reduce) return;
+      if (y < 320) { run = 0; top.classList.remove("away"); return; }
+      if ((dy > 0) !== (run > 0)) run = 0;
+      run += dy;
+      if (run > 56) top.classList.add("away");
+      else if (run < -12) top.classList.remove("away");
+    }
+    scrollFns.push(update);
+    update(lastY);
+    top.addEventListener("focusin", function () { top.classList.remove("away"); });
+  })();
+
   /* Hero parallax: the photo trails the scroll slightly (0.85x), 60px at most.
      Desktop pointers only, and never under reduced motion. */
   (function () {

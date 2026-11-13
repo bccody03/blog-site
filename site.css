@@ -23,7 +23,7 @@
   :root { --dur-fast: 130ms; --dur-base: 260ms; --dur-slow: 560ms; --rise: 10px; }
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--light); color: var(--dark); font: 400 17px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
 img, video { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -46,15 +46,22 @@ a { color: inherit; }
 .more { align-self: center; font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; padding: 12px 4px; border-bottom: 2px solid transparent; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
 .more:hover { border-color: var(--accent); color: var(--accent); }
 
-/* Nav */
+/* Nav: transparent over the hero, then a solid bar with a soft shadow after 40px.
+   The solid layer is a pseudo-element so only its opacity animates. Without the
+   script the nav simply stays where it was (not fixed), so it can never cover text. */
 .top { position: absolute; left: 0; right: 0; top: 0; z-index: 5; color: var(--light); }
-.top.solid { position: relative; background: var(--dark); border-bottom: 1px solid #262a33; }
+.top::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--dark); box-shadow: 0 8px 28px rgba(0, 0, 0, .28); opacity: 0; pointer-events: none; transition: opacity var(--dur-base) var(--ease-out); }
+.top.stuck::before { opacity: 1; }
+html.js-motion .top { position: fixed; transition: transform var(--dur-base) var(--ease-out); }
+.top.away { transform: translateY(-115%); } /* tucked away while scrolling down, back on scroll up */
+.top.solid, html.js-motion .top.solid { position: sticky; background: var(--dark); border-bottom: 1px solid #262a33; }
 .top nav { max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 32px; }
 .wordmark { font-weight: 900; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; padding: 10px 0; }
 .wordmark span { color: var(--accent); }
 .links { display: flex; flex-wrap: wrap; gap: 0 28px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.links a { text-decoration: none; padding: 14px 0 10px; border-bottom: 2px solid transparent; transition: border-color var(--dur-fast) var(--ease-out); }
-.links a:hover, .links a[aria-current="page"] { border-color: var(--accent); }
+.links a { position: relative; text-decoration: none; padding: 14px 0 12px; }
+.links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 7px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left center; transition: transform var(--dur-base) var(--ease-out); }
+.links a:hover::after, .links a:focus-visible::after, .links a[aria-current="page"]::after { transform: scaleX(1); }
 
 /* Hero */
 .hero { position: relative; height: 780px; max-height: 100svh; min-height: 560px; overflow: hidden; color: var(--light); background: radial-gradient(ellipse at 66% 34%, #5d6068 0%, #2b2e35 40%, var(--dark) 80%); }
