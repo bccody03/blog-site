@@ -11,7 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" />
-  <link rel="stylesheet" href="site.css?v=40" />
+  <link rel="stylesheet" href="site.css?v=42" />
+  <!-- Motion: mark the page as script-enabled before first paint. If site.js never loads, undo it so nothing stays hidden. -->
+  <script>(function(h){h.classList.add("js-motion");setTimeout(function(){if(!window.__motion)h.classList.remove("js-motion")},3000)})(document.documentElement)</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -31,7 +33,7 @@
   <meta name="twitter:image" content="https://blakecody.com/og-image.jpg" />
 
   <script src="videos-data.js?v=41" defer></script>
-  <script src="site.js?v=40" defer></script>
+  <script src="site.js?v=42" defer></script>
   <script data-goatcounter="https://bccody03.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="page-dark on-dark">

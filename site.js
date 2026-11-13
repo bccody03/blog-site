@@ -1,7 +1,9 @@
 /* Home + Videos behavior: video cards, lightbox player, filters, reveal, click counts. */
 (function () {
   var d = document;
-  d.documentElement.classList.add("js");
+  /* The <head> adds .js-motion early; this confirms the script really loaded (the head removes it otherwise). */
+  window.__motion = true;
+  d.documentElement.classList.add("js-motion");
   var $ = function (id) { return d.getElementById(id); };
   var esc = function (s) { return String(s || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var V = (window.VIDEOS || []).map(function (v, i) { v.i = i; return v; });
