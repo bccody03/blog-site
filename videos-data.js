@@ -9,7 +9,10 @@
            and tells search engines when it was published. Optional.
    dur   : length in seconds, shown on the thumbnail. Optional. */
 window.VIDEOS = [
-  { title: "Three fuel sources", topic: "Discipline", src: "videos/three-fuel-sources.mp4", cover: "videos/three-fuel-sources.jpg", hi: "fuel", date: "2026-11-09", dur: 58 },
-  { title: "Life makes sense backwards", topic: "Letting go", src: "videos/life-makes-sense-backwards.mp4", cover: "videos/life-makes-sense-backwards.jpg", hi: "backwards", date: "2026-11-09", dur: 46 },
-  { title: "Give it good problems to solve", topic: "Overthinking", src: "videos/give-it-good-problems-to-solve.mp4", cover: "videos/give-it-good-problems-to-solve.jpg", hi: "problems", date: "2026-11-09", dur: 43 }
+  { title: "Three fuel sources", topic: "Discipline", src: "videos/three-fuel-sources.mp4", cover: "videos/three-fuel-sources.jpg", hi: "fuel", date: "2026-11-03", dur: 58 },
+  { title: "Life makes sense backwards", topic: "Letting go", src: "videos/life-makes-sense-backwards.mp4", cover: "videos/life-makes-sense-backwards.jpg", hi: "backwards", date: "2026-11-02", dur: 46 },
+  { title: "Give it good problems to solve", topic: "Overthinking", src: "videos/give-it-good-problems-to-solve.mp4", cover: "videos/give-it-good-problems-to-solve.jpg", hi: "problems", date: "2026-10-30", dur: 43 },
+  { title: "The worst thing that ever happened to you", topic: "Hard seasons", src: "videos/the-worst-thing-that-ever-happened-to-you.mp4", cover: "videos/the-worst-thing-that-ever-happened-to-you.jpg", hi: "worst", date: "2026-10-30", dur: 41 },
+  { title: "Three things that would change your life", topic: "Life", src: "videos/three-things-that-would-change-your-life.mp4", cover: "videos/three-things-that-would-change-your-life.jpg", hi: "life", date: "2026-10-28", dur: 62 },
+  { title: "It has to get bad enough", topic: "Hard seasons", src: "videos/it-has-to-get-bad-enough.mp4", cover: "videos/it-has-to-get-bad-enough.jpg", hi: "bad", date: "2026-10-28", dur: 45 }
 ];
