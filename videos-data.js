@@ -9,7 +9,10 @@
            and tells search engines when it was published. Optional.
    dur   : length in seconds, shown on the thumbnail. Optional. */
 window.VIDEOS = [
+  { title: "Explains you, doesn't excuse you", topic: "Discipline", src: "videos/explains-you-doesnt-excuse-you.mp4", cover: "videos/explains-you-doesnt-excuse-you.jpg", hi: "excuse", date: "2026-11-22", dur: 61 },
+  { title: "The growth paradox", topic: "Overthinking", src: "videos/the-growth-paradox.mp4", cover: "videos/the-growth-paradox.jpg", hi: "paradox", date: "2026-11-14", dur: 51 },
   { title: "Three fuel sources", topic: "Discipline", src: "videos/three-fuel-sources.mp4", cover: "videos/three-fuel-sources.jpg", hi: "fuel", date: "2026-11-03", dur: 58 },
+  { title: "The lonely chapter", topic: "Hard seasons", src: "videos/the-lonely-chapter.mp4", cover: "videos/the-lonely-chapter.jpg", hi: "lonely", date: "2026-11-03", dur: 58 },
   { title: "Life makes sense backwards", topic: "Letting go", src: "videos/life-makes-sense-backwards.mp4", cover: "videos/life-makes-sense-backwards.jpg", hi: "backwards", date: "2026-11-02", dur: 46 },
   { title: "Give it good problems to solve", topic: "Overthinking", src: "videos/give-it-good-problems-to-solve.mp4", cover: "videos/give-it-good-problems-to-solve.jpg", hi: "problems", date: "2026-10-30", dur: 43 },
   { title: "The worst thing that ever happened to you", topic: "Hard seasons", src: "videos/the-worst-thing-that-ever-happened-to-you.mp4", cover: "videos/the-worst-thing-that-ever-happened-to-you.jpg", hi: "worst", date: "2026-10-30", dur: 41 },
