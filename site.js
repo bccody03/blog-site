@@ -49,12 +49,13 @@
     var inner = v.cover
       ? '<img src="' + esc(v.cover) + '" alt="" ' + (featured ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" />'
       : '<span class="cap">' + capHtml(v) + "</span>";
-    /* The featured card names its video on the picture; grid cards have the title underneath. */
-    if (featured && v.cover) inner += '<span class="vcap"><small>' + esc(v.topic) + "</small>" + esc(v.title) + "</span>";
+    /* Branded cover: topic and title sit on the picture, with the key word in blue. */
+    if (v.cover) inner += '<span class="vcap' + (v.title.length > 26 ? " long" : "") + '" aria-hidden="true"><small>' + esc(v.topic) + "</small><b>" + capHtml(v) + "</b></span>";
     if (v.dur) inner += '<span class="dur" aria-hidden="true">' + fmtDur(v.dur) + "</span>";
     return '<button type="button" class="vthumb" data-play="' + v.i + '" aria-label="Play video: ' + esc(v.title) + (v.dur ? ", " + fmtDur(v.dur) : "") + '">' + inner + PLAY + "</button>";
   }
   function card(v, meta) {
+    meta = meta && !v.cover; /* covers carry their own title */
     return '<div class="vcard">' + thumb(v) + (meta ? '<div class="vmeta"><b>' + esc(v.title) + "</b><span>" + esc(v.topic) + "</span></div>" : "") + "</div>";
   }
 
@@ -168,7 +169,7 @@
     cur = i;
     lbTitle.textContent = v.title; lbTopic.textContent = v.topic;
     if (!v.src) stage.innerHTML = '<p class="soon">This one is uploading. Check back soon.</p>';
-    else if (isFile(v.src)) stage.innerHTML = '<video src="' + esc(v.src) + '"' + (v.cover ? ' poster="' + esc(v.cover) + '"' : "") + ' controls autoplay playsinline preload="metadata"></video>';
+    else if (isFile(v.src)) stage.innerHTML = '<video src="' + esc(v.src) + '"' + ' controls autoplay playsinline preload="metadata"></video>';
     else stage.innerHTML = '<iframe src="' + esc(v.src) + '" title="' + esc(v.title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
     track("video-play-" + v.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
   }
